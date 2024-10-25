@@ -1,7 +1,7 @@
 package utils
 
 import(
-	//"errors"
+	"errors"
 	"time"
 	"github.com/golang-jwt/jwt"
 )
@@ -27,4 +27,17 @@ func GenerateToken(UserID uint) (string, error) {
 	tokenString, _ := token.SignedString(Secret)
 
 	return tokenString, nil
+}
+
+func ParseToken(tokenString string) (*UserClaims, error) {
+	token, err := jwt.ParseWithClaims(tokenString, &UserClaims{}, func(token *jwt.Token) (interface{}, error) {
+		return Secret, nil
+	})
+	if err != nil {
+		return nil, err
+	}
+	if claims, ok := token.Claims.(*UserClaims); ok && token.Valid {
+		return claims, nil
+	}
+	return nil, errors.New("invalid token")
 }
