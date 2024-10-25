@@ -13,5 +13,6 @@ func main() {
 
 	router := gin.Default() //初始化路由
 	routes.UserRoutes(router)
+	routes.WelfareRoutes(router)
 	router.Run(":8081")
 }
