@@ -1,12 +1,11 @@
 package utils
 
-import(
+import (
 	//"errors"
 	"time"
+
 	"github.com/golang-jwt/jwt"
 )
-
-const TokenExpireDuration = time.Hour * 48
 
 var Secret = []byte("q5QEligUIlqOFCIQ")
 
@@ -15,12 +14,12 @@ type UserClaims struct {
 	jwt.StandardClaims
 }
 
-func GenerateToken(UserID uint) (string, error) {
+func GenerateToken(UserID uint, expireTime time.Duration) (string, error) {
 	cla := UserClaims{
 		UserID,
 		jwt.StandardClaims{
-			ExpiresAt: time.Now().Add(TokenExpireDuration).Unix(), // 过期时间
-			Issuer:    "SMS",                                      // 签发人
+			ExpiresAt: time.Now().Add(expireTime).Unix(), // 过期时间
+			Issuer:    "SMS",                             // 签发人
 		},
 	}
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, cla)

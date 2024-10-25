@@ -6,7 +6,7 @@ import (
 	"github.com/wneessen/go-mail"
 )
 
-func sendEmail(email string, verifycode int) error {
+func SendEmail(email string, verifycode string) error {
 	message := mail.NewMsg()
 	if err := message.From("walfare@gamil.com"); err != nil {
 		return err
