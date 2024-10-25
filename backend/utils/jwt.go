@@ -11,12 +11,14 @@ var Secret = []byte("q5QEligUIlqOFCIQ")
 
 type UserClaims struct {
 	UserID uint
+	Code   string
 	jwt.StandardClaims
 }
 
-func GenerateToken(UserID uint, expireTime time.Duration) (string, error) {
+func GenerateToken(UserID uint, Code string, expireTime time.Duration) (string, error) {
 	cla := UserClaims{
 		UserID,
+		Code,
 		jwt.StandardClaims{
 			ExpiresAt: time.Now().Add(expireTime).Unix(), // 过期时间
 			Issuer:    "SMS",                             // 签发人

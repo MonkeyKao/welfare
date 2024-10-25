@@ -15,7 +15,7 @@ func SendEmail(email string, verifycode string) error {
 		return err
 	}
 
-	message.Subject("牟福利驗證碼")
+	message.Subject("哞福利驗證碼")
 	message.SetBodyString(mail.TypeTextPlain, fmt.Sprintf("驗證碼為:%s", verifycode))
 
 	client, err := mail.NewClient("smtp.gmail.com", mail.WithSMTPAuth(mail.SMTPAuthPlain),

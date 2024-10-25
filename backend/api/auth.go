@@ -4,8 +4,10 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/gin-gonic/gin"
+	"walfare/services"
 	"walfare/utils"
+
+	"github.com/gin-gonic/gin"
 )
 
 func JwtAuthMiddleware() gin.HandlerFunc {
@@ -37,5 +39,18 @@ func JwtAuthMiddleware() gin.HandlerFunc {
 		c.Set("UserID", userID)
 		c.Next() // 后续的处理函数可以用过c.Get("username")来获取当前请求的用户信息
 	}
+
+}
+
+func VerifyEmailHandler(c *gin.Context) {
+
+	code := c.Param("id")
+	userId, err := services.VerifyEmail(code)
+	if err != nil {
+		c.IndentedJSON(http.StatusOK, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.IndentedJSON(http.StatusOK, gin.H{"msg": userId})
 
 }

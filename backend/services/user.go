@@ -3,7 +3,6 @@ package services
 import (
 	"errors"
 	"math/rand"
-	"strconv"
 	"time"
 	"walfare/models"
 	"walfare/utils"
@@ -28,7 +27,7 @@ func Login(account string, password string) (string, error) {
 
 	if password == decryptText {
 		var token string
-		if token, err = utils.GenerateToken(user.ID, TokenExpireDuration); err != nil {
+		if token, err = utils.GenerateToken(user.ID, "000000", TokenExpireDuration); err != nil {
 			return "", err
 		}
 		return token, nil
@@ -50,46 +49,42 @@ func Register(user models.User) error {
 	user.Salt = salt
 	user.Password = encryptedText
 
-	const charset = "0123456789" // 字符集
-	code := ""                   // 创建一个空字符串用于存储验证码
+	if err := models.CreateUser(&user); err != nil {
+		return err
+	}
+
+	const charset = "123456789" // 字符集
+	code := ""                  // 创建一个空字符串用于存储验证码
 
 	for i := 0; i < 6; i++ {
 		code += string(charset[rand.Intn(len(charset))]) // 随机从字符集中抽取字符并追加到字符串
 	}
 	const TokenExpireDuration = time.Minute * 5
-	num, err := strconv.ParseUint(code, 10, 32) // ParseUint 将字符串转换为 uint64
 
-	uintNum := uint(num) // 将 uint64 转换为 uint
-	token, _ := utils.GenerateToken(uintNum, TokenExpireDuration)
+	token, _ := utils.GenerateToken(user.ID, code, TokenExpireDuration)
 	if err := utils.SendEmail(user.Email, code); err != nil {
 		return err
 	}
 
 	tokenCache = append(tokenCache, token)
-	// if err := models.CreateUser(&user); err != nil {
-	// 	return err
-	// }
+
 	return nil
 }
 
-func verifyEmail(code string) error {
-	// // 使用 for 循环遍历切片
+func VerifyEmail(code string) (uint, error) {
 	for _, token := range tokenCache {
 		UserClaims, err := utils.ParseToken(token)
 		if err != nil {
 			removeElement(tokenCache, token)
+			continue
 		}
 
-		num, err := strconv.ParseUint(code, 10, 32) // ParseUint 将字符串转换为 uint64
-
-		uintNum := uint(num)
-
-		if UserClaims.UserID == uintNum {
-			return nil
+		if UserClaims.Code == code {
+			return UserClaims.UserID, nil
 		}
 	}
 
-	return errors.New("例外處理")
+	return 0, errors.New("例外處理")
 }
 
 func removeElement(slice []string, element string) []string {
