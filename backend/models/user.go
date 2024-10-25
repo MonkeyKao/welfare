@@ -24,8 +24,8 @@ func GetUserByID(user *User, id int) error {
 	return database.DB.Table("Users").First(user, id).Error
 }
 
-func GetUserByAccount(user *User, account string) error {
-	return database.DB.Table("Users").Where("account = ?", account).First(user).Error
+func GetUserByAccount(user *User) error {
+	return database.DB.Table("Users").Where("account = ?", user.Account).First(user).Error
 }
 
 func CreateUser(user *User) error {
@@ -35,4 +35,8 @@ func CreateUser(user *User) error {
 func UpdateUser(id uint, updateData map[string]interface{}) error {
 	// 使用 GORM 的 Model 方法并通过 map 进行更新
 	return database.DB.Table("Users").Where("id = ?", id).Updates(updateData).Error
+}
+
+func DeleteUser(id uint) error {
+	return database.DB.Table("Users").Where("id = ?", id).Delete(id).Error
 }

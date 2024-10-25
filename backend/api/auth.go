@@ -3,6 +3,7 @@ package api
 import (
 	"fmt"
 	"net/http"
+	"strconv"
 
 	"walfare/services"
 	"walfare/utils"
@@ -43,9 +44,10 @@ func JwtAuthMiddleware() gin.HandlerFunc {
 }
 
 func VerifyEmailHandler(c *gin.Context) {
-
+	userID := c.Request.Header.Get("UserID")
+	temp, _ := strconv.ParseUint(userID, 10, 0)
 	code := c.Param("id")
-	userId, err := services.VerifyEmail(code)
+	userId, err := services.VerifyEmail(code, uint(temp))
 	if err != nil {
 		c.IndentedJSON(http.StatusOK, gin.H{"error": err.Error()})
 		return
