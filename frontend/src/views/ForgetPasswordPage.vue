@@ -4,45 +4,57 @@
     <img src="/forgetpassword.jpg" class="w-full" />
   </header>
   <body>
-    <div class="backbutton">
-      <router-link to="/" class="forgot-password-link">返回</router-link>
-    </div>
-    <br />
-    <form class="form-container">
-      <label class="title">忘記密碼</label>
-
-      <div>
-        <div class="inputbox">
-          <input
-            class="input"
-            v-model="contact"
-            type="text"
-            placeholder="信箱"
-          />
-        </div>
-
-        <div class="inputbox">
-          <input
-            class="input"
-            type="password"
-            v-model="verificationCode"
-            placeholder="驗證碼"
-          />
-          <button @click="sendVerificationCode">發送驗證碼</button>
-        </div>
+    <router-link to="/" class="forgot-password-link"
+      ><PhArrowUUpLeft :size="32" color="#4d4d4d" class="ml-5"
+    /></router-link>
+    <form class="flex flex-col justify-center text-center">
+      <label class="text-3xl font-bold">忘記密碼</label>
+      <div
+        class="flex items-center border-2 rounded-md px-3 mx-10 shadow-md mt-4"
+      >
+        <PhEnvelopeSimple :size="32" color="#4d4d4d" />
+        <input
+          class="flex-1 p-2 focus:outline-none"
+          type="email"
+          placeholder="信箱"
+        />
       </div>
-      <div class="reset-password">
+
+      <div
+        class="flex items-center border-2 rounded-md px-3 mx-10 shadow-md mt-4"
+      >
+        <PhShieldCheck :size="32" color="#4d4d4d" />
+        <input
+          class="flex-1 p-2 focus:outline-none"
+          type="password"
+          v-model="verificationCode"
+          placeholder="驗證碼"
+        />
+        <button @click="sendVerificationCode" class="text-[#92c700]">
+          發送驗證碼
+        </button>
+      </div>
+
+      <div class="mt-5 mx-10">
         <router-link to="/reset-password" class="forgot-password-link"
-          ><button class="button" type="button" @click="verifyCode">
+          ><button
+            class="w-full bg-[#90c700] text-white font-bold text-2xl py-3 rounded shadow-md"
+            type="button"
+            @click="verifyCode"
+          >
             下一步
           </button></router-link
         >
       </div>
-      <div></div>
     </form>
   </body>
 </template>
 <script setup lang="ts">
+import {
+  PhArrowUUpLeft,
+  PhEnvelopeSimple,
+  PhShieldCheck,
+} from "@phosphor-icons/vue";
 import { ref } from "vue";
 const contact = ref("");
 const verificationCode = ref("");
@@ -89,11 +101,6 @@ header.img {
   display: block; /* 移除任何潛在的空白間隙 */
 }
 
-/* Label 樣式 */
-.title {
-  font-size: 30px;
-}
-
 .form-container {
   display: flex;
   flex-direction: column;
@@ -130,8 +137,5 @@ header.img {
   /* 陰影 */
   box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1), 0px 1px 2px rgba(0, 0, 0, 0.06); /* 對應 shadow */
   outline: none; /* 對應 focus:outline-none */
-}
-.backbutton {
-  margin-top: 20px; /* 與標題之間的垂直間距 */
 }
 </style>

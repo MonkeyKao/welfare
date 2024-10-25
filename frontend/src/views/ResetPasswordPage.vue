@@ -4,27 +4,56 @@
     <img src="/forgetpassword.jpg" class="w-full" />
   </header>
   <body>
-    <div class="backbutton">
-      <router-link to="/forgot-password" class="forgot-password-link"
-        >返回</router-link
+    <router-link to="/forgot-password" class="forgot-password-link"
+      ><PhArrowUUpLeft :size="32" color="#4d4d4d" class="ml-5"
+    /></router-link>
+    <form class="flex flex-col justify-center text-center">
+      <label class="text-3xl font-bold">密碼重設</label>
+      <div
+        class="flex items-center border-2 rounded-md px-3 mx-10 shadow-md mt-4"
       >
-    </div>
-    <br />
-    <form class="form-container">
-      <label class="title">密碼重設</label>
+        <PhLockKey :size="32" color="#4d4d4d" />
+        <input
+          class="flex-1 p-2 focus:outline-none"
+          type="password"
+          placeholder="密碼"
+        />
+        <PhEyeClosed :size="32" color="#4d4d4d" />
+      </div>
 
-      <div class="inputbox">
-        <input class="input" type="text" placeholder="密碼" />
+      <div
+        class="flex items-center border-2 rounded-md px-3 mx-10 shadow-md mt-4"
+      >
+        <PhRepeat :size="32" color="#4d4d4d" />
+        <input
+          class="flex-1 p-2 focus:outline-none"
+          type="password"
+          placeholder="再次輸入密碼"
+        />
+        <PhEyeClosed :size="32" color="#4d4d4d" />
       </div>
-      <div class="inputbox">
-        <input class="input" type="password" placeholder="再次輸入密碼" />
-      </div>
-      <div>
-        <button class="button" type="button">確定</button>
+
+      <div class="mt-5 mx-10">
+        <router-link to="/reset-password" class="forgot-password-link"
+          ><button
+            class="w-full bg-[#90c700] text-white font-bold text-2xl py-3 rounded shadow-md"
+            type="button"
+          >
+            確定
+          </button></router-link
+        >
       </div>
     </form>
   </body>
 </template>
+<script setup lang="ts">
+import {
+  PhArrowUUpLeft,
+  PhEyeClosed,
+  PhLockKey,
+  PhRepeat,
+} from "@phosphor-icons/vue";
+</script>
 <style scoped>
 /* 固定 header 區域 */
 header.img {
