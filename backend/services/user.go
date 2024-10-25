@@ -28,7 +28,7 @@ func Login(account string, password string) (string, error) {
 
 	if password == decryptText {
 		var token string
-		if token, err = utils.GenerateToken(user.ID, TokenExpireDuration); err != nil {
+		if token, err = utils.GenerateToken(user.Id, TokenExpireDuration); err != nil {
 			return "", err
 		}
 		return token, nil
