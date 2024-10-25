@@ -1,37 +1,38 @@
 package models
 
-import(
-	"gorm.io/gorm"
-	"walfare/database"
+import (
 	"time"
+	"walfare/database"
+
+	"gorm.io/gorm"
 )
 
-type User struct{
+type User struct {
 	gorm.Model
-	
-	Account 	string 		`json:"account"`
-	Password 	string 		`json:"password"`
-	Name		string		`json:"name"`
-	Salt 		string 		`json:"salt"`
-	Birthday 	time.Time 	`json:"birthday"`
-	Female 		int 		`json:"female"`
-	Location 	int 		`json:"location"`
-	Email 		string 		`json:"email"`
+
+	Account  string    `json:"account"`
+	Password string    `json:"password"`
+	Name     string    `json:"name"`
+	Salt     string    `json:"salt"`
+	Birthday time.Time `json:"birthday"`
+	Female   int       `json:"female"`
+	Location int       `json:"location"`
+	Email    string    `json:"email"`
 }
 
-func GetUserByID(user *User, id int)error{
-	return database.DB.Table("Users").First(user,id).Error
+func GetUserByID(user *User, id int) error {
+	return database.DB.Table("Users").First(user, id).Error
 }
 
-func GetUserByAccount(user *User,account string)error{
-	return database.DB.Table("Users").Where("account = ?",account).First(user).Error
+func GetUserByAccount(user *User, account string) error {
+	return database.DB.Table("Users").Where("account = ?", account).First(user).Error
 }
 
-func CreateUser(user *User)error {
+func CreateUser(user *User) error {
 	return database.DB.Table("Users").Create(user).Error
 }
 
 func UpdateUser(id uint, updateData map[string]interface{}) error {
-    // 使用 GORM 的 Model 方法并通过 map 进行更新
-    return database.DB.Table("Users").Where("id = ?", id).Updates(updateData).Error
+	// 使用 GORM 的 Model 方法并通过 map 进行更新
+	return database.DB.Table("Users").Where("id = ?", id).Updates(updateData).Error
 }

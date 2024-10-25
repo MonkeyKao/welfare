@@ -28,7 +28,7 @@ func Login(account string, password string) (string, error) {
 
 	if password == decryptText {
 		var token string
-		if token, err = utils.GenerateToken(user.Id, TokenExpireDuration); err != nil {
+		if token, err = utils.GenerateToken(user.ID, TokenExpireDuration); err != nil {
 			return "", err
 		}
 		return token, nil
@@ -72,9 +72,36 @@ func Register(user models.User) error {
 	return nil
 }
 
-func verifyEmail(code string) {
+func verifyEmail(code string) error {
 	// // 使用 for 循环遍历切片
-	// for _, token := range tokenCache {
+	for _, token := range tokenCache {
+		UserClaims, err := utils.ParseToken(token)
+		if err != nil {
+			removeElement(tokenCache, token)
+		}
 
-	// }
+		num, err := strconv.ParseUint(code, 10, 32) // ParseUint 将字符串转换为 uint64
+
+		uintNum := uint(num)
+
+		if UserClaims.UserID == uintNum {
+			return nil
+		}
+	}
+
+	return errors.New("例外處理")
+}
+
+func removeElement(slice []string, element string) []string {
+	// 创建一个新的切片来存储移除指定元素后的结果
+	newSlice := []string{}
+
+	// 遍历原切片，添加不等于指定元素的元素到新切片
+	for _, item := range slice {
+		if item != element {
+			newSlice = append(newSlice, item)
+		}
+	}
+
+	return newSlice // 返回新的切片
 }
