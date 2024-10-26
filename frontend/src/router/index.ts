@@ -1,18 +1,19 @@
+import AiPage from "@/views/AiPage.vue";
 import CreateProfilePage from "@/views/CreateProfilePage.vue";
 import ForgetPasswordPage from "@/views/ForgetPasswordPage.vue";
 import HomePage from "@/views/HomePage.vue";
 import LoginPage from "@/views/LoginPage.vue";
+import QAPage from "@/views/QAPage.vue";
 import RegisterPage from "@/views/RegisterPage.vue";
 import ResetPasswordPage from "@/views/ResetPasswordPage.vue";
-import AiPage from "@/views/AiPage.vue"
+import Settings from "@/views/SettingsPage.vue";
 import VerifyPage from "@/views/VerifyPage.vue";
-import Settings from "@/views/SettingsPage.vue"
 import { createRouter, createWebHistory } from "vue-router";
 const routes = [
   {
     path: "/",
     name: "Home", // 可以用來顯示首頁或重定向
-    redirect: "/login", // 重定向到登入頁
+    redirect: "/qa", // 重定向到登入頁
   },
   {
     path: "/login",
@@ -58,7 +59,12 @@ const routes = [
     path: "/settings",
     name: "Settings",
     component: Settings,
-  }
+  },
+  {
+    path: "/qa",
+    name: "QAPage",
+    component: QAPage,
+  },
 ];
 const router = createRouter({
   history: createWebHistory(),

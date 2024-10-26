@@ -18,19 +18,19 @@
   </div>
 </template>
 
-<script setup>
+<script>
 import TopNav from '@/components/TopNav.vue';
 import HomeInsideText from '@/components/HomeInsideText.vue';
-import request from '@/axios';
 
-const getWelfare = async () => {
-  const result = await request.get("/welfare")
-  console.log(result);
-}
-
-getWelfare()
+export default {
+  name: 'HomePage',
+  components : {
+    TopNav,
+    HomeInsideText,
+  },
+};
 </script>
-``  
+
 <style scoped>
 /* 可選樣式 */
 </style>
