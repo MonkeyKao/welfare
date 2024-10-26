@@ -7,10 +7,10 @@ const route = useRoute(); // 獲取當前路由
 
 <template>
   <!-- 渲染當前頁面 -->
-  <RouterView />
+  <div class=" h-full flex flex-col-reverse">
+    
 
-  <BottomNav
-    v-if="
+    <div class="" v-if="
       ![
         'LoginPage',
         'RegisterPage',
@@ -19,8 +19,16 @@ const route = useRoute(); // 獲取當前路由
         'CreateProfile',
         'VerifyPage',
       ].includes(route.name)
-    "
-  />
+    ">
+      <BottomNav />
+    </div>
+
+    <div class=" flex-grow overflow-auto">
+      <RouterView />
+    </div>
+  </div>
+
+
 </template>
 
 <style scoped>
