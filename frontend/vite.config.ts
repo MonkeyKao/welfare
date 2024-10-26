@@ -14,5 +14,12 @@ export default defineConfig({
   server: {
     host: "0.0.0.0", // 這裡設置可以允許區域網路的所有請求
     port: 5000, // 設置端口號
+    proxy: {
+      '/api': {
+        target: 'http://192.168.1.112:8081/',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, ""),
+      }
+    }
   },
 });
