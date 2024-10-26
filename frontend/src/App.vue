@@ -18,6 +18,8 @@ const route = useRoute(); // 獲取當前路由
         'ResetPasswordPage',
         'CreateProfile',
         'VerifyPage',
+        'LikePage',
+        'NotifyPage',
       ].includes(route.name)
     ">
       <BottomNav />
