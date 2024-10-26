@@ -1,8 +1,36 @@
-<!--HTML-->
-<template>首頁</template>
+<template>
+  <div>
+    <TopNav />
+    <div class="mt-40">
+    <HomeInsideText />
+    <HomeInsideText />
+    <HomeInsideText />
+    <HomeInsideText />
+    <HomeInsideText />
+    <HomeInsideText />
+    <HomeInsideText />
+    <HomeInsideText />
+    <HomeInsideText />
+    <HomeInsideText />
+    <HomeInsideText />
+    <HomeInsideText />
+    </div>
+  </div>
+</template>
 
-<!--JS/TS-->
-<script setup lang="ts"></script>
+<script>
+import TopNav from '@/components/TopNav.vue';
+import HomeInsideText from '@/components/HomeInsideText.vue';
 
-<!--樣式-->
-<style scoped></style>
+export default {
+  name: 'HomePage',
+  components : {
+    TopNav,
+    HomeInsideText,
+  },
+};
+</script>
+
+<style scoped>
+/* 可選樣式 */
+</style>
