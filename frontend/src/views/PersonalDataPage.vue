@@ -3,7 +3,7 @@
     <router-link to="/user" class="forgot-password-link">
       <PhArrowUUpLeft :size="32" color="#000" class="ml-5" />
     </router-link>
-    <label class="ml-5 text-3xl font-bold">設定</label>
+    <label class="ml-5 text-3xl font-bold">個人資訊</label>
   </header>
 </template>
 <script setup lang="ts">

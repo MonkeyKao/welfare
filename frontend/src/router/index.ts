@@ -1,19 +1,23 @@
 import AiPage from "@/views/AiPage.vue";
 import CreateProfilePage from "@/views/CreateProfilePage.vue";
+import FamilyPage from "@/views/FamilyPage.vue";
 import ForgetPasswordPage from "@/views/ForgetPasswordPage.vue";
 import HomePage from "@/views/HomePage.vue";
+import LinkAccountPage from "@/views/LinkAccountPage.vue";
 import LoginPage from "@/views/LoginPage.vue";
+import PersonalDataPage from "@/views/PersonalDataPage.vue";
 import QAPage from "@/views/QAPage.vue";
 import RegisterPage from "@/views/RegisterPage.vue";
 import ResetPasswordPage from "@/views/ResetPasswordPage.vue";
 import Settings from "@/views/SettingsPage.vue";
+import UserPage from "@/views/UserPage.vue";
 import VerifyPage from "@/views/VerifyPage.vue";
 import { createRouter, createWebHistory } from "vue-router";
 const routes = [
   {
     path: "/",
     name: "Home", // 可以用來顯示首頁或重定向
-    redirect: "/qa", // 重定向到登入頁
+    redirect: "/home", // 重定向到登入頁
   },
   {
     path: "/login",
@@ -64,6 +68,26 @@ const routes = [
     path: "/qa",
     name: "QAPage",
     component: QAPage,
+  },
+  {
+    path: "/user",
+    name: "UserPage",
+    component: UserPage,
+  },
+  {
+    path: "/personal-data",
+    name: "PersonalDataPage",
+    component: PersonalDataPage,
+  },
+  {
+    path: "/family",
+    name: "FamilyPage",
+    component: FamilyPage,
+  },
+  {
+    path: "/link-account",
+    name: "LinkAccountPage",
+    component: LinkAccountPage,
   },
 ];
 const router = createRouter({
