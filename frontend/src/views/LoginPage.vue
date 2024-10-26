@@ -1,26 +1,37 @@
 <template>
   <!-- 固定定位的 header，確保圖片維持在最上方 -->
   <header>
-    <img src="/login.jpg" class="w-full" />
+    <img v-if="!doingPw" src="../images/login.jpg"/>
+    <img v-else  src="../images/password.jpg" />
   </header>
 
   <body class="h-screen overflow-y-auto relative">
+    
     <form class="flex flex-col justify-center mt-5 text-center">
-      <label class="text-3xl font-bold">Login</label>
+    <label class="text-4xl font-bold">Login</label>
+    <div class="flex items-center border-2 rounded-md px-3 ml-10 mr-10 shadow-md mt-4">
+      <PhUser :size="32" color="#4d4d4d" />
+      <input v-model="user.account" class="flex-1 p-3 focus:outline-none" type="text" placeholder="帳號" />
+    </div>
 
-      <div class="flex items-center border-2 rounded-md px-3 ml-10 mr-10 shadow-md mt-4">
-        <PhUser :size="32" color="#4d4d4d" />
-        <input v-model="user.account" class="flex-1 p-2 focus:outline-none" type="text" placeholder="帳號" />
-      </div>
-      <div class="flex items-center border-2 rounded-md px-3 ml-10 mr-10 shadow-md mt-4">
-        <PhLockKey :size="32" color="#4d4d4d" />
-        <input v-model="user.password" class="flex-1 p-2 focus:outline-none" type="password" placeholder="密碼" />
-        <PhEyeClosed :size="32" color="#4d4d4d" />
-      </div>
+      <!-- 密碼輸入框 -->
+    <div class="flex items-center border-2 rounded-md px-3 ml-10 mr-10 shadow-md mt-4">
+      <PhLockKey :size="32" color="#4d4d4d" />
+      <input
+        v-model="password"  
+        @focus="doingPw = true"  
+        @blur="doingPw = false"
+        class="flex-1 p-3 focus:outline-none "
+        :type="showPassword ? 'text' : 'password'"
+        placeholder="密碼"
+      />
+      <PhEyeClosed v-if="!showPassword" @click="togglePassword" :size="32" color="#4d4d4d" />
+      <PhEye v-else @click="togglePassword" :size="32" />
+    </div>
 
       <div class="mt-5">
         <label class="flex items-center">
-          <input  type="checkbox" class="mr-2 ml-10 font-H3-regular" /> 保持登入
+          <input  type="checkbox" class="mr-2 ml-10 font-H3-regular border-#5A8700 text-#5A8700" /> 保持登入
         </label>
       </div>
 
@@ -76,6 +87,7 @@ import {
   PhGoogleLogo,
   PhLockKey,
   PhUser,
+  PhEye,
 } from "@phosphor-icons/vue";
 import { ref } from "vue";
 class form {
@@ -87,8 +99,6 @@ const user = ref<form>(new form());
 const loginHandler = async (user:form) => {
    const result = await request.post("users/doLogin",JSON.stringify(user))
    localStorage.setItem(result.data.tokenName,result.data.tokenValue)
-   
-  
 }
 
 function loginWithFacebook() {
@@ -97,4 +107,15 @@ function loginWithFacebook() {
 function loginWithGoogle() {
   // 呼叫 Google 登入 API 的程式邏輯
 }
+
+//圖片更動
+const password = ref("");  // 用于存储密码
+const doingPw = ref(false); // 用于指示是否处于密码输入状态
+
+//點眼睛密碼明文顯示
+const showPassword = ref(false);
+const togglePassword = () => {
+  showPassword.value = !showPassword.value; // 切换 showPassword 的值
+}
+
 </script>
