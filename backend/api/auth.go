@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/http"
 	"strconv"
+	"time"
 
 	"walfare/services"
 	"walfare/utils"
@@ -34,8 +35,7 @@ func JwtAuthMiddleware() gin.HandlerFunc {
 		}
 
 		// 确保将 mc.UserID 转换为 int 类型
-		userID := int(mc.UserID) // 如果 mc.UserID 是 int64 或 uint，进行类型转换
-
+		userID := uint(mc.UserID) // 如果 mc.UserID 是 int64 或 uint，进行类型转换
 		// 将当前请求的 userID 信息保存到请求的上下文 c 上
 		c.Set("UserID", userID)
 		c.Next() // 后续的处理函数可以用过c.Get("username")来获取当前请求的用户信息
@@ -45,14 +45,17 @@ func JwtAuthMiddleware() gin.HandlerFunc {
 
 func VerifyEmailHandler(c *gin.Context) {
 	userID := c.Request.Header.Get("UserID")
+	const TokenExpireDuration = time.Hour * 24 * 30 * 12 * 30
 	temp, _ := strconv.ParseUint(userID, 10, 0)
 	code := c.Param("id")
 	userId, err := services.VerifyEmail(code, uint(temp))
 	if err != nil {
-		c.IndentedJSON(http.StatusOK, gin.H{"error": err.Error()})
+		c.IndentedJSON(http.StatusBadGateway, gin.H{"error": err.Error()})
 		return
 	}
 
-	c.IndentedJSON(http.StatusOK, gin.H{"msg": userId})
+	token, _ := utils.GenerateToken(userId, "", TokenExpireDuration)
+
+	c.IndentedJSON(http.StatusOK, gin.H{"msg": token})
 
 }

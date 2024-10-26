@@ -1,4 +1,4 @@
-export class User {
+export default class User {
     _id: number;
     account: string;
     name!: string;
@@ -23,7 +23,6 @@ export class User {
         this.account = account;
         this.name = name;
         this.password = password;
-        this.salt = salt;
         this.birthday = birthday;
         this.female = female;
         this.location = location;

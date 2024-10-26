@@ -12,6 +12,7 @@ func UserRoutes(router *gin.Engine) {
 		UserRoutes.POST("/doLogin", api.DoLoginHandler)
 		UserRoutes.POST("/register", api.RegisterHandler)
 		UserRoutes.GET("/verify/:id", api.VerifyEmailHandler)
+		UserRoutes.Use(api.JwtAuthMiddleware()).GET("", api.GetUserByUserIDHandler)
 		UserRoutes.Use(api.JwtAuthMiddleware()).POST("/updateuser", api.UpdateuserHandler)
 	}
 }

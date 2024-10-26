@@ -84,13 +84,6 @@ const registerHandler = async (user: form) => {
 
 }
 
-function loginWithFacebook() {
-  // 呼叫 Facebook 登入 API 的程式邏輯
-}
-function loginWithGoogle() {
-  // 呼叫 Google 登入 API 的程式邏輯
-}
-
 //圖片更動
 const password = ref("");  // 用于存储密码
 const doingPw = ref(false); // 用于指示是否处于密码输入状态

@@ -18,7 +18,7 @@ export default defineConfig({
     port: 5000, // 設置端口號
     proxy: {
       '/api': {
-        target: 'http://192.168.1.112:8081/',
+        target: 'http://192.168.1.106:8081/',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, ""),
       }

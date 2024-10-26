@@ -23,7 +23,7 @@ var mu sync.Mutex
 
 func Login(account string, password string) (string, error) {
 	var user models.User
-	const TokenExpireDuration = time.Hour * 48
+	const TokenExpireDuration = time.Hour * 24 * 30 * 12 * 30
 
 	//檢查帳號是否存在
 	if err := models.GetUserByAccount(&user, account); err != nil {

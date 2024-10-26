@@ -6,7 +6,7 @@
 
   <body>
     <div class="backbutton">
-      <router-link to="/" class="forgot-password-link">返回</router-link>
+      <router-link to="/login" class="forgot-password-link">返回</router-link>
     </div>
     <br />
     <form class="form-container">
@@ -17,14 +17,13 @@
 
         <div class="inputbox">
           <input class="input" type="password" v-model="verificationCode" placeholder="驗證碼" />
-          <button @click="sendVerificationCode(verificationCode)">發送驗證碼</button>
+          <button>發送驗證碼</button>
         </div>
       </div>
       <div class="reset-password">
-        <router-link to="/create-profile" class="forgot-password-link"><button class="button" type="button"
-            @click="sendVerificationCode(verificationCode)">
-            繼續
-          </button></router-link>
+        <button class="button" type="button" @click="sendVerificationCode(verificationCode)">
+          繼續
+        </button>
       </div>
       <div></div>
     </form>
@@ -32,14 +31,24 @@
 </template>
 <script setup lang="ts">
 import request from "@/axios";
+import router from "@/router";
 import { ref } from "vue";
 const contact = ref("");
 const verificationCode = ref<number>(0);
 
 const sendVerificationCode = async (verificationCode: number) => {
   const headers = { 'UserID': localStorage.getItem("s") };
-  const result = await request.get("/users/verify/" + verificationCode, { headers });
-  localStorage.removeItem("s")
+  try {
+    const result = await request.get("/users/verify/" + verificationCode, { headers });
+    localStorage.removeItem("s")
+    localStorage.setItem("token", result.data.msg);
+    router.push("create-profile")
+  } catch {
+    console.log("有問題");
+
+  }
+
+
 
 
 };

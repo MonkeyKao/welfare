@@ -32,9 +32,9 @@ func CreateUser(user *User) error {
 	return database.DB.Table("Users").Create(user).Error
 }
 
-func UpdateUser(id uint, updateData map[string]interface{}) error {
+func UpdateUser(id uint, user *User) error {
 	// 使用 GORM 的 Model 方法并通过 map 进行更新
-	return database.DB.Table("Users").Where("id = ?", id).Updates(updateData).Error
+	return database.DB.Table("Users").Where("id = ?", id).Updates(user).Error
 }
 
 func DeleteUser(id uint) error {

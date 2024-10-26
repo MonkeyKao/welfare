@@ -16,7 +16,7 @@
       <!-- 密碼輸入框 -->
       <div class="flex items-center border-2 rounded-md px-3 ml-10 my-3 mr-10 shadow-md">
         <PhLockKey :size="32" color="#4d4d4d" />
-        <input v-model="password" @focus="doingPw = true" @blur="doingPw = false" class="flex-1 p-3 focus:outline-none"
+        <input v-model="user.password" @focus="doingPw = true" @blur="doingPw = false" class="flex-1 p-3 focus:outline-none"
           :type="showPassword ? 'text' : 'password'" placeholder="密碼" />
         <PhEyeClosed v-if="!showPassword" @click="togglePassword" :size="32" color="#4d4d4d" />
         <PhEye v-else @click="togglePassword" :size="32" />
@@ -77,7 +77,6 @@
 
 <script setup lang="ts">
 import request from "@/axios";
-import { User } from "@/model/user";
 import router from "@/router";
 import {
   PhEye,
@@ -97,8 +96,15 @@ class form {
 const user = ref<form>(new form());
 
 const loginHandler = async (user: form) => {
-  const result = await request.post("users/doLogin", JSON.stringify(user))
-  localStorage.setItem(result.data.tokenName, result.data.tokenValue)
+  try{
+    const result = await request.post("users/doLogin", JSON.stringify(user))
+    localStorage.setItem(result.data.tokenName, result.data.tokenValue)
+
+  } catch(err) {
+    console.log("123");
+    return
+  }
+
   router.push("/home")
 
 }

@@ -1,7 +1,9 @@
 package api
 
 import (
+	"fmt"
 	"net/http"
+
 	//"fmt"
 	"walfare/models"
 	"walfare/services"
@@ -14,15 +16,16 @@ func DoLoginHandler(c *gin.Context) {
 	from := models.User{}
 
 	if err := c.ShouldBindBodyWithJSON(&from); err != nil {
-		c.IndentedJSON(http.StatusOK, gin.H{"error": err.Error()})
+		c.IndentedJSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
 	//調用函式去進行驗證，正確會返回一個token
 	token, err := services.Login(from.Account, from.Password)
 
+	// token無效
 	if err != nil {
-		c.IndentedJSON(http.StatusOK, err.Error())
+		c.IndentedJSON(http.StatusUnauthorized, gin.H{"error": err.Error()})
 		return
 	}
 	c.IndentedJSON(http.StatusOK, gin.H{"tokenName": "token", "tokenValue": token})
@@ -49,22 +52,38 @@ func RegisterHandler(c *gin.Context) {
 func UpdateuserHandler(c *gin.Context) {
 	// 从上下文中获取用户 ID
 	userID := c.GetUint("UserID")
+	fmt.Print(userID)
 
 	// 定义一个 map 用于接收更新数据
-	var updateData map[string]interface{}
+	var form models.User
 
 	// 从请求中绑定数据到 map 中
-	if err := c.ShouldBindJSON(&updateData); err != nil {
+	if err := c.ShouldBindJSON(&form); err != nil {
 		c.IndentedJSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
+	form.ID = userID
+
 	// 更新用户信息
-	if err := models.UpdateUser(userID, updateData); err != nil {
+	if err := models.UpdateUser(userID, &form); err != nil {
 		c.IndentedJSON(http.StatusInternalServerError, gin.H{"error": "Failed to update user"})
 		return
 	}
 
 	// 返回成功响应
 	c.IndentedJSON(http.StatusOK, gin.H{"message": "User updated successfully"})
+}
+
+func GetUserByUserIDHandler(c *gin.Context) {
+	// 从上下文中获取用户 ID
+	userID := c.GetUint("UserID")
+
+	var user models.User
+	if err := models.GetUserByID(&user, int(userID)); err != nil {
+		c.IndentedJSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.IndentedJSON(http.StatusOK, user)
 }

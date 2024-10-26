@@ -1,10 +1,8 @@
 <template>
   <header class="flex flex-col items-center mt-5">
     <Avatar />
-    <label class="text-3xl font-bold">用戶名</label>
-    <hr
-      class="border-0 h-px bg-gradient-to-r from-gray-300 via-gray-800 to-gray-300 w-full mt-4"
-    />
+    <label class="text-3xl font-bold">{{ user?.name ? user.name : '未登錄' }}</label>
+    <hr class="border-0 h-px bg-gradient-to-r from-gray-300 via-gray-800 to-gray-300 w-full mt-4" />
   </header>
 
   <div class="flex flex-col items-center justify-center mt-5">
@@ -44,19 +42,23 @@
     </RouterLink>
   </div>
   <div class="mt-5 mx-10">
-    <router-link to="/login" class="forgot-password-link"
-      ><button
-        class="w-full bg-[#90c700] text-white font-bold text-2xl py-3 rounded shadow-md"
-        type="button"
-      >
+    <router-link v-if="user" to="/login" class="forgot-password-link"><button
+        class="w-full bg-[#90c700] text-white font-bold text-2xl py-3 rounded shadow-md" type="button"
+        @click="logoutHandler">
         登出
-      </button></router-link
-    >
+      </button></router-link>
+    <router-link v-else to="/login" class="forgot-password-link"><button
+        class="w-full bg-[#90c700] text-white font-bold text-2xl py-3 rounded shadow-md" type="button">
+        登入
+      </button></router-link>
+      
   </div>
 </template>
 
 <script setup lang="ts">
+import request from "@/axios";
 import Avatar from "@/components/Avatar.vue";
+import User from "@/model/user";
 import {
   PhGear,
   PhLink,
@@ -64,6 +66,19 @@ import {
   PhUserCircle,
   PhUsersThree,
 } from "@phosphor-icons/vue";
+import { onMounted, ref } from "vue";
+
+const logoutHandler = () => {
+  localStorage.removeItem("token")
+}
+
+const user = ref<User>()
+
+onMounted( async () => {
+  const result = await request.get("users");
+  user.value = result.data
+
+})
 </script>
 
 <style scoped>
