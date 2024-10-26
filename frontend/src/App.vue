@@ -8,7 +8,19 @@ const route = useRoute(); // 獲取當前路由
 <template>
   <!-- 渲染當前頁面 -->
   <RouterView />
-  <BottomNav />
+
+  <BottomNav
+    v-if="
+      ![
+        'LoginPage',
+        'RegisterPage',
+        'ForgetPasswordPage',
+        'ResetPasswordPage',
+        'CreateProfile',
+        'VerifyPage',
+      ].includes(route.name)
+    "
+  />
 </template>
 
 <style scoped>
