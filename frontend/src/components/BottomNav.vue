@@ -31,7 +31,7 @@
             :class="{ 'text-green-500': isActive('/settings') }"
             :style="{ color: isActive('/settings') ? '#92C700' : 'black' }" 
           />
-          <span v-if="isActive('/settings')" class="text-gray-800">設定</span>
+          <span v-if="isActive('/settings')" class="text-gray-800">用戶</span>
         </router-link>
       </li>
     </ul>
