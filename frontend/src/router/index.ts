@@ -4,7 +4,9 @@ import HomePage from "@/views/HomePage.vue";
 import LoginPage from "@/views/LoginPage.vue";
 import RegisterPage from "@/views/RegisterPage.vue";
 import ResetPasswordPage from "@/views/ResetPasswordPage.vue";
+import AiPage from "@/views/AiPage.vue"
 import VerifyPage from "@/views/VerifyPage.vue";
+import Settings from "@/views/SettingsPage.vue"
 import { createRouter, createWebHistory } from "vue-router";
 const routes = [
   {
@@ -47,6 +49,16 @@ const routes = [
     name: "HomePage",
     component: HomePage,
   },
+  {
+    path: "/ai",
+    name: "AiPage",
+    component: AiPage,
+  },
+  {
+    path: "/settings",
+    name: "Settings",
+    component: Settings,
+  }
 ];
 const router = createRouter({
   history: createWebHistory(),
