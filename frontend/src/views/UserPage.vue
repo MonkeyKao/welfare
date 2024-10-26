@@ -43,6 +43,16 @@
       </div>
     </RouterLink>
   </div>
+  <div class="mt-5 mx-10">
+    <router-link to="/login" class="forgot-password-link"
+      ><button
+        class="w-full bg-[#90c700] text-white font-bold text-2xl py-3 rounded shadow-md"
+        type="button"
+      >
+        登出
+      </button></router-link
+    >
+  </div>
 </template>
 
 <script setup lang="ts">

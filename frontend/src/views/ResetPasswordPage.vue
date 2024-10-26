@@ -9,28 +9,42 @@
     /></router-link>
     <form class="flex flex-col justify-center text-center">
       <label class="text-3xl font-bold">密碼重設</label>
+      <!-- 密碼輸入框 -->
       <div
-        class="flex items-center border-2 rounded-md px-3 mx-10 shadow-md mt-4"
+        class="flex items-center border-2 rounded-md px-3 ml-10 mr-10 shadow-md mt-4"
       >
         <PhLockKey :size="32" color="#4d4d4d" />
         <input
-          class="flex-1 p-2 focus:outline-none"
-          type="password"
+          class="flex-1 p-3 focus:outline-none"
+          :type="showPassword ? 'text' : 'password'"
           placeholder="密碼"
         />
-        <PhEyeClosed :size="32" color="#4d4d4d" />
+        <PhEyeClosed
+          v-if="!showPassword"
+          @click="togglePassword"
+          :size="32"
+          color="#4d4d4d"
+        />
+        <PhEye v-else @click="togglePassword" :size="32" />
       </div>
 
+      <!-- 密碼輸入框 -->
       <div
-        class="flex items-center border-2 rounded-md px-3 mx-10 shadow-md mt-4"
+        class="flex items-center border-2 rounded-md px-3 ml-10 mr-10 shadow-md mt-4"
       >
-        <PhRepeat :size="32" color="#4d4d4d" />
+        <PhLockKey :size="32" color="#4d4d4d" />
         <input
-          class="flex-1 p-2 focus:outline-none"
-          type="password"
+          class="flex-1 p-3 focus:outline-none"
+          :type="showPassword ? 'text' : 'password'"
           placeholder="再次輸入密碼"
         />
-        <PhEyeClosed :size="32" color="#4d4d4d" />
+        <PhEyeClosed
+          v-if="!showPassword"
+          @click="togglePassword"
+          :size="32"
+          color="#4d4d4d"
+        />
+        <PhEye v-else @click="togglePassword" :size="32" />
       </div>
 
       <div class="mt-5 mx-10">
@@ -47,12 +61,18 @@
   </body>
 </template>
 <script setup lang="ts">
-import {
-  PhArrowUUpLeft,
-  PhEyeClosed,
-  PhLockKey,
-  PhRepeat,
-} from "@phosphor-icons/vue";
+import { PhEye, PhEyeClosed, PhLockKey } from "@phosphor-icons/vue";
+import { ref } from "vue";
+
+//圖片更動
+const password = ref(""); // 用于存储密码
+const doingPw = ref(false); // 用于指示是否处于密码输入状态
+
+//點眼睛密碼明文顯示
+const showPassword = ref(false);
+const togglePassword = () => {
+  showPassword.value = !showPassword.value; // 切换 showPassword 的值
+};
 </script>
 <style scoped>
 /* 固定 header 區域 */
