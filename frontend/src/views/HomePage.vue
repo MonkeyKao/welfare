@@ -12,24 +12,12 @@
   </div>
 </template>
 
-<<<<<<< HEAD
-<script>
-=======
 <script setup>
 import { ref, onMounted } from 'vue';
->>>>>>> origin/loveandnotify
 import TopNav from '@/components/TopNav.vue';
 import HomeInsideText from '@/components/HomeInsideText.vue';
+import request from '@/axios';
 
-<<<<<<< HEAD
-export default {
-  name: 'HomePage',
-  components : {
-    TopNav,
-    HomeInsideText,
-  },
-};
-=======
 const welfareData = ref([]); // 定義響應式數據
 
 const getWelfare = async () => {
@@ -44,7 +32,6 @@ const getWelfare = async () => {
 onMounted(() => {
   getWelfare(); // 在組件掛載後調用函數
 });
->>>>>>> origin/loveandnotify
 </script>
 
 <style scoped>

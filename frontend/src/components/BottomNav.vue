@@ -31,11 +31,8 @@
             :class="{ 'text-green-500': isActive('/user') }"
             :style="{ color: isActive('/user') ? '#92C700' : 'black' }"
           />
-<<<<<<< HEAD
           <span v-if="isActive('/user')" class="text-gray-800">用戶</span>
-=======
           <span v-if="isActive('/settings')" class="text-gray-800">用戶</span>
->>>>>>> origin/loveandnotify
         </router-link>
       </li>
     </ul>
