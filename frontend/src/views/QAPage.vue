@@ -2,12 +2,12 @@
 <template>
   <header class="top-0 left-0 right-0 flex items-center p-5 pt-14 bg-[#92c700]">
     <router-link to="/home" class="forgot-password-link">
-      <PhArrowUUpLeft :size="32" color="#fff" class="ml-5" />
+      <PhArrowUUpLeft :size="32" color="#000" class="ml-5" />
     </router-link>
-    <label class="ml-5 text-3xl font-bold text-white">常見問題 Q&A</label>
+    <label class="ml-5 text-3xl font-bold">常見問題 Q&A</label>
   </header>
 
-  <div class="flex flex-col mt-2">
+  <div class="flex flex-col">
     <div
       v-for="item in QAs"
       :key="item.Id"
@@ -25,11 +25,11 @@
           <PhCaretDown v-if="getIsActive(item.Id)" :size="25" color="#92c700" />
         </span>
       </div>
-      <div class="bg-[#92c700]">
+      <div>
         <transition name="fade">
           <div
             v-if="getIsActive(item.Id)"
-            class="flex items-start space-x-2 m-7 bg-[#92c700]"
+            class="flex items-start space-x-2 m-7"
           >
             <span class="font-semibold">A</span>
             <span class="mx-2">:</span>
