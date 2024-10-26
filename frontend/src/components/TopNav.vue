@@ -1,5 +1,5 @@
 <template>
-  <div class="flexd">
+  <div class="flexd overflow-auto">
     <header class="fixed top-0 left-0 right-0 flex justify-between items-center p-5 pt-14" style="background-color: #92C700;">
       <div class="search-box flex items-center bg-gray-50 rounded-lg p-1 border border-gray-300">
         <PhMagnifyingGlass size="24" color="#9ca3af" class="icon-search" />

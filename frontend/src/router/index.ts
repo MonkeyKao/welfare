@@ -12,6 +12,13 @@ import ResetPasswordPage from "@/views/ResetPasswordPage.vue";
 import Settings from "@/views/SettingsPage.vue";
 import UserPage from "@/views/UserPage.vue";
 import VerifyPage from "@/views/VerifyPage.vue";
+<<<<<<< HEAD
+=======
+import Settings from "@/views/SettingsPage.vue"
+import LikePage from "@/views/LikePage.vue";
+import NotifyPage from "@/views/NotifyPage.vue";
+
+>>>>>>> origin/loveandnotify
 import { createRouter, createWebHistory } from "vue-router";
 const routes = [
   {
@@ -65,6 +72,7 @@ const routes = [
     component: Settings,
   },
   {
+<<<<<<< HEAD
     path: "/qa",
     name: "QAPage",
     component: QAPage,
@@ -88,6 +96,16 @@ const routes = [
     path: "/link-account",
     name: "LinkAccountPage",
     component: LinkAccountPage,
+=======
+    path: "/favorites",
+    name: "LikePage",
+    component: LikePage,
+  },
+  {
+    path: "/notifications",
+    name: "NotifyPage",
+    component: NotifyPage,
+>>>>>>> origin/loveandnotify
   },
 ];
 const router = createRouter({

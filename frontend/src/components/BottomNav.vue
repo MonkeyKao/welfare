@@ -1,5 +1,5 @@
 <template>
-  <nav class="fixed bottom-0 left-0 right-0 bg-white shadow-md">
+  <nav class=" bg-white shadow-md">
     <ul class="flex justify-around items-center p-4">
       <li>
         <router-link to="/ai" class="flex flex-col items-center text-center">
@@ -31,7 +31,11 @@
             :class="{ 'text-green-500': isActive('/user') }"
             :style="{ color: isActive('/user') ? '#92C700' : 'black' }"
           />
+<<<<<<< HEAD
           <span v-if="isActive('/user')" class="text-gray-800">用戶</span>
+=======
+          <span v-if="isActive('/settings')" class="text-gray-800">用戶</span>
+>>>>>>> origin/loveandnotify
         </router-link>
       </li>
     </ul>
