@@ -10,7 +10,7 @@ const route = useRoute(); // 獲取當前路由
   <!-- 渲染當前頁面 -->
   <RouterView />
   <router-view></router-view>
-  <BottomNav v-if="route.name !== 'LoginPage' && route.name !== 'RegisterPage'" />
+  <BottomNav v-if="!['LoginPage', 'RegisterPage','ForgetPasswordPage','ResetPasswordPage','CreateProfile','VerifyPage'].includes(route.name)" />
 </template>
 
 <style scoped>
