@@ -14,7 +14,7 @@ def scrape_data(city, url):
         a = div_list.find_all("span")[1].find("a")
         detail_url = "https://www.sw.ntpc.gov.tw/" + a["href"]
         res = requests.get(detail_url)
-        detail_soup = BeautifulSoup(res.text, "html.parser").select(".con")
+        detail_soup = BeautifulSoup(res.content, "html.parser",from_encoding="utf-8").select(".con")
         res.close()
 
         for div_list_2 in detail_soup:
@@ -22,7 +22,7 @@ def scrape_data(city, url):
             for a in a_list:
                 url = "https://www.sw.ntpc.gov.tw/" + a["href"]
                 title = a["title"]
-                results.append({"url": url, "title": title})  # 将 URL 和 title 存储为字典并添加到列表中
+                results.append({"city":city,"url": url, "title": title})  # 将 URL 和 title 存储为字典并添加到列表中
 
     return results  # 返回包含所有结果的列表
 

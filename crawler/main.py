@@ -2,6 +2,8 @@ import json
 import os
 import pandas as pd
 import subprocess
+import sys
+
 
 # 載入 Excel 檔案
 file_path = 'list.xlsx'
@@ -13,6 +15,7 @@ results = []
 for index, row in df.iterrows():
     city = str(row['city'])
     url = str(row['url'])
+    encoding = str(row['encoding'])
     script_path = str(row['name'])  # 這裡的 name 是腳本路徑
     
     # 執行對應的爬蟲腳本，並將 city 和 url 作為參數傳遞
@@ -20,7 +23,7 @@ for index, row in df.iterrows():
         ['python', script_path, city, url],
         capture_output=True, 
         text=True, 
-        encoding='utf-8',  # 指定編碼
+        encoding=encoding,  # 指定編碼
         errors='replace'  # 替換無法解碼的字符
     )
     

@@ -6,7 +6,9 @@ import requests
 
 def scrape_data(city, url):
     res = requests.get(url)
-    soup = BeautifulSoup(res.text, "html.parser").find_all("li")[16:40]
+    
+    soup = BeautifulSoup(res.text, "html.parser").find_all("li")[16:33]
+
     res.close()
     
     results = [] 
@@ -19,16 +21,16 @@ def scrape_data(city, url):
         res.close()
         
         soup = BeautifulSoup(res.text, "html.parser").find("tbody").find_all("tr");
-        print(soup)
         
         for tr in soup:
             a= tr.find_all("td")[1].find("span").find("a")
             url = "https://social.hsinchu.gov.tw/" + a["href"] + "&PageSize=100"
             title = a["title"]
-            results.append({"url": url, "title": title})
+            results.append({ "city":city,"url": url, "title": title})
     return results
 
 def main():
+    sys.stdout.reconfigure(encoding="utf-8")
     # 接收從主程式傳入的參數
     city = sys.argv[1]
     url = sys.argv[2]
