@@ -1,37 +1,29 @@
 import 'package:flutter/material.dart';
-import '../widgets/bottom_menu.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
-
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
+  @override
+  State<StatefulWidget> createState() => _HomeScreen();
+
+}
+
+class _HomeScreen extends State<HomeScreen> {
+    late final WebViewController controller;
+    
+    @override
+  void initState() {
+    super.initState();
+    controller = WebViewController()
+      ..setJavaScriptMode(JavaScriptMode.unrestricted)
+      ..loadRequest(Uri.parse('http://192.168.1.106:5000/login')); // 或者使用 http://10.0.2.2:5000 用於 Android 模擬器
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: const BottomMneu(),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'Welcome to the Home Screen!',
-              style: TextStyle(fontSize: 24),
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                _showMessage(context);
-              },
-              child: const Text('Press Me'),
-            ),
-          ],
-        ),
-      ),
+      body: WebViewWidget(controller: controller)
     );
-  }
-
-  void _showMessage(BuildContext context) {
-    const snackBar =  SnackBar(content: Text('Button Pressed!'));
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 }
