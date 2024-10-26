@@ -68,7 +68,7 @@
                 class="w-full bg-[#90c700] text-white font-bold text-2xl py-3 rounded shadow-md"
                 type="button"
               >
-                編輯
+                確認
               </button></router-link
             >
           </div>
