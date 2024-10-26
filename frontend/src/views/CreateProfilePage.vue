@@ -1,161 +1,94 @@
 <template>
   <!-- 固定定位的 header，確保圖片維持在最上方 -->
   <header class="flex flex-col items-center mt-5 text-center">
-    <label class="title">個人資料</label>
+    <label class="text-3xl font-bold">個人資料</label>
     <div class="w-24 h-24 flex justify-center items-center">
-      <img src="/logo.png" />
+      <img src="/logo.png" class="h-full object-cover" />
     </div>
   </header>
+  <main>
+    <form class="flex flex-col justify-center items-center mt-5">
+      <div>
+        <div class="mt-5">
+          <label class="block text-left text-xl mb-2">姓名</label>
+          <input
+            class="flex-1 focus:outline-none border-2 rounded-md px-3 shadow-md"
+            type="text"
+          />
+        </div>
+        <div class="mt-5">
+          <label class="block text-left text-xl mb-2">生日</label>
+          <input
+            class="flex w-full focus:outline-none border-2 rounded-md px-3 shadow-md"
+            type="date"
+          />
+        </div>
+        <div class="mt-5">
+          <label class="block text-left text-xl mb-2">性別</label>
+          <div class="flex items-center">
+            <input type="radio" id="male" name="gender" class="mr-2" />
+            <label for="male">男性</label>
+            <input type="radio" id="female" name="gender" class="mr-2 ml-4" />
+            <label for="neutral">中性</label>
+            <input type="radio" id="female" name="gender" class="mr-2 ml-4" />
+            <label for="female">女性</label>
+          </div>
+        </div>
 
-  <body>
-    <form class="form-container">
-      <div class="column mt-5">
-        <label class="text-left text-[20px] mb-2">姓名</label>
-        <div class="inputbox">
-          <input v-model="user.name" class="input" type="text" />
+        <div class="mt-5">
+          <label class="block text-left text-xl mb-2">地區</label>
+          <select
+            class="flex-1 focus:outline-none border-2 rounded-md px-3 shadow-md"
+          >
+            <option>台北市</option>
+            <option>新北市</option>
+            <option>基隆市</option>
+            <option>新竹市</option>
+            <option>新竹縣</option>
+            <option>苗栗縣</option>
+            <option>台中市</option>
+            <option>彰化縣</option>
+            <option>雲林縣</option>
+            <option>嘉義市</option>
+            <option>嘉義縣</option>
+            <option>台南市</option>
+            <option>高雄市</option>
+            <option>屏東縣</option>
+            <option>南投縣</option>
+            <option>宜蘭縣</option>
+            <option>花蓮縣</option>
+            <option>台東縣</option>
+          </select>
         </div>
-      </div>
-      <div class="column mt-5">
-        <label class="text-left text-[20px] mb-2">生日</label>
-        <div class="inputbox">
-          <input v-model="user.birthday" class="input" type="date" />
-        </div>
-      </div>
-      <div class="column mt-5">
-        <label class="text-left text-[20px] mb-2">性別</label>
-        <div class="inputbox">
-          <input v-model="user.female" class="input" type="radio" />
-        </div>
-      </div>
-      <div class="column mt-5">
-        <label class="text-left text-[20px] mb-2">地區</label>
-        <div class="inputbox">
-          <ul class="input">
-            <li>台北市</li>
-            <li>新北市</li>
-          </ul>
+
+        <div class="mt-5">
+          <router-link to="/home"
+            ><button
+              class="w-full bg-[#90c700] text-white font-bold text-2xl py-3 rounded shadow-md"
+              type="button"
+            >
+              繼續
+            </button></router-link
+          >
         </div>
       </div>
 
-      <div class="mt-5">
-        <button @click="saveUserHanlder(user)" class="button" type="button">繼續</button>
-      </div>
-
-      <div class="inset-x-0 fixed bottom-5">
-        略過
+      <div
+        class="flex mt-5 absolute bottom-5 right-5 justify-center items-center"
+      >
+        <router-link to="/home">先略過</router-link>
+        <PhArrowCircleRight :size="32" />
       </div>
     </form>
-  </body>
+  </main>
 </template>
 
 <script setup lang="ts">
-import request from "@/axios";
-import User from "@/model/user";
-import router from "@/router";
-import { ref } from 'vue';
-const user = ref<User>({
-  _id: 0,
-  account: '',
-  name: '',
-  password: '',
-  birthday: new Date(),
-  female: 0,
-  location: 0,
-  email: ''
-});
-
-const saveUserHanlder = async (user: User) => {
-
-  try {
-    const result = await request.post("/users/updateuser", JSON.stringify(user));
-    router.push("/home")
-  } catch (err) {
-    console.log(123);
-  }
+import { PhArrowCircleRight } from "@phosphor-icons/vue";
+function loginWithFacebook() {
+  // 呼叫 Facebook 登入 API 的程式邏輯
 }
-
+function loginWithGoogle() {
+  // 呼叫 Google 登入 API 的程式邏輯
+}
 </script>
-
-<style scoped>
-/* 固定 header 區域 */
-header img {
-  width: 100%;
-  /* 讓圖片填滿 header */
-  display: block;
-  /* 移除任何潛在的空白間隙 */
-}
-
-/* Label 樣式 */
-.title {
-  font-size: 30px;
-}
-
-.form-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  /* 水平置中 */
-  margin-top: 20px;
-  /* 與圖片間距 */
-  text-align: center;
-}
-
-.inputbox {
-  display: flex;
-  justify-content: center;
-  /* 水平置中 */
-}
-
-/* Input 樣式 */
-.input {
-  margin-top: 10px;
-  /* 與標題之間的垂直間距 */
-  border-radius: 0.25rem;
-  /* 圓角 */
-  padding: 0.5rem 1rem;
-  /* 內距，確保文字不靠近邊緣 */
-  color: #4a5568;
-  /* 文字顏色 */
-  line-height: 1.25;
-  /* 行高，讓內容更緊湊 */
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-  /* 陰影效果 */
-}
-
-.button {
-  /* 背景色和文字色 */
-  background-color: #90c700;
-  /* 對應 bg-purple-500 */
-  color: #ffffff;
-  /* 對應 text-white */
-
-  /* 字體與按鈕外觀 */
-  font-weight: bold;
-  /* 對應 font-bold */
-  padding: 0.5rem 1rem;
-  /* 對應 py-2 px-4 */
-  border-radius: 0.25rem;
-  /* 對應 rounded */
-
-  /* 陰影 */
-  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1), 0px 1px 2px rgba(0, 0, 0, 0.06);
-  /* 對應 shadow */
-  outline: none;
-  /* 對應 focus:outline-none */
-}
-
-/* 連結樣式 */
-.forgot-password {
-  margin-top: 10px;
-}
-
-.forgot-password-link {
-  color: #90c700;
-  text-decoration: underline;
-  cursor: pointer;
-}
-
-.forgot-password-link:hover {
-  color: #7ab600;
-}
-</style>
