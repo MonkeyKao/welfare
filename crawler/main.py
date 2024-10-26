@@ -16,17 +16,25 @@ for index, row in df.iterrows():
     script_path = str(row['name'])  # 這裡的 name 是腳本路徑
     
     # 執行對應的爬蟲腳本，並將 city 和 url 作為參數傳遞
-    result = subprocess.run(['python', script_path, city, url],capture_output=True, text=True)
+    result = subprocess.run(
+        ['python', script_path, city, url],
+        capture_output=True, 
+        text=True, 
+        encoding='utf-8',  # 指定編碼
+        errors='replace'  # 替換無法解碼的字符
+    )
     
-    output = result.stdout.strip()
+    # 檢查標準輸出是否為空
+    output = result.stdout.strip() if result.stdout else "No output"
     results.append({"script": script_path, "output": output})  # 儲存結果
 
     print(f"Received from {script_path}: {output}")
 
     # 如果子腳本失敗（返回非0狀態碼），則記錄錯誤並繼續執行
     if result.returncode != 0:
+        error_message = result.stderr.strip() if result.stderr else "No error message"
         print(f"Error occurred in {script_path}. Continuing execution.")
-        print(f"Error message: {result.stderr.strip()}")  # 打印錯誤信息
+        print(f"Error message: {error_message}")  # 打印錯誤信息
 
 # 定義 JSON 檔案的路徑
 json_file_path = os.path.join(os.path.dirname(__file__), 'data.json')
