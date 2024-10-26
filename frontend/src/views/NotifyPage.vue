@@ -5,7 +5,38 @@
     </router-link>
     <label class="ml-5 text-3xl font-bold">通知</label>
   </header>
+  
+  <div class="flex items-end p-4">
+    <img src="@/images/user-square.png" alt="類別圖片" class="w-10 h-10" />
+    <div class="flex-1 ml-4 p-3 bg-white shadow-md rounded-tl-lg rounded-tr-lg rounded-br-lg">
+      <p class="text-gray-800">
+        哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈
+      </p>
+    </div>
+    <div class="ml-4">
+      <PhHeartStraight
+        :size="28"
+        :weight="isFavorited ? 'fill' : 'regular'"
+        class="cursor-pointer"
+        @click="toggleFavorite"
+      />
+    </div>
+  </div>
 </template>
-<script setup lang="ts">
-import { PhArrowUUpLeft } from '@phosphor-icons/vue';
+
+<script setup>
+import { ref } from 'vue';
+import { PhArrowUUpLeft, PhHeartStraight } from '@phosphor-icons/vue';
+
+const isFavorited = ref(true);
+
+function toggleFavorite() {
+  isFavorited.value = !isFavorited.value;
+}
 </script>
+
+<style scoped>
+.icon {
+  transition: color 0.3s;
+}
+</style>
