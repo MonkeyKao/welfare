@@ -32,3 +32,18 @@ func WelfareHandler(c *gin.Context) {
 	// 返回 JSON 數據
 	c.JSON(http.StatusOK, welfareList)
 }
+
+func GetQAHandler(c *gin.Context) {
+	type QA struct {
+		Id       uint
+		Question string
+		Answer   string
+	}
+
+	qaList := []QA{
+		{Id: 1, Question: "What is the capital of France?", Answer: "Paris"},
+		{Id: 2, Question: "What is 2 + 2?", Answer: "4"},
+	}
+
+	c.IndentedJSON(http.StatusOK, qaList)
+}
