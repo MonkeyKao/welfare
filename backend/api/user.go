@@ -13,7 +13,7 @@ import (
 func DoLoginHandler(c *gin.Context) {
 	from := models.User{}
 
-	if err := c.ShouldBind(&from); err != nil {
+	if err := c.ShouldBindBodyWithJSON(&from); err != nil {
 		c.IndentedJSON(http.StatusOK, gin.H{"error": err.Error()})
 		return
 	}
@@ -32,7 +32,7 @@ func DoLoginHandler(c *gin.Context) {
 func RegisterHandler(c *gin.Context) {
 	form := models.User{}
 
-	if err := c.ShouldBind(&form); err != nil {
+	if err := c.ShouldBindBodyWithJSON(&form); err != nil {
 		c.IndentedJSON(http.StatusOK, err.Error())
 		return
 	}

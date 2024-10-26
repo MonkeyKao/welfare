@@ -23,17 +23,16 @@ var mu sync.Mutex
 
 func Login(account string, password string) (string, error) {
 	var user models.User
-
 	const TokenExpireDuration = time.Hour * 48
 
 	//檢查帳號是否存在
-	if err := models.GetUserByAccount(&models.User{Account: account}); err != nil {
-		return "", err
+	if err := models.GetUserByAccount(&user, account); err != nil {
+		return "", errors.New("account is not exist")
 	}
-
+	fmt.Print(user.Password)
 	decryptText, err := utils.Decryption(user.Password, user.Salt)
 	if err != nil {
-		return "", errors.New("解密錯誤")
+		return "", err
 	}
 
 	if password == decryptText {
@@ -49,7 +48,7 @@ func Login(account string, password string) (string, error) {
 
 func Register(user *models.User) error {
 	// 判斷賬號是否已經存在
-	if err := models.GetUserByAccount(user); err == nil {
+	if err := models.GetUserByAccount(&models.User{}, user.Account); err == nil {
 		return errors.New("賬號已經存在")
 	}
 
@@ -63,7 +62,6 @@ func Register(user *models.User) error {
 	if err := models.CreateUser(user); err != nil {
 		return err
 	}
-
 	const charset = "123456789" // 字符集
 	code := ""                  // 创建一个空字符串用于存储验证码
 

@@ -24,8 +24,8 @@ func GetUserByID(user *User, id int) error {
 	return database.DB.Table("Users").First(user, id).Error
 }
 
-func GetUserByAccount(user *User) error {
-	return database.DB.Table("Users").Where("account = ?", user.Account).First(user).Error
+func GetUserByAccount(user *User, account string) error {
+	return database.DB.Table("Users").Where("account = ?", account).First(user).Error
 }
 
 func CreateUser(user *User) error {
