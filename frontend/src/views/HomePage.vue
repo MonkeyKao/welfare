@@ -1,7 +1,10 @@
 <template>
-  <div>
-    <TopNav />
-    <div class="mt-40">
+  <div class="h-full flex flex-col w-full">
+    <div class=" basis-1">
+      <TopNav />
+    </div>
+    
+    <div class="overflow-auto">
       <!-- 根據 API 回應資料動態生成 HomeInsideText 元件 -->
       <HomeInsideText
         v-for="(item, index) in welfareData"
