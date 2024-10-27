@@ -1,6 +1,6 @@
 <template>
   <div class="w-full flex flex-col justify-between">
-    <div class="flex justify-between items-center gap-3 p-4" style="background-color: #92C700;">
+    <div class="flex justify-between items-center gap-3 p-4 " style="background-color: #92C700;">
 
       <div class="flex items-center flex-grow bg-gray-50 rounded-lg p-1 border border-gray-300">
         <PhMagnifyingGlass size="24" color="#9ca3af" class="icon-search" />
@@ -24,16 +24,8 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { PhHeartStraight, PhBell, PhMagnifyingGlass } from '@phosphor-icons/vue';
 import Filter from './Filter.vue';
 
-export default {
-  components: {
-    PhHeartStraight,
-    PhBell,
-    PhMagnifyingGlass,
-    Filter, // 引入篩選器元件
-  },
-};
 </script>

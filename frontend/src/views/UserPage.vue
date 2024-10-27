@@ -1,48 +1,19 @@
 <template>
-  <div class="w-full divide-y container" >
+  <div class="w-full divide-y-2 container">
 
-    <header class="flex flex-col items-center my-3">
+    <header class="flex flex-col items-center gap-2 mt-10 mb-5">
       <Avatar />
       <label class="text-3xl font-bold">{{ user?.name ? user.name : '未登錄' }}</label>
     </header>
 
-    <div class=" ">
-      <RouterLink to="/personal-data" class="w-full">
-        <div class="flex items-center mx-10">
-          <PhUserCircle :size="32" color="#4d4d4d" />
-          <label class="text-lg font-bold flex ml-5">個人資料</label>
-        </div>
-      </RouterLink>
+    <div class="p-10 flex flex-col gap-4 ">
+      <div v-for="(item, index) in menuItems" :key="index" class="flex items-center" @click="router.push(item.path)">
+        <component :is="item.icon" :size="40" color="#4d4d4d" />
+        <label class="text-lg font-bold flex ml-3">{{item.label}}</label>
+      </div>
 
-      <RouterLink to="/link-account" class="w-full">
-        <div class="flex items-center mx-10">
-          <PhLink :size="32" color="#4d4d4d" />
-          <label class="text-lg font-bold flex ml-5">連結帳戶</label>
-        </div>
-      </RouterLink>
 
-      <RouterLink to="/family" class="w-full">
-        <div class="flex items-center mx-10">
-          <PhUsersThree :size="32" color="#4d4d4d" />
-          <label class="text-lg font-bold flex ml-5">家庭</label>
-        </div>
-      </RouterLink>
-
-      <RouterLink to="/settings" class="w-full">
-        <div class="flex items-center mx-10">
-          <PhGear :size="32" color="#4d4d4d" />
-          <label class="text-lg font-bold flex ml-5">設定</label>
-        </div>
-      </RouterLink>
-
-      <RouterLink to="/qa" class="w-full">
-        <div class="flex items-center mx-10">
-          <PhQuestion :size="32" color="#4d4d4d" />
-          <label class="text-lg font-bold flex ml-5">常見問題</label>
-        </div>
-      </RouterLink>
-
-      <div class="mx-10">
+      <div class="hidden">
         <router-link v-if="user" to="/login" class="forgot-password-link"><button
             class="w-full bg-[#90c700] text-white font-bold text-2xl py-3 rounded shadow-md" type="button"
             @click="logoutHandler">
@@ -68,6 +39,7 @@
 import request from "@/axios";
 import Avatar from "@/components/Avatar.vue";
 import User from "@/model/user";
+import router from "@/router";
 import {
   PhGear,
   PhLink,
@@ -77,8 +49,17 @@ import {
 } from "@phosphor-icons/vue";
 import { onMounted, ref } from "vue";
 
+const menuItems = [
+  { path: "/personal-data", label: "個人資料", icon: PhUserCircle },
+  { path: "/link-account", label: "連結帳戶", icon: PhLink },
+  { path: "/family", label: "家庭", icon: PhUsersThree },
+  { path: "/settings", label: "設定", icon: PhGear },
+  { path: "/qa", label: "常見問題", icon: PhQuestion },
+]
+
 const logoutHandler = () => {
   localStorage.removeItem("token")
+  router.push("/login")
 }
 
 const user = ref<User>()

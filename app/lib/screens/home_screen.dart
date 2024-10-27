@@ -17,7 +17,7 @@ class _HomeScreen extends State<HomeScreen> {
     super.initState();
     controller = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
-      ..loadRequest(Uri.parse('http://192.168.1.112:5000/login')); // 或者使用 http://10.0.2.2:5000 用於 Android 模擬器
+      ..loadRequest(Uri.parse('http://192.168.0.239:5000')); // 或者使用 http://10.0.2.2:5000 用於 Android 模擬器
   }
 
   @override

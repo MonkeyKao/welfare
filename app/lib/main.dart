@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'screens/home_screen.dart';  // 引入 HomeScreen
 
 void main() {
-  runApp(const MyApp());
+  runApp( const SafeArea(child: MyApp()) );
 }
 
 class MyApp extends StatelessWidget {
@@ -11,7 +11,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
+      title: '眸福利',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),

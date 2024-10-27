@@ -4,26 +4,39 @@
 
     <div class="flex gap-3 flex-row">
 
-      <div class="flex items-center" @click="toggleRegionDropdown">
-        <p>{{ selectedRegion ? selectedRegion : "地區" }}</p>
-        <PhCaretDown :size="20" class="menu ml-1 transition-transform" :class="{ 'rotate-180': showRegionDropdown }" />
+      <div class="flex flex-col">
+        <div @click="toggleRegionDropdown" class="flex">
+          <p class="text-l">{{ selectedRegion ? selectedRegion : "地區" }}</p>
+          <PhCaretDown :size="20" class="menu ml-1 transition-transform"
+            :class="{ 'rotate-180': showRegionDropdown }" />
+        </div>
+
+        <transition>
+          <div v-if="showRegionDropdown"
+            class="fixed flex flex-col gap-3 w-1/3 bor bg-white rounded-md border border-gray-300 p-3">
+            <span v-for="region in regions" class=" text-xl font-bold" :key="region" @click="selectRegion(region)">
+              {{ region }}</span>
+          </div>
+        </transition>
+
       </div>
 
-      <div v-if="showRegionDropdown" class=" bg-white border border-gray-300 z-10 p-2">
-        <p v-for="region in regions" :key="region" @click="selectRegion(region)"
-          class="cursor-pointer hover:bg-gray-200">
-          {{ region }}</p>
-      </div>
+
 
       <div class="flex items-center" @click="toggleServiceDropdown">
-        <p>{{ selectedService ? selectedService : "服務" }}</p>
+        <p class="text-l">{{ selectedService ? selectedService : "服務" }}</p>
         <PhCaretDown :size="20" class="menu ml-1 transition-transform" :class="{ 'rotate-180': showServiceDropdown }" />
       </div>
 
-      <div v-if="showServiceDropdown" class="bg-white border border-gray-300 z-10 p-2">
-        <p v-for="service in services" :key="service" @click="selectService(service)"
-          class="cursor-pointer hover:bg-gray-200">{{ service }}</p>
-      </div>
+
+      <Transition>
+        <div v-if="showServiceDropdown"
+          class="fixed flex flex-col gap-3 w-1/3 bor bg-white rounded-md border border-gray-300 p-3">
+          <span v-for="service in services" class="text-xl font-bold" :key="service" @click="selectService(service)">{{
+            service }}</span>
+        </div>
+      </Transition>
+
 
     </div>
 
@@ -52,6 +65,7 @@ export default {
       selectedService: null,
       regions: ['全選', '台北市', '新北市', '桃園市', '新竹市', '新竹縣', '苗栗縣', '台中市', '彰化縣', '南投縣', '雲林縣', '嘉義縣', '嘉義市', '台南市', '高雄市', '屏東縣', '基隆市'], // 根據需要替換
       services: [
+        '全選',
         '育兒津貼',
         '托育補助',
         '孕婦補助',
@@ -98,5 +112,16 @@ export default {
   transform: rotate(180deg);
   transition: transform 0.2s;
   /* 動畫過渡效果 */
+}
+
+.v-enter-active,
+.v-leave-active {
+  transition: all 0.3s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+  transform: translateY(-20px);
+  opacity: 0;
 }
 </style>

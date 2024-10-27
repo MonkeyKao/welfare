@@ -1,5 +1,5 @@
 <template>
-  <nav class=" bg-white shadow-md">
+  <nav class=" bg-gray-50">
     <ul class="flex justify-around items-center p-4">
       <li>
         <router-link to="/ai" class="flex flex-col items-center text-center">
