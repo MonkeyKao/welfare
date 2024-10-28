@@ -17,16 +17,16 @@ def scrape_data(city, url):
         res.encoding = 'gbk'
         res.encoding = 'utf-8'
         
-        soup = BeautifulSoup(res.text, "html.parser").find_all("a")[19:45]  # 取第 21 到 45 筆資料
+        soup = BeautifulSoup(res.text, "html.parser").find_all("a")[21:39]  # 取第 21 到 45 筆資料
 
         results = []
         for a_tag in soup:
             if 'href' in a_tag.attrs:
                 link_url = a_tag["href"]
                 if not link_url.startswith("http"):  # 處理相對 URL
-                    link_url = f"https://social.hsinchu.gov.tw/Default.aspx"
+                    link_url = f"https://sab.tycg.gov.tw/cl.aspx?n=7313"+a_tag["href"]
                 title = a_tag.get_text(strip=True)
-                results.append({"city":city,"url": link_url, "title": title})
+                results.append({"url": link_url, "title": title})
         
         return results
     

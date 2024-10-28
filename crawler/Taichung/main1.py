@@ -17,14 +17,14 @@ def scrape_data(city, url):
         res.encoding = 'gbk'
         res.encoding = 'utf-8'
         
-        soup = BeautifulSoup(res.text, "html.parser").find_all("a")[19:45]  # 取第 21 到 45 筆資料
+        soup = BeautifulSoup(res.text, "html.parser").find_all("a")  # 取第 21 到 45 筆資料
 
         results = []
         for a_tag in soup:
             if 'href' in a_tag.attrs:
                 link_url = a_tag["href"]
                 if not link_url.startswith("http"):  # 處理相對 URL
-                    link_url = f"https://social.hsinchu.gov.tw/Default.aspx"
+                    link_url = f"https://www.taichung.gov.tw/10038/welfareList"+a_tag["href"]
                 title = a_tag.get_text(strip=True)
                 results.append({"city":city,"url": link_url, "title": title})
         
@@ -38,9 +38,9 @@ def main():
     city = sys.argv[1]
     url = sys.argv[2]
 
-    data = scrape_data(city, url)  # 调用 scrape_data 函数获取数据
-    json_data = json.dumps(data, ensure_ascii=False, indent=4)  # 将数据转换为 JSON 格式
-    print(json_data)  # 输出 JSON 数据
+    data = scrape_data(city, url)  # 調用 scrape_data 函數獲取資料
+    json_data = json.dumps(data, ensure_ascii=False, separators=(',', ':'))  # 單行 JSON 格式輸出
+    print(json_data)  # 輸出 JSON 資料
 
 if __name__ == "__main__":
     main()

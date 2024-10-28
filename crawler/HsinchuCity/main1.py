@@ -24,7 +24,7 @@ def scrape_data(city, url):
             if 'href' in a_tag.attrs:
                 link_url = a_tag["href"]
                 if not link_url.startswith("http"):  # 處理相對 URL
-                    link_url = f"https://social.hsinchu.gov.tw/Default.aspx"
+                    link_url = f"https://society.hccg.gov.tw/ch/home.jsp?id=73&parentpath=0,2,12"+a_tag["href"]
                 title = a_tag.get_text(strip=True)
                 results.append({"city":city,"url": link_url, "title": title})
         
