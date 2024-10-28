@@ -1,6 +1,6 @@
 <template>
   <nav class=" bg-gray-50">
-    <ul class="flex justify-around items-center p-4">
+    <ul class="flex justify-around items-center">
       <li>
         <router-link to="/ai" class="flex flex-col items-center text-center">
           <PhRobot

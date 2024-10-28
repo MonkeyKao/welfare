@@ -31,7 +31,7 @@
 
       <Transition>
         <div v-if="showServiceDropdown"
-          class="fixed flex flex-col gap-3 w-1/3 bor bg-white rounded-md border border-gray-300 p-3">
+          class="fixed flex flex-col gap-3 overflow-auto w-1/3 bor bg-white rounded-md border border-gray-300 p-3">
           <span v-for="service in services" class="text-xl font-bold" :key="service" @click="selectService(service)">{{
             service }}</span>
         </div>

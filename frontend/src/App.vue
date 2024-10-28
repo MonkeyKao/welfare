@@ -7,13 +7,13 @@ const route = useRoute(); // 獲取當前路由
 
 <template>
   <!-- 渲染當前頁面 -->
-  <div class=" overflow-y-auto h-full flex flex-col">
+  <div class=" overflow-y-auto h-full flex flex-col justify-between">
 
-    <div class=" overflow-auto basis-11/12">
+    <div class="overflow-auto">
       <RouterView />
     </div>
 
-    <div class="basis-1/12" v-if="
+    <div class="flex flex-col-reverse h-20" v-if="
       ![
         'LoginPage',
         'RegisterPage',
