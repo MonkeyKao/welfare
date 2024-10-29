@@ -33,44 +33,19 @@
 import request from "@/axios";
 import router from "@/router";
 import { ref } from "vue";
-const contact = ref("");
 const verificationCode = ref<number>(0);
 
 const sendVerificationCode = async (verificationCode: number) => {
-  const headers = { 'UserID': localStorage.getItem("s") };
   try {
-    const result = await request.get("/users/verify/" + verificationCode, { headers });
-    localStorage.removeItem("s")
-    localStorage.setItem("token", result.data.msg);
+    const result = await request.get("/users/verify/" + verificationCode);
+    localStorage.setItem("token",result.data.msg)
     router.push("create-profile")
-  } catch {
-    console.log("有問題");
-
+  } catch (err:any) {
+    alert(err.response.data.error)
   }
-
-
-
 
 };
 
-const verifyCode = async () => {
-  try {
-    const response = await fetch("/api/verify-code", {
-      method: "POST",
-      body: JSON.stringify({
-        contact: contact.value,
-        code: verificationCode.value,
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    const result = await response.json();
-    console.log(result.message);
-  } catch (error) {
-    console.error("驗證碼驗證時發生錯誤:", error);
-  }
-};
 </script>
 <style scoped>
 /* 固定 header 區域 */

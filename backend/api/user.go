@@ -3,10 +3,12 @@ package api
 import (
 	"fmt"
 	"net/http"
+	"time"
 
 	//"fmt"
 	"walfare/models"
 	"walfare/services"
+	"walfare/utils"
 
 	"github.com/gin-gonic/gin"
 )
@@ -36,23 +38,41 @@ func RegisterHandler(c *gin.Context) {
 	form := models.User{}
 
 	if err := c.ShouldBindBodyWithJSON(&form); err != nil {
-		c.IndentedJSON(http.StatusOK, err.Error())
+		c.IndentedJSON(http.StatusBadRequest, err.Error())
 		return
 	}
 
-	if err := services.Register(&form); err != nil {
-		c.IndentedJSON(http.StatusOK, err.Error())
+	token, err := services.Register(&form)
+	if err != nil {
+		c.IndentedJSON(http.StatusBadRequest, err.Error())
 		return
 	}
 
-	c.IndentedJSON(http.StatusOK, form.ID)
+	c.IndentedJSON(http.StatusOK, gin.H{"msg": token})
+}
+
+func VerifyEmailHandler(c *gin.Context) {
+	token := c.Request.Header.Get("token")
+	code := c.Param("id")
+	fmt.Printf("token:%s", token)
+	fmt.Println(code)
+
+	userId, err := services.VerifyEmail(code, token)
+	if err != nil {
+		c.IndentedJSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	const TokenExpireDuration = time.Hour * 24 * 30 * 12 * 30
+	newToken, _ := utils.GenerateToken(userId, "", TokenExpireDuration)
+
+	c.IndentedJSON(http.StatusOK, gin.H{"msg": newToken})
 }
 
 // UpdateuserHandler 处理用户更新请求
 func UpdateuserHandler(c *gin.Context) {
 	// 从上下文中获取用户 ID
 	userID := c.GetUint("UserID")
-	fmt.Print(userID)
 
 	// 定义一个 map 用于接收更新数据
 	var form models.User

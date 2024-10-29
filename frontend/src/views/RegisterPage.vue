@@ -32,11 +32,11 @@
         </div>
 
         <div class="mt-5 mx-10">
-          <router-link to="/verify">
-            <button @click="registerHandler(user)"
-              class="w-full bg-[#90c700] text-white font-bold text-2xl py-3 rounded shadow-md" type="button">
-              創建
-            </button></router-link>
+
+          <button @click="registerHandler(user)"
+            class="w-full bg-[#90c700] text-white font-bold text-2xl py-3 rounded shadow-md" type="button">
+            創建
+          </button>
         </div>
         <div class="  ">
           <div class="flex items-center mt-44">
@@ -59,6 +59,7 @@
 
 <script setup lang="ts">
 import request from "@/axios";
+import router from "@/router";
 import {
   PhEnvelopeSimple,
   PhEyeClosed,
@@ -78,9 +79,17 @@ class form {
 const user = ref<form>(new form());
 
 const registerHandler = async (user: form) => {
-  const json = JSON.stringify(user);
-  const result = await request.post("/users/register", json)
-  localStorage.setItem("s", result.data)
+  try {
+    const json = JSON.stringify(user);
+    const result = await request.post("/users/register", json)
+    console.log(result.data.msg);
+    
+    localStorage.setItem("token", result.data.msg)
+    router.push("verify")
+  } catch (error:any) {
+    alert(error.response.data)
+  }
+
 
 }
 
