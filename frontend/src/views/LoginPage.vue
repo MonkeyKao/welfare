@@ -5,9 +5,9 @@
     <img v-else src="../images/password.jpg" />
   </header>
 
-  <main class="flex-grow flex items-center justify-center">
+  <body>
     <!-- Flexbox 居中表单 -->
-    <form class="flex flex-col justify-center text-center w-full max-w-sm">
+    <form class="flex flex-col w-full h-full px-10 gap-5">
       <!-- 限制最大宽度 -->
       <label class="text-4xl font-bold my-3">Login</label>
       <div
@@ -104,7 +104,7 @@
         </div>
       </div>
     </form>
-  </main>
+  </body>
 </template>
 
 <script setup lang="ts">

@@ -4,38 +4,33 @@
     <img src="/forgetpassword.jpg" class="w-full" />
   </header>
   <body>
-    <router-link to="/" class="forgot-password-link"
+    <router-link to="/login"
       ><PhArrowUUpLeft :size="32" color="#4d4d4d" class="ml-5"
     /></router-link>
-    <form class="flex flex-col justify-center text-center">
+    <form class="flex flex-col w-full h-full px-10 gap-5">
       <label class="text-3xl font-bold">忘記密碼</label>
-      <div
-        class="flex items-center border-2 rounded-md px-3 mx-10 shadow-md mt-4"
-      >
-        <PhEnvelopeSimple :size="32" color="#4d4d4d" />
-        <input
-          class="flex-1 p-2 focus:outline-none"
-          type="email"
-          placeholder="信箱"
-        />
+      <div class="flex w-full border-2 rounded-md shadow-md p-3 items-center">
+        <PhEnvelopeSimple :size="32" color="#4d4d4d" class="flex-shrink-0" />
+        <input type="email" placeholder="信箱" class="ml-2" />
       </div>
 
-      <div
-        class="flex items-center border-2 rounded-md px-3 mx-10 shadow-md mt-4"
-      >
-        <PhShieldCheck :size="32" color="#4d4d4d" />
+      <div class="flex w-full border-2 rounded-md shadow-md p-3 items-center">
+        <PhShieldCheck :size="32" color="#4d4d4d" class="flex-shrink-0" />
         <input
-          class="flex-1 p-2 focus:outline-none"
+          class="mx-2 min-w-0"
           type="password"
           v-model="verificationCode"
           placeholder="驗證碼"
         />
-        <button @click="sendVerificationCode" class="text-[#92c700]">
+        <button
+          @click="sendVerificationCode"
+          class="flex text-lg text-[#92c700] border-l-2 border-[#92c700] whitespace-nowrap px-2"
+        >
           發送驗證碼
         </button>
       </div>
 
-      <div class="mt-5 mx-10">
+      <div>
         <router-link to="/reset-password" class="forgot-password-link"
           ><button
             class="w-full bg-[#90c700] text-white font-bold text-2xl py-3 rounded shadow-md"
@@ -94,48 +89,3 @@ const verifyCode = async () => {
   }
 };
 </script>
-<style scoped>
-/* 固定 header 區域 */
-header.img {
-  width: 100%; /* 讓圖片填滿 header */
-  display: block; /* 移除任何潛在的空白間隙 */
-}
-
-.form-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center; /* 水平置中 */
-  margin-top: 20px; /* 與圖片間距 */
-  text-align: center;
-}
-.inputbox {
-  display: flex;
-  justify-content: center; /* 水平置中 */
-  margin-top: 20px; /* 與標題之間的垂直間距 */
-}
-
-/* Input 樣式 */
-.input {
-  margin-top: 20px; /* 與標題之間的垂直間距 */
-  border-radius: 0.25rem; /* 圓角 */
-  padding: 0.5rem 1rem; /* 內距，確保文字不靠近邊緣 */
-  color: #4a5568; /* 文字顏色 */
-  line-height: 1.25; /* 行高，讓內容更緊湊 */
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* 陰影效果 */
-}
-
-.button {
-  /* 背景色和文字色 */
-  background-color: #90c700; /* 對應 bg-purple-500 */
-  color: #ffffff; /* 對應 text-white */
-
-  /* 字體與按鈕外觀 */
-  font-weight: bold; /* 對應 font-bold */
-  padding: 0.5rem 1rem; /* 對應 py-2 px-4 */
-  border-radius: 0.25rem; /* 對應 rounded */
-
-  /* 陰影 */
-  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1), 0px 1px 2px rgba(0, 0, 0, 0.06); /* 對應 shadow */
-  outline: none; /* 對應 focus:outline-none */
-}
-</style>
