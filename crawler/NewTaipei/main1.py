@@ -56,9 +56,14 @@ def scrape_data(city, url):
         for div_list_2 in detail_soup:
             a_list = div_list_2.find_all("a")
             for a in a_list:
-                url = "https://www.sw.ntpc.gov.tw/" + a["href"]
                 title = a["title"]
-                
+                href = a["href"]
+                if "(開啟新視窗)" in title:
+                    title = title.replace("(開啟新視窗)", "")
+                    url = "https://www.sw.ntpc.gov.tw/" + href + "（在新窗口打开）"
+                else:
+                    url = "https://www.sw.ntpc.gov.tw/" + href
+            
                 # 匹配種類編號
                 categories = match_category(title)
                 

@@ -2,7 +2,7 @@
   <div class="p-3 flex flex-col gap-2">
     <p class=" text-[#7F8689] text-sm">{{ data.city }} / {{ getTextByService(data.category) }}</p>
     <div class="flex items-center">
-      <p @click="goToUrl(data.detailLink)" class="text-base font-semibold basis-3/4">{{ data.title }}</p>
+      <p @click="goToUrl(data.url)" class="text-base font-semibold basis-3/4">{{ data.title }}</p>
       <div class="basis-1/4 flex flex-row-reverse mr-3">
         <PhHeartStraight :size="30" :weight="isFavorited ? 'fill' : 'regular'" @click="toggleFavorite" />
       </div>
