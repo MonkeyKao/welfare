@@ -1,64 +1,112 @@
+
 import AiPage from "@/views/AiPage.vue";
-import CreateProfilePage from "@/views/CreateProfilePage.vue";
-import FamilyPage from "@/views/FamilyPage.vue";
-import ForgetPasswordPage from "@/views/ForgetPasswordPage.vue";
 import HomePage from "@/views/HomePage.vue";
 import LikePage from "@/views/LikePage.vue";
-import LinkAccountPage from "@/views/LinkAccountPage.vue";
-import LoginPage from "@/views/LoginPage.vue";
-import NotifyPage from "@/views/NotifyPage.vue";
-import PersonalDataPage from "@/views/PersonalDataPage.vue";
-import QAPage from "@/views/QAPage.vue";
-import RegisterPage from "@/views/RegisterPage.vue";
-import ResetPasswordPage from "@/views/ResetPasswordPage.vue";
-import Settings from "@/views/SettingsPage.vue";
+import CreateProfilePage from "@/views/Login/CreateProfilePage.vue";
+import ForgetPasswordPage from "@/views/Login/ForgetPasswordPage.vue";
+import LoginPage from "@/views/Login/LoginPage.vue";
+import RegisterPage from "@/views/Login/RegisterPage.vue";
+import ResetPasswordPage from "@/views/Login/ResetPasswordPage.vue";
+import VerifyPage from "@/views/Login/VerifyPage.vue";
+import EditPersonalDataPage from "@/views/User/EditPersonalDataPage.vue";
+import FamilyPage from "@/views/User/FamilyPage.vue";
+import LinkAccountPage from "@/views/User/LinkAccountPage.vue";
+import PersonalDataPage from "@/views/User/PersonalDataPage.vue";
+import QAPage from "@/views/User/QAPage.vue";
+import SettingsPage from "@/views/User/SettingsPage.vue";
 import UserPage from "@/views/UserPage.vue";
-import VerifyPage from "@/views/VerifyPage.vue";
+import { createRouter, createWebHistory, RouterView, type RouteRecordRaw } from "vue-router";
 
-import EditPersonalDataPage from "@/views/EditPersonalDataPage.vue";
-import { createRouter, createWebHistory } from "vue-router";
-const routes = [
+const routes: Array<RouteRecordRaw> = [
   {
     path: "/",
-    name: "Home", // 可以用來顯示首頁或重定向
     redirect: "/home", // 重定向到登入頁
-    meta: { needLogin: true },
-  },
-  {
-    path: "/login",
-    name: "LoginPage",
-    component: LoginPage,
     meta: { needLogin: false },
   },
   {
-    path: "/forgot-password",
-    name: "ForgetPasswordPage",
-    component: ForgetPasswordPage,
-    meta: { needLogin: false },
+    path: "/account",
+    children: [
+      {
+        path: "login",
+        name: "LoginPage",
+        component: LoginPage,
+        meta: { needLogin: false },
+      },
+      {
+        path: "forgot-password",
+        name: "ForgetPasswordPage",
+        component: ForgetPasswordPage,
+        meta: { needLogin: false },
+      },
+      {
+        path: "reset-password",
+        name: "ResetPasswordPage",
+        component: ResetPasswordPage,
+        meta: { needLogin: false },
+      },
+      {
+        path: "register",
+        name: "RegisterPage",
+        component: RegisterPage,
+        meta: { needLogin: false },
+      },
+      {
+        path: "verify",
+        name: "VerifyPage",
+        component: VerifyPage,
+        meta: { needLogin: false },
+      },
+      {
+        path: "create-profile",
+        name: "CreateProfilePage",
+        component: CreateProfilePage,
+        meta: { needLogin: false },
+      },
+    ],
+    component:RouterView 
   },
   {
-    path: "/reset-password",
-    name: "ResetPasswordPage",
-    component: ResetPasswordPage,
-    meta: { needLogin: false },
-  },
-  {
-    path: "/register",
-    name: "RegisterPage",
-    component: RegisterPage,
-    meta: { needLogin: false },
-  },
-  {
-    path: "/verify",
-    name: "VerifyPage",
-    component: VerifyPage,
-    meta: { needLogin: false },
-  },
-  {
-    path: "/create-profile",
-    name: "CreateProfilePage",
-    component: CreateProfilePage,
-    meta: { needLogin: false },
+    path: "/user",
+    name: "UserPage",
+    component: UserPage,
+    children: [
+      {
+        path: "settings",
+        name: "Settings",
+        component: SettingsPage,
+        meta: { needLogin: false },
+      },
+      {
+        path: "edit-personal-data",
+        name: "EditPersonalDataPage",
+        component: EditPersonalDataPage,
+        meta: { needLogin: true },
+      },
+      {
+        path: "qa",
+        name: "QAPage",
+        component: QAPage,
+        meta: { needLogin: false },
+      },
+      {
+        path: "personal-data",
+        name: "PersonalDataPage",
+        component: PersonalDataPage,
+        meta: { needLogin: true },
+      },
+      {
+        path: "family",
+        name: "FamilyPage",
+        component: FamilyPage,
+        meta: { needLogin: true },
+      },
+      {
+        path: "link-account",
+        name: "LinkAccountPage",
+        component: LinkAccountPage,
+        meta: { needLogin: true },
+      },
+    ],
   },
   {
     path: "/home",
@@ -73,48 +121,6 @@ const routes = [
     meta: { needLogin: false },
   },
   {
-    path: "/settings",
-    name: "Settings",
-    component: Settings,
-    meta: { needLogin: false },
-  },
-  {
-    path: "/qa",
-    name: "QAPage",
-    component: QAPage,
-    meta: { needLogin: false },
-  },
-  {
-    path: "/user",
-    name: "UserPage",
-    component: UserPage,
-    meta: { needLogin: false },
-  },
-  {
-    path: "/personal-data",
-    name: "PersonalDataPage",
-    component: PersonalDataPage,
-    meta: { needLogin: true },
-  },
-  {
-    path: "/edit-personal-data",
-    name: "EditPersonalDataPage",
-    component: EditPersonalDataPage,
-    meta: { needLogin: true },
-  },
-  {
-    path: "/family",
-    name: "FamilyPage",
-    component: FamilyPage,
-    meta: { needLogin: true },
-  },
-  {
-    path: "/link-account",
-    name: "LinkAccountPage",
-    component: LinkAccountPage,
-    meta: { needLogin: true },
-  },
-  {
     path: "/favorites",
     name: "LikePage",
     component: LikePage,
@@ -123,10 +129,11 @@ const routes = [
   {
     path: "/notifications",
     name: "NotifyPage",
-    component: NotifyPage,
+    component: Notification,
     meta: { needLogin: true },
   },
 ];
+
 const router = createRouter({
   history: createWebHistory(),
   routes,
