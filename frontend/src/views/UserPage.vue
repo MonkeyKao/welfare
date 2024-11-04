@@ -13,13 +13,13 @@
       </div>
 
 
-      <div class="hidden">
-        <router-link v-if="user" to="/login" class="forgot-password-link"><button
+      <div>
+        <router-link v-if="user" to="/account/login" class="forgot-password-link"><button
             class="w-full bg-[#90c700] text-white font-bold text-2xl py-3 rounded shadow-md" type="button"
             @click="logoutHandler">
             登出
           </button></router-link>
-        <router-link v-else to="/login" class="forgot-password-link"><button
+        <router-link v-else to="/account/login" class="forgot-password-link"><button
             class="w-full bg-[#90c700] text-white font-bold text-2xl py-3 rounded shadow-md" type="button">
             登入
           </button></router-link>
@@ -36,10 +36,9 @@
 </template>
 
 <script setup lang="ts">
-import request from "@/axios";
 import Avatar from "@/components/Avatar.vue";
-import User from "@/model/user";
 import router from "@/router";
+import { useUserStore } from "@/store/userStroe";
 import {
   PhGear,
   PhLink,
@@ -47,14 +46,16 @@ import {
   PhUserCircle,
   PhUsersThree,
 } from "@phosphor-icons/vue";
-import { onMounted, ref } from "vue";
+import { computed } from "vue";
 
+const userStroe = useUserStore();
+const user = computed(() => userStroe.user)
 const menuItems = [
-  { path: "/personal-data", label: "個人資料", icon: PhUserCircle },
-  { path: "/link-account", label: "連結帳戶", icon: PhLink },
-  { path: "/family", label: "家庭", icon: PhUsersThree },
-  { path: "/settings", label: "設定", icon: PhGear },
-  { path: "/qa", label: "常見問題", icon: PhQuestion },
+  { path: "/user/personal-data", label: "個人資料", icon: PhUserCircle },
+  { path: "/user/link-account", label: "連結帳戶", icon: PhLink },
+  { path: "/user/family", label: "家庭", icon: PhUsersThree },
+  { path: "/user/settings", label: "設定", icon: PhGear },
+  { path: "/user/qa", label: "常見問題", icon: PhQuestion },
 ]
 
 const logoutHandler = () => {
@@ -62,13 +63,7 @@ const logoutHandler = () => {
   router.push("/login")
 }
 
-const user = ref<User>()
 
-onMounted(async () => {
-  const result = await request.get("users");
-  user.value = result.data
-
-})
 </script>
 
 <style scoped>

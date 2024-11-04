@@ -11,32 +11,18 @@
   </div>
 </template>
 
-<script setup>
-import { ref, onMounted } from 'vue';
+<script setup lang="ts">
+import { ref, onMounted, computed } from 'vue';
 import TopNav from '@/components/TopNav.vue';
 import HomeInsideText from '@/components/HomeInsideText.vue';
 import request from '@/axios';
+import { useWelfareStore } from '@/store/welfareStroe';
 
-const welfareData = ref([]); // 定義響應式數據
-
-const getWelfare = async () => {
-  try {
-    const result = await request.get("/welfare"); // 發送請求
-    welfareData.value = result.data; // 存儲數據
-    console.log(result.data);
-
-  } catch (error) {
-    console.error("error", error); // 處理錯誤
-  }
-};
-
-onMounted(() => {
-  getWelfare(); // 在組件掛載後調用函數
-});
-
+const welfareStore = useWelfareStore()
+const welfareData = computed(() => welfareStore.welfares)
 
 </script>
 
 <style scoped>
-/* 可選樣式 */
+
 </style>

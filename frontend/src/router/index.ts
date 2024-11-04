@@ -66,47 +66,46 @@ const routes: Array<RouteRecordRaw> = [
     component:RouterView 
   },
   {
+    path: "/user/settings",
+    name: "Settings",
+    component: SettingsPage,
+    meta: { needLogin: false },
+  },
+  {
+    path: "/user/edit-personal-data",
+    name: "EditPersonalDataPage",
+    component: EditPersonalDataPage,
+    meta: { needLogin: true },
+  },
+  {
+    path: "/user/qa",
+    name: "QAPage",
+    component: QAPage,
+    meta: { needLogin: false },
+  },
+  {
+    path: "/user/personal-data",
+    name: "PersonalDataPage",
+    component: PersonalDataPage,
+    meta: { needLogin: true },
+  },
+  {
+    path: "/user/family",
+    name: "FamilyPage",
+    component: FamilyPage,
+    meta: { needLogin: true },
+  },
+  {
+    path: "/user/link-account",
+    name: "LinkAccountPage",
+    component: LinkAccountPage,
+    meta: { needLogin: true },
+  },
+  // 最后定义父路径
+  {
     path: "/user",
     name: "UserPage",
     component: UserPage,
-    children: [
-      {
-        path: "settings",
-        name: "Settings",
-        component: SettingsPage,
-        meta: { needLogin: false },
-      },
-      {
-        path: "edit-personal-data",
-        name: "EditPersonalDataPage",
-        component: EditPersonalDataPage,
-        meta: { needLogin: true },
-      },
-      {
-        path: "qa",
-        name: "QAPage",
-        component: QAPage,
-        meta: { needLogin: false },
-      },
-      {
-        path: "personal-data",
-        name: "PersonalDataPage",
-        component: PersonalDataPage,
-        meta: { needLogin: true },
-      },
-      {
-        path: "family",
-        name: "FamilyPage",
-        component: FamilyPage,
-        meta: { needLogin: true },
-      },
-      {
-        path: "link-account",
-        name: "LinkAccountPage",
-        component: LinkAccountPage,
-        meta: { needLogin: true },
-      },
-    ],
   },
   {
     path: "/home",
@@ -144,7 +143,7 @@ router.beforeEach((to, from) => {
     if (localStorage.getItem("token")) {
       return true;
     } else {
-      router.push("/login");
+      router.push("/account/login");
       return false;
     }
   } else {

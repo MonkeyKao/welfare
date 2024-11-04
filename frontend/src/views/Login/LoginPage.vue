@@ -1,8 +1,8 @@
 <template>
   <!-- 固定定位的 header，確保圖片維持在最上方 -->
   <header>
-    <img v-if="!doingPw" src="../images/login.jpg" />
-    <img v-else src="../images/password.jpg" />
+    <img v-show="!doingPw" src="../../images/login.jpg" />
+    <img v-show="doingPw" src="../../images/password.jpg" />
   </header>
 
   <main class="flex-grow flex items-center justify-center"> <!-- Flexbox 居中表单 -->
@@ -78,6 +78,7 @@
 <script setup lang="ts">
 import request from "@/axios";
 import router from "@/router";
+import { useUserStore } from "@/store/userStroe";
 import {
   PhEye,
   PhEyeClosed,
@@ -89,6 +90,8 @@ import {
   PhCheckSquare,
 } from "@phosphor-icons/vue";
 import { ref } from "vue";
+
+const userStroe = useUserStore()
 class form {
   account: string = "";
   password: string = "";
@@ -99,13 +102,15 @@ const loginHandler = async (user: form) => {
   try{
     const result = await request.post("users/doLogin", JSON.stringify(user))
     localStorage.setItem(result.data.tokenName, result.data.tokenValue)
-
-  } catch(err) {
-    console.log("123");
+    await userStroe.fetchUser();
+    router.push("/home")
+  } catch(err:any) {
+    alert(err.response.data.error)
+    
     return
   }
 
-  router.push("/home")
+  
 
 }
 

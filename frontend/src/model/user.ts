@@ -1,7 +1,7 @@
 export default class User {
     _id: number;
     account: string;
-    name!: string;
+    name: string;
     password: string;
     birthday: Date;
     female: number; 
@@ -9,15 +9,14 @@ export default class User {
     email: string;
 
     constructor(
-        _id: number,
-        account: string,
-        name: string,
-        password: string,
-        salt: string,
-        birthday: Date,
-        female: number,
-        location: number,
-        email: string
+        _id: number = 0,
+        account: string = "",
+        name: string = "",
+        password: string = "",
+        birthday: Date = new Date(),
+        female: number = 0,
+        location: number = 0,
+        email: string = ""
     ) {
         this._id = _id;
         this.account = account;
