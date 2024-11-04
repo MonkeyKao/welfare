@@ -12,7 +12,7 @@
 </template>
 
 <script setup lang="ts">
-import { getTextByLocation, getTextByService } from '@/utils/getTextByNumber';
+import { getTextByService } from '@/utils/getTextByNumber';
 import { PhHeartStraight } from '@phosphor-icons/vue';
 import { ref } from 'vue';
 

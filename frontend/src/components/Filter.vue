@@ -6,34 +6,36 @@
 
       <div class="flex flex-col">
         <div @click="toggleRegionDropdown" class="flex">
-          <p class="text-l">{{ selectedRegion ? selectedRegion : "地區" }}</p>
+          <p class="text-l">地區</p>
           <PhCaretDown :size="20" class="menu ml-1 transition-transform"
             :class="{ 'rotate-180': showRegionDropdown }" />
         </div>
 
         <transition>
           <div v-if="showRegionDropdown"
-            class="fixed flex flex-col gap-3 w-1/3 bor bg-white rounded-md border border-gray-300 p-3">
-            <span v-for="region in regions" class=" text-xl font-bold" :key="region" @click="selectRegion(region)">
-              {{ region }}</span>
+            class="fixed flex flex-col w-1/2 overflow-auto max-h-96 z-10 bg-white rounded-md border border-gray-300 p-3">
+            <span class="text-xl font-bold p-2 active">全選</span>
+            <span v-for="region in 19" class="text-xl font-bold p-2" :class="{active:getRegionActive(region)}" :key="region" @click="selectRegion(region)">
+              {{ getTextByLocation(region) }}</span>
           </div>
         </transition>
-
       </div>
 
 
 
       <div class="flex items-center" @click="toggleServiceDropdown">
-        <p class="text-l">{{ selectedService ? selectedService : "服務" }}</p>
+        <p class="text-l">服務</p>
         <PhCaretDown :size="20" class="menu ml-1 transition-transform" :class="{ 'rotate-180': showServiceDropdown }" />
       </div>
 
 
       <Transition>
         <div v-if="showServiceDropdown"
-          class="fixed flex flex-col gap-3 overflow-auto w-1/3 bor bg-white rounded-md border border-gray-300 p-3">
-          <span v-for="service in services" class="text-xl font-bold" :key="service" @click="selectService(service)">{{
-            service }}</span>
+          class="fixed flex flex-col gap-3 z-10 overflow-auto max-h-96 w-1/2 bor bg-white rounded-md border border-gray-300 p-3">
+          <span class="text-xl font-bold p-2 active">全選</span>
+          <span v-for="service in 39" class="text-xl font-bold p-2" :key="service"  :class="{active:getServiceActive(service)}"  @click="selectService(service)">
+            {{ getTextByService(service) }}
+          </span>
         </div>
       </Transition>
 
@@ -47,64 +49,63 @@
 
   </div>
 
+  <!-- 下拉選單遮罩用 -->
+  <div v-if="showRegionDropdown||showServiceDropdown" class=" h-screen w-screen bg-slate-300 fixed top-0 left-0 z-5 opacity-0 " @click="toggleDropdown"></div>
+
 </template>
 
-<script>
+<script setup lang="ts">
+import { getTextByLocation, getTextByService } from '@/utils/getTextByNumber';
 import { PhCaretDown, PhHourglass } from '@phosphor-icons/vue';
+import { ref } from 'vue';
+let showRegionDropdown = ref<boolean>(false);
+let showServiceDropdown = ref<boolean>(false);
 
-export default {
-  components: {
-    PhCaretDown,
-    PhHourglass,
-  },
-  data() {
-    return {
-      showRegionDropdown: false,
-      showServiceDropdown: false,
-      selectedRegion: null,
-      selectedService: null,
-      regions: ['全選', '台北市', '新北市', '桃園市', '新竹市', '新竹縣', '苗栗縣', '台中市', '彰化縣', '南投縣', '雲林縣', '嘉義縣', '嘉義市', '台南市', '高雄市', '屏東縣', '基隆市'], // 根據需要替換
-      services: [
-        '全選',
-        '育兒津貼',
-        '托育補助',
-        '孕婦補助',
-        '單親家庭津貼',
-        '學費減免',
-        '獎助學金',
-        '特殊教育支援',
-        '低收入戶子女教育補助',
-        '醫療補助',
-        '長照補助',
-        '精神健康補助',
-        '老人年金'], // 根據需要替換
-    };
-  },
-  methods: {
-    toggleRegionDropdown() {
-      this.showRegionDropdown = !this.showRegionDropdown; // 切換狀態
-      if (this.showRegionDropdown) {
-        this.showServiceDropdown = false; // 關閉服務下拉選單
-      }
-    },
-    toggleServiceDropdown() {
-      this.showServiceDropdown = !this.showServiceDropdown; // 切換狀態
-      if (this.showServiceDropdown) {
-        this.showRegionDropdown = false; // 關閉地區下拉選單
-      }
-    },
-    selectRegion(region) {
-      this.selectedRegion = region;
-      console.log(region);
+const selectedRegion = ref<Array<number>>([])
+const selectedService = ref<Array<number>>([])
 
-      this.showRegionDropdown = false; // 選擇後關閉下拉選單
-    },
-    selectService(service) {
-      this.selectedService = service;
-      this.showServiceDropdown = false; // 選擇後關閉下拉選單
-    },
-  },
-};
+const toggleRegionDropdown = () => {
+  showRegionDropdown.value = !showRegionDropdown.value; // 切換狀態
+  if (showRegionDropdown.value) {
+    showServiceDropdown.value = false; // 關閉服務下拉選單
+  }
+}
+const toggleServiceDropdown = () => {
+  showServiceDropdown.value = !showServiceDropdown.value; // 切換狀態
+  if (showServiceDropdown.value) {
+    showRegionDropdown.value = false; // 關閉地區下拉選單
+  }
+}
+const selectRegion = (region: number) => {
+  const index: number = selectedRegion.value.indexOf(region)
+  if (index === -1) {
+    selectedRegion.value.push(region)
+  }else{
+    selectedRegion.value.splice(index,1);
+  }
+}
+
+const getRegionActive = (region: number):boolean => {
+  return selectedRegion.value.indexOf(region) !== -1
+}
+
+const selectService = (service: number) => {
+  const index: number = selectedService.value.indexOf(service)
+  if (index === -1) {
+    selectedService.value.push(service)
+  }else{
+    selectedService.value.splice(index,1);
+  }
+}
+
+const getServiceActive = (region: number):boolean => {
+  return selectedService.value.indexOf(region) !== -1
+}
+
+const toggleDropdown = () => {
+  showRegionDropdown.value = false
+  showServiceDropdown.value = false
+}
 </script>
 
 <style scoped>
@@ -123,5 +124,15 @@ export default {
 .v-leave-to {
   transform: translateY(-20px);
   opacity: 0;
+}
+
+.active:after {
+  content: "✔";
+  position: absolute;
+  right: 10px;
+}
+
+.active {
+  color: brown;
 }
 </style>

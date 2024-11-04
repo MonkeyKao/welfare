@@ -24,7 +24,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { PhHeartStraight, PhBell, PhMagnifyingGlass } from '@phosphor-icons/vue';
 import Filter from './Filter.vue';
 
