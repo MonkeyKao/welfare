@@ -1,7 +1,9 @@
 package api
 
 import (
+	"encoding/json"
 	"net/http"
+	"os"
 	"walfare/models"
 
 	//"fmt"
@@ -22,9 +24,15 @@ func GetQAHandler(c *gin.Context) {
 		Answer   string
 	}
 
-	qaList := []QA{
-		{Id: 1, Question: "What is the capital of France?", Answer: "Paris"},
-		{Id: 2, Question: "What is 2 + 2?", Answer: "4"},
+	fileData, _ := os.ReadFile("../../QA.json")
+	jsonStr := string(fileData)
+
+	var qaList []QA
+	err := json.Unmarshal([]byte(jsonStr), &qaList)
+
+	if err != nil {
+		c.IndentedJSON(http.StatusBadGateway, gin.H{"error": err})
+		return
 	}
 
 	c.IndentedJSON(http.StatusOK, qaList)

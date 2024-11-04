@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"strings"
 )
 
 type Data struct {
@@ -45,13 +46,13 @@ func ParseData(jsonStr string) []Welfare {
 }
 
 func GetWelfares() []Welfare {
-	fmt.Println(os.Getwd())
-	fileData, err := os.ReadFile("C:\\flutter\\welfare\\backend\\cmd\\data.json")
+	originalPath, _ := os.Getwd()
+	fixedPart := "backend\\cmd"
+	index := strings.Index(originalPath, fixedPart)
+	newPath := originalPath[:index]
+	newPath = fmt.Sprintf("%s\\data.json", newPath)
 
-	if err != nil {
-		fmt.Println("Error reading file:", err)
-
-	}
+	fileData, _ := os.ReadFile(newPath)
 
 	jsonStr := string(fileData)
 
