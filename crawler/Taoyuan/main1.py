@@ -1,46 +1,40 @@
-import json
-import sys
-import time
-import random
-from bs4 import BeautifulSoup
-import requests
+from requests_html import HTMLSession
 
 def scrape_data(city, url):
-    headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.121 Safari/537.36"
-    }
+    session = HTMLSession()
+    r = session.get(url)
+    about = r.html.find(".content-list a")
+    results = []
+    for item in about:
 
-    try:
-        # 模擬瀏覽器請求並添加隨機延遲
-        time.sleep(random.uniform(2, 5))
-        res = requests.get(url, headers=headers)
-        res.encoding = 'gbk'
-        res.encoding = 'utf-8'
-        
-        soup = BeautifulSoup(res.text, "html.parser").find_all("a")[21:39]  # 取第 21 到 45 筆資料
+        r = session.get("https://sab.tycg.gov.tw/"+item.attrs["href"])
+        about = r.html.find(".content-list a")
+        if len(about) == 0:
+            about = r.html.find("td a")
+            for temp2 in about:
+                if "https" in temp2.attrs['href']:
+                    url = temp2.attrs['href']
+                else:
+                    url = "https://sab.tycg.gov.tw/" + temp2.attrs['href']
+            
+                results.append({"category": [1], "city": city, "url": url, "title": temp2.attrs['title']})
+            
+        for temp in about:
+            r = session.get("https://sab.tycg.gov.tw/"+temp.attrs["href"])
+            about = r.html.find("td a")
+            
+            for temp2 in about:
+                if "https" in temp2.attrs['href']:
+                    url = temp2.attrs['href']
+                else:
+                    url = "https://sab.tycg.gov.tw/" + temp2.attrs['href']
+            
+                results.append({"category": [1], "city": city, "url": url, "title": temp2.attrs['title']})
+    session.close()
+    return results
 
-        results = []
-        for a_tag in soup:
-            if 'href' in a_tag.attrs:
-                link_url = a_tag["href"]
-                if not link_url.startswith("http"):  # 處理相對 URL
-                    link_url = f"https://sab.tycg.gov.tw/cl.aspx?n=7313"+a_tag["href"]
-                title = a_tag.get_text(strip=True)
-                results.append({"url": link_url, "title": title})
-        
-        return results
-    
-    except requests.exceptions.RequestException as e:
-        print(f"RequestException: {e}")
-        return []
-
-def main():
-    city = sys.argv[1]
-    url = sys.argv[2]
-
-    data = scrape_data(city, url)  # 调用 scrape_data 函数获取数据
-    json_data = json.dumps(data, ensure_ascii=False, indent=4)  # 将数据转换为 JSON 格式
-    print(json_data)  # 输出 JSON 数据
+def main(city,url):
+    return  scrape_data(city, url)  # 调用 scrape_data 函数获取数据
 
 if __name__ == "__main__":
     main()
