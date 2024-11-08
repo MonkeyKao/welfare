@@ -4,9 +4,14 @@
       <TopNav @selectRegion="(regions) => selectedRegion = regions" @selectService="(services) => selectedService = services" />
     </div>
 
-    <div class="overflow-auto ">
+    <div class="overflow-auto">
       <!-- 根據 API 回應資料動態生成 HomeInsideText 元件 -->
-      <HomeInsideText @clickFavorited="(data) => { }" v-for="(item, index) in welfareData" :key="index" :data="item" />
+      <HomeInsideText
+        @clickFavorited="(data) => {}"
+        v-for="(item, index) in welfareData"
+        :key="index"
+        :data="item"
+      />
     </div>
   </div>
 </template>

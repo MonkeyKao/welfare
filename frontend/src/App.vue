@@ -14,29 +14,30 @@ welfareStore.fetchWelfare();
 
 <template>
   <!-- 渲染當前頁面 -->
-  <div class=" overflow-y-auto h-full flex flex-col justify-between">
-
+  <div class="overflow-y-auto h-full flex flex-col justify-between">
     <div class="overflow-auto">
       <RouterView />
     </div>
 
-    <div class="flex flex-col-reverse h-20" v-if="
-      ![
-        'LoginPage',
-        'RegisterPage',
-        'ForgetPasswordPage',
-        'ResetPasswordPage',
-        'CreateProfile',
-        'VerifyPage',
-        'LikePage',
-        'NotifyPage',
-      ].includes(route.name)
-    ">
+    <div
+      class="flex flex-col-reverse h-20"
+      v-if="
+        ![
+          'LoginPage',
+          'RegisterPage',
+          'ForgetPasswordPage',
+          'ResetPasswordPage',
+          'CreateProfile',
+          'VerifyPage',
+          'LikePage',
+          'NotifyPage',
+          'CreateProfilePage',
+        ].includes(route.name)
+      "
+    >
       <BottomNav />
     </div>
   </div>
-
-
 </template>
 
 <style scoped>
