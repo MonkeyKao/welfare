@@ -11,9 +11,9 @@ type User struct {
 	gorm.Model
 
 	Account  string    `json:"account"`
-	Password string    `json:"password"`
+	Password string    `json:"-"`
 	Name     string    `json:"name"`
-	Salt     string    `json:"salt"`
+	Salt     string    `json:"-"`
 	Birthday time.Time `json:"birthday"`
 	Female   int       `json:"female"`
 	Location int       `json:"location"`
@@ -26,6 +26,10 @@ func GetUserByID(user *User, id int) error {
 
 func GetUserByAccount(user *User, account string) error {
 	return database.DB.Table("Users").Where("account = ?", account).First(user).Error
+}
+
+func GetUserByEmail(user *User, email string) error {
+	return database.DB.Table("Users").Where("email = ?", email).First(user).Error
 }
 
 func CreateUser(user *User) error {

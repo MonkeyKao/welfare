@@ -42,14 +42,16 @@ import request from "@/axios";
 import router from "@/router";
 import { PhArrowUUpLeft, PhShieldCheck } from "@phosphor-icons/vue";
 import { ref } from "vue";
-const verificationCode = ref<number>(0);
+const verificationCode = ref<string>("");
 
-const sendVerificationCode = async (verificationCode: number) => {
+const sendVerificationCode = async (verificationCode: string) => {
   try {
-    const result = await request.get("/users/verify/" + verificationCode);
+    const result = await request.post("/users/verify",{"email":localStorage.getItem("email"),"code": verificationCode});
     localStorage.setItem("token",result.data.msg)
-    router.push("create-profile")
+    router.push("account/create-profile")
   } catch (err:any) {
+    console.log(err);
+    
     alert(err.response.data.error)
   }
 
