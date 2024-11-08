@@ -14,7 +14,6 @@
         <transition>
           <div v-if="showRegionDropdown"
             class="fixed flex flex-col w-1/2 overflow-auto max-h-96 z-10 bg-white rounded-md border border-gray-300 p-3">
-            <span class="text-xl font-bold p-2 active">全選</span>
             <span v-for="region in 19" class="text-xl font-bold p-2" :class="{active:getRegionActive(region)}" :key="region" @click="selectRegion(region)">
               {{ getTextByLocation(region) }}</span>
           </div>
@@ -32,7 +31,6 @@
       <Transition>
         <div v-if="showServiceDropdown"
           class="fixed flex flex-col gap-3 z-10 overflow-auto max-h-96 w-1/2 bor bg-white rounded-md border border-gray-300 p-3">
-          <span class="text-xl font-bold p-2 active">全選</span>
           <span v-for="service in 39" class="text-xl font-bold p-2" :key="service"  :class="{active:getServiceActive(service)}"  @click="selectService(service)">
             {{ getTextByService(service) }}
           </span>
@@ -64,6 +62,8 @@ let showServiceDropdown = ref<boolean>(false);
 const selectedRegion = ref<Array<number>>([])
 const selectedService = ref<Array<number>>([])
 
+const emit = defineEmits(['selectRegion','selectService'])
+
 const toggleRegionDropdown = () => {
   showRegionDropdown.value = !showRegionDropdown.value; // 切換狀態
   if (showRegionDropdown.value) {
@@ -83,6 +83,8 @@ const selectRegion = (region: number) => {
   }else{
     selectedRegion.value.splice(index,1);
   }
+
+  emit('selectRegion',selectedRegion.value)
 }
 
 const getRegionActive = (region: number):boolean => {
@@ -96,6 +98,7 @@ const selectService = (service: number) => {
   }else{
     selectedService.value.splice(index,1);
   }
+  emit('selectService',selectedService.value)
 }
 
 const getServiceActive = (region: number):boolean => {

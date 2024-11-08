@@ -19,7 +19,7 @@
 
 
 
-    <Filter />
+    <Filter @select-region="(region) => emit('selectRegion',region)" @select-service="(service) => emit('selectService',service)" />
 
   </div>
 </template>
@@ -27,5 +27,5 @@
 <script setup lang="ts">
 import { PhHeartStraight, PhBell, PhMagnifyingGlass } from '@phosphor-icons/vue';
 import Filter from './Filter.vue';
-
+const emit = defineEmits(['selectRegion','selectService'])
 </script>

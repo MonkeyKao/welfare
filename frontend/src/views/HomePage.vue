@@ -1,7 +1,7 @@
 <template>
   <div class="h-full flex flex-col w-full divide-y">
     <div class=" basis-1">
-      <TopNav />
+      <TopNav @selectRegion="(regions) => selectedRegion = regions" @selectService="(services) => selectedService = services" />
     </div>
 
     <div class="overflow-auto ">
@@ -17,9 +17,12 @@ import TopNav from '@/components/TopNav.vue';
 import HomeInsideText from '@/components/HomeInsideText.vue';
 import request from '@/axios';
 import { useWelfareStore } from '@/store/welfareStroe';
+import type Welfare from '@/model/welfare';
 
 const welfareStore = useWelfareStore()
-const welfareData = computed(() => welfareStore.welfares)
+const welfareData = computed(() => welfareStore.getWelfare(selectedRegion.value,selectedService.value))
+let selectedRegion = ref([])
+let selectedService = ref([])
 
 </script>
 
