@@ -8,8 +8,8 @@ import (
 )
 
 type Data struct {
-	Script string `json:"script"`
-	Output string `json:"output"`
+	Script string    `json:"city"`
+	Output []Welfare `json:"output"`
 }
 type Welfare struct {
 	Id              int    `json:"id"`
@@ -34,13 +34,7 @@ func ParseData(jsonStr string) []Welfare {
 
 	var result []Welfare
 	for _, data := range dataList {
-		var welfare []Welfare
-		err := json.Unmarshal([]byte(data.Output), &welfare)
-		if err != nil {
-			fmt.Println("解析 Output 错误：", err)
-			continue
-		}
-		result = append(result, welfare...)
+		result = append(result, data.Output...)
 	}
 	return result
 }
