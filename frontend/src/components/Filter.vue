@@ -6,7 +6,7 @@
 
       <div class="flex flex-col">
         <div @click="toggleRegionDropdown" class="flex">
-          <p class="text-l">地區</p>
+          <p class="text-l">{{ selectedRegion.length===0?"地區":"地區("+selectedRegion.length+")" }}</p>
           <PhCaretDown :size="20" class="menu ml-1 transition-transform"
             :class="{ 'rotate-180': showRegionDropdown }" />
         </div>
@@ -15,7 +15,8 @@
           <div v-if="showRegionDropdown"
             class="fixed flex flex-col w-1/2 overflow-auto max-h-96 z-10 bg-white rounded-md border border-gray-300 p-3">
             <span v-for="region in 19" class="text-xl font-bold p-2" :class="{active:getRegionActive(region)}" :key="region" @click="selectRegion(region)">
-              {{ getTextByLocation(region) }}</span>
+              {{ getTextByLocation(region) }}
+            </span>
           </div>
         </transition>
       </div>
@@ -23,7 +24,7 @@
 
 
       <div class="flex items-center" @click="toggleServiceDropdown">
-        <p class="text-l">服務</p>
+        <p class="text-l">{{ selectedService.length===0?"服務":"服務("+selectedService.length+")" }}</p>
         <PhCaretDown :size="20" class="menu ml-1 transition-transform" :class="{ 'rotate-180': showServiceDropdown }" />
       </div>
 
@@ -31,7 +32,7 @@
       <Transition>
         <div v-if="showServiceDropdown"
           class="fixed flex flex-col gap-3 z-10 overflow-auto max-h-96 w-1/2 bor bg-white rounded-md border border-gray-300 p-3">
-          <span v-for="service in 39" class="text-xl font-bold p-2" :key="service"  :class="{active:getServiceActive(service)}"  @click="selectService(service)">
+          <span v-for="service in 10" class="text-xl font-bold p-2" :key="service"  :class="{active:getServiceActive(service)}"  @click="selectService(service)">
             {{ getTextByService(service) }}
           </span>
         </div>
