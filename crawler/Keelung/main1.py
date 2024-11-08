@@ -1,34 +1,29 @@
-import sys
-import requests
-from bs4 import BeautifulSoup
-import json
+from requests_html import HTMLSession
 
 def scrape_data(city, url):
-    res = requests.get(url)
-    res.encoding = 'utf-8'
-    soup = BeautifulSoup(res.text, "html.parser")
+    session = HTMLSession()
+    r = session.get(url)
 
-    results = []  # 用於存儲所有的 URL 和 title
+    about = r.html.find(".np ul li a")
+    results = []
+    for item in about:
+        
+        if "福利地圖" in item.attrs['title']:
+            continue
+        else:
+            r = session.get(item.attrs['href'])
+            about1 = r.html.find(".np ul li a")
+            for temp1 in about1:
+                r = session.get(temp1.attrs['href'])
+                about2 = r.html.find(".list a")
+                for temp2 in about2:
+                    results.append({"category": [1], "city": city, "url": temp2.attrs['href'], "title": temp2.attrs['title']})
 
-    # 查找所有的 <a> 標籤
-    a_tags = soup.select(".np")[0].find_all('a')
-    print(a_tags)
-    for a_tag in a_tags:
-        if a_tag.get("class") and "a" in a_tag["class"]:
-            # 構造完整的 URL
-            url = "https://www.klcg.gov.tw/tw/social/2748.html" + a_tag["href"]
-            title = a_tag.get("title", a_tag.get_text(strip=True))
-            results.append({"city": city, "url": url, "title": title})
+    session.close()
+    return results
 
-    return results  # 返回包含所有結果的列表
-
-def main():
-    city = sys.argv[1]
-    url = sys.argv[2]
-
-    data = scrape_data(city, url)  # 調用 scrape_data 函數獲取數據
-    json_data = json.dumps(data, ensure_ascii=False, indent=4)  # 將數據轉換為 JSON 格式
-    print(json_data)  # 輸出 JSON 數據
+def main(city, url):
+    return scrape_data(city, url)  # 調用 scrape_data 函數獲取數據
 
 if __name__ == "__main__":
     main()

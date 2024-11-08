@@ -17,7 +17,6 @@ results = []
 for index, row in df.iterrows():
     city = str(row['city'])
     url = str(row['url'])
-    encoding = str(row['encoding'])
     script_path = str(row['name'])  # 這裡的 name 是腳本路徑
     
     try:
