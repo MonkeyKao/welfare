@@ -1,11 +1,11 @@
 <template>
   <!-- 固定定位的 header，確保圖片維持在最上方 -->
-  <header>
+  <div>
     <img src="/forgetpassword.jpg" class="w-full" />
-  </header>
+  </div>
 
   <body>
-    <router-link to="/" class="forgot-password-link"
+    <router-link to="/account/register" class="forgot-password-link"
       ><PhArrowUUpLeft :size="32" color="#4d4d4d" class="ml-5"
     /></router-link>
     <form class="flex flex-col w-full h-full px-10 gap-5">
@@ -47,12 +47,10 @@ const verificationCode = ref<number>(0);
 const sendVerificationCode = async (verificationCode: number) => {
   try {
     const result = await request.get("/users/verify/" + verificationCode);
-    localStorage.setItem("token",result.data.msg)
-    router.push("create-profile")
-  } catch (err:any) {
-    alert(err.response.data.error)
+    localStorage.setItem("token", result.data.msg);
+    router.push("create-profile");
+  } catch (err: any) {
+    alert(err.response.data.error);
   }
-
 };
-
 </script>

@@ -31,7 +31,7 @@
       </div>
 
       <div>
-        <router-link to="/reset-password" class="forgot-password-link"
+        <router-link to="/account/reset-password" class="forgot-password-link"
           ><button
             class="w-full bg-[#90c700] text-white font-bold text-2xl py-3 rounded shadow-md"
             type="button"
