@@ -119,12 +119,10 @@ const registerHandler = async (user: form) => {
   try {
     const json = JSON.stringify(user);
     const result = await request.post("/users/register", json);
-    console.log(result.data.msg);
-
-    localStorage.setItem("token", result.data.msg);
-    router.push("verify");
+    localStorage.setItem("email", result.data.msg);
+    router.push("/account/verify");
   } catch (error: any) {
-    alert(error.response.data);
+    alert(error.response.data.error);
   }
 };
 

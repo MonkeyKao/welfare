@@ -15,6 +15,16 @@ export function getTextByService(number: number): string {
     return textMapping[number] || "其他服務";
 }
 
+export function getTextByGender(number: number): string {
+    const textMapping: { [key: number]: string } = {
+        1: "男性",
+        2: "中性",
+        3: "女性",
+    }
+
+    return textMapping[number] || "對應文字不存在";
+}
+
 export function getTextByLocation(number: number): string {
     const textMapping: { [key: number]: string } = {
         1: "台北市",

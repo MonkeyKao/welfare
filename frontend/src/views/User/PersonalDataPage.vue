@@ -5,6 +5,7 @@
     </router-link>
     <label class="text-3xl font-bold">個人資訊</label>
   </header>
+
   <body>
     <div class="flex flex-col items-center gap-2 mt-5">
       <Avatar />
@@ -26,37 +27,32 @@
         </div>
         <div class="flex rounded-md">
           <label class="flex text-2xl font-bold">性別:</label>
-          <label class="text-2xl font-bold">{{ user?.female }}</label>
+          <label class="text-2xl font-bold">{{ getTextByGender(user.female) }}</label>
         </div>
         <div class="flex rounded-md gap-2">
           <label class="flex text-2xl font-bold">地區:</label>
-          <label class="text-2xl font-bold">{{ user?.location }}</label>
+          <label class="text-2xl font-bold">{{ getTextByLocation(user.location) }}</label>
         </div>
         <div>
-          <router-link to="/edit-personal-data"
-            ><button
-              class="w-full bg-[#90c700] text-white font-bold text-2xl py-3 rounded shadow-md"
-              type="button"
-            >
+          <router-link to="/user/edit-personal-data"><button
+              class="w-full bg-[#90c700] text-white font-bold text-2xl py-3 rounded shadow-md" type="button">
               編輯
-            </button></router-link
-          >
+            </button></router-link>
         </div>
       </form>
     </div>
+    {{user}}
   </body>
 </template>
 <script setup lang="ts">
 import request from "@/axios";
 import Avatar from "@/components/Avatar.vue";
 import User from "@/model/user";
+import { useUserStore } from "@/store/userStroe";
+import { getTextByGender, getTextByLocation } from "@/utils/getTextByNumber";
 import { PhArrowUUpLeft } from "@phosphor-icons/vue";
-import { onMounted, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
+const userStore = useUserStore()
+const user = computed(() => userStore.user)
 
-const user = ref<User>();
-
-onMounted(async () => {
-  const result = await request.get("users");
-  user.value = result.data;
-});
 </script>

@@ -1,7 +1,6 @@
 package api
 
 import (
-	"fmt"
 	"net/http"
 	"time"
 
@@ -38,33 +37,42 @@ func RegisterHandler(c *gin.Context) {
 	form := models.User{}
 
 	if err := c.ShouldBindBodyWithJSON(&form); err != nil {
-		c.IndentedJSON(http.StatusBadRequest, err.Error())
+		c.IndentedJSON(http.StatusBadGateway, gin.H{"error": err.Error()})
 		return
 	}
 
-	token, err := services.Register(&form)
-	if err != nil {
-		c.IndentedJSON(http.StatusBadRequest, err.Error())
+	if err := services.Register(&form); err != nil {
+		c.IndentedJSON(http.StatusBadGateway, gin.H{"error": err.Error()})
 		return
 	}
 
-	c.IndentedJSON(http.StatusOK, gin.H{"msg": token})
+	c.IndentedJSON(http.StatusOK, gin.H{"msg": form.Email})
 }
 
 func VerifyEmailHandler(c *gin.Context) {
-	token := c.Request.Header.Get("token")
-	code := c.Param("id")
-	fmt.Printf("token:%s", token)
-	fmt.Println(code)
+	form := struct {
+		Code  string `json:"code"`
+		Email string `json:"email"`
+	}{}
 
-	userId, err := services.VerifyEmail(code, token)
-	if err != nil {
+	if err := c.ShouldBindBodyWithJSON(&form); err != nil {
 		c.IndentedJSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
+	if err := services.SetVerify(form.Email, form.Code); err != nil {
+		c.IndentedJSON(http.StatusBadGateway, gin.H{"error": err.Error()})
+		return
+	}
+
+	var user models.User
+	if err := models.GetUserByEmail(&user, form.Email); err != nil {
+		c.IndentedJSON(http.StatusBadGateway, gin.H{"error": "查詢失敗"})
+		return
+	}
+
 	const TokenExpireDuration = time.Hour * 24 * 30 * 12 * 30
-	newToken, _ := utils.GenerateToken(userId, "", TokenExpireDuration)
+	newToken, _ := utils.GenerateToken(user.ID, "", TokenExpireDuration)
 
 	c.IndentedJSON(http.StatusOK, gin.H{"msg": newToken})
 }
@@ -92,7 +100,7 @@ func UpdateuserHandler(c *gin.Context) {
 	}
 
 	// 返回成功响应
-	c.IndentedJSON(http.StatusOK, gin.H{"message": "User updated successfully"})
+	c.IndentedJSON(http.StatusOK, form)
 }
 
 func GetUserByUserIDHandler(c *gin.Context) {
