@@ -8,7 +8,7 @@
     <router-link to="/account/register" class="forgot-password-link">
       <PhArrowUUpLeft :size="32" color="#4d4d4d" class="ml-5" />
     </router-link>
-    <form @submit.prevent="sendVerificationCode" class="flex flex-col w-full h-full px-10 gap-5">
+    <div class="flex flex-col w-full h-full px-10 gap-5">
       <label class="text-xl font-bold">驗證碼已寄至</label>
       <label class="text-xl font-bold">{{ maskEmail(email) }}</label>
 
@@ -21,18 +21,20 @@
         </button>
       </div>
 
-      <button class="w-full bg-[#90c700] text-white font-bold text-2xl py-3 rounded shadow-md" type="button"
+      <button class="w-full bg-[#90c700] text-white font-bold text-2xl py-3 rounded shadow-md"
         @click="sendVerificationCode(verificationCode)">
         繼續
       </button>
-    </form>
+    </div>
   </body>
 </template>
 <script setup lang="ts">
 import request from "@/axios";
 import router from "@/router";
 import { PhArrowUUpLeft, PhShieldCheck } from "@phosphor-icons/vue";
-import { ref } from "vue";
+import { inject, ref } from "vue";
+
+const showMsg:Function = inject("showMsg")!
 const verificationCode = ref<string>("");
 const email: string = localStorage.getItem("email")!;
 
@@ -45,9 +47,8 @@ const startCountdown = async () => {
   // 禁用按鈕並開始倒計時
   try{
     const result = await request.get("/users/getVerifyEmail",{params:{email:email}})
+    showMsg("已發送驗證碼")
   }catch(err:any) {
-    console.log(err);
-    
   }
 
   isDisabled.value = true;

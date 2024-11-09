@@ -1,18 +1,27 @@
 <script setup>
 import BottomNav from "@/components/BottomNav.vue"; // 引入底部導航欄
-import { onMounted } from "vue";
+import { onMounted, ref } from "vue";
 import { RouterView, useRoute } from "vue-router"; // 引入 RouterView 用來動態渲染路由對應的頁面
 import { useUserStore } from "./store/userStroe";
 import { useWelfareStore } from "./store/welfareStroe";
+import { provide } from 'vue'
+import TipMsg from "./components/tipMsg.vue";
 
 const route = useRoute(); // 獲取當前路由
 const userStore = useUserStore();
 const welfareStore = useWelfareStore();
 userStore.fetchUser()
 welfareStore.fetchWelfare();
+
+const tipmsg = ref(null)
+
+onMounted(() => {
+  provide('showMsg',tipmsg.value.showMsg)
+})
 </script>
 
 <template>
+  <button @click="tipmsg.showMsg('我要閒的的話')">提示</button>
   <!-- 渲染當前頁面 -->
   <div class="overflow-y-auto h-full flex flex-col justify-between">
     <div class="overflow-auto">
@@ -38,6 +47,8 @@ welfareStore.fetchWelfare();
       <BottomNav />
     </div>
   </div>
+
+  <TipMsg ref="tipmsg"></TipMsg>
 </template>
 
 <style scoped>
