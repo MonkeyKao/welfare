@@ -49,6 +49,16 @@ func RegisterHandler(c *gin.Context) {
 	c.IndentedJSON(http.StatusOK, gin.H{"msg": form.Email})
 }
 
+func GetVerifyEmailHandler(c *gin.Context) {
+	email := c.Query("email")
+	if err := services.GetVerify(email); err != nil {
+		c.IndentedJSON(http.StatusBadGateway, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.IndentedJSON(http.StatusOK, gin.H{"msg": email})
+}
+
 func VerifyEmailHandler(c *gin.Context) {
 	form := struct {
 		Code  string `json:"code"`

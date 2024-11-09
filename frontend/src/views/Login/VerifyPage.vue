@@ -5,33 +5,24 @@
   </div>
 
   <body>
-    <router-link to="/account/register" class="forgot-password-link"
-      ><PhArrowUUpLeft :size="32" color="#4d4d4d" class="ml-5"
-    /></router-link>
-    <form class="flex flex-col w-full h-full px-10 gap-5">
-      <label class="text-3xl font-bold">驗證碼已寄至</label>
-      <label class="text-3xl font-bold">email</label>
+    <router-link to="/account/register" class="forgot-password-link">
+      <PhArrowUUpLeft :size="32" color="#4d4d4d" class="ml-5" />
+    </router-link>
+    <form @submit.prevent="sendVerificationCode" class="flex flex-col w-full h-full px-10 gap-5">
+      <label class="text-xl font-bold">驗證碼已寄至</label>
+      <label class="text-xl font-bold">{{ maskEmail(email) }}</label>
 
       <div class="flex w-full border-2 rounded-md shadow-md p-3 items-center">
         <PhShieldCheck :size="32" class="flex-shrink-0" />
-        <input
-          class="mx-2 min-w-0"
-          type="password"
-          v-model="verificationCode"
-          placeholder="驗證碼"
-        />
-        <button
-          class="flex text-lg text-[#92c700] border-l-2 border-[#92c700] whitespace-nowrap px-2"
-        >
-          重新發送
+        <input class="mx-2 min-w-0" type="password" v-model="verificationCode" placeholder="驗證碼" />
+        <button :disabled="isDisabled" @click="startCountdown"
+          class="flex text-lg text-[#92c700] border-l-2 border-[#92c700] whitespace-nowrap px-2">
+          {{ buttonText }}
         </button>
       </div>
 
-      <button
-        class="w-full bg-[#90c700] text-white font-bold text-2xl py-3 rounded shadow-md"
-        type="button"
-        @click="sendVerificationCode(verificationCode)"
-      >
+      <button class="w-full bg-[#90c700] text-white font-bold text-2xl py-3 rounded shadow-md" type="button"
+        @click="sendVerificationCode(verificationCode)">
         繼續
       </button>
     </form>
@@ -43,11 +34,55 @@ import router from "@/router";
 import { PhArrowUUpLeft, PhShieldCheck } from "@phosphor-icons/vue";
 import { ref } from "vue";
 const verificationCode = ref<string>("");
+const email: string = localStorage.getItem("email")!;
+
+const countdown = ref<number>(60);
+const isDisabled = ref<boolean>(false);
+const buttonText = ref<string>("重新發送");
+let countdownInterval: number;
+
+const startCountdown = async () => {
+  // 禁用按鈕並開始倒計時
+  try{
+    const result = await request.get("/users/getVerifyEmail",{params:{email:email}})
+  }catch(err:any) {
+    console.log(err);
+    
+  }
+
+  isDisabled.value = true;
+  buttonText.value = `請稍等 ${countdown.value} 秒...`;
+  countdownInterval = setInterval(() => {
+    countdown.value--;
+    buttonText.value = `請稍等 ${countdown.value} 秒...`;
+
+    if (countdown.value <= 0) {
+      clearInterval(countdownInterval!);
+      resetButton();
+    }
+  }, 1000);
+}
+
+const resetButton = () => {
+  // 重置按鈕狀態
+  isDisabled.value = false;
+  countdown.value = 60;
+  buttonText.value = "重新發送";
+}
+
+const maskEmail = (email: string): string => {
+  const [account, domain] = email.split("@");
+  if (account.length <= 2) {
+    return `${account}@${domain}`; // 如果賬號少於或等於2位，直接返回
+  }
+  const maskedAccount = account.slice(0, 2) + "*".repeat(account.length - 2);
+  return `${maskedAccount}@${domain}`;
+}
 
 const sendVerificationCode = async (verificationCode: string) => {
   try {
     const result = await request.post("/users/verify", {
-      email: localStorage.getItem("email"),
+      email: email,
       code: verificationCode,
     });
     localStorage.setItem("token", result.data.msg);
