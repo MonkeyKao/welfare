@@ -151,7 +151,7 @@ const checkIndex = (name: string): Array<number> => {
 //卡片格式
 const createCard = (image: string, name: string) => {
   const itemDiv = document.createElement('div');
-  itemDiv.className = 'flex-none w-48 h-64 bg-blue-500 text-white flex flex-col items-center justify-center rounded';
+  itemDiv.className = 'flex-none w-48 h-64 text-H3 bold flex flex-col items-center justify-center rounded';
 
   // 创建 img 元素并设置属性
   const imgElement = document.createElement('img');
