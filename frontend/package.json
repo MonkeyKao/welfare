@@ -15,6 +15,7 @@
     "@vuepic/vue-datepicker": "^9.0.3",
     "axios": "^1.7.7",
     "pinia": "^2.2.6",
+    "validate.js": "^0.13.1",
     "vue": "^3.5.12",
     "vue3-datepicker": "^0.4.0"
   },

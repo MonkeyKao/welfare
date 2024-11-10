@@ -32,9 +32,10 @@
 import request from "@/axios";
 import router from "@/router";
 import { PhArrowUUpLeft, PhShieldCheck } from "@phosphor-icons/vue";
+import validate from "validate.js";
 import { inject, ref } from "vue";
 
-const showMsg:Function = inject("showMsg")!
+const showMsg: Function = inject("showMsg")!
 const verificationCode = ref<string>("");
 const email: string = localStorage.getItem("email")!;
 
@@ -45,10 +46,10 @@ let countdownInterval: number;
 
 const startCountdown = async () => {
   // 禁用按鈕並開始倒計時
-  try{
-    const result = await request.get("/users/getVerifyEmail",{params:{email:email}})
+  try {
+    const result = await request.get("/users/getVerifyEmail", { params: { email: email } })
     showMsg("已發送驗證碼")
-  }catch(err:any) {
+  } catch (err: any) {
   }
 
   isDisabled.value = true;
@@ -81,6 +82,13 @@ const maskEmail = (email: string): string => {
 }
 
 const sendVerificationCode = async (verificationCode: string) => {
+
+  const vaildResult = await validate.single(verificationCode,{format: {pattern:"^\\d{6}$",message:"驗證碼需為六位數字"}})
+  if (vaildResult) {
+    alert(vaildResult[0])
+    return
+  }
+
   try {
     const result = await request.post("/users/verify", {
       email: email,

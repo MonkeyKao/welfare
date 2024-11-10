@@ -14,53 +14,25 @@
         <!-- 帳號輸入框 -->
         <div class="flex w-full border-2 rounded-md shadow-md p-3 items-center">
           <PhUser :size="32" color="#4d4d4d" class="flex-shrink-0" />
-          <input
-            v-model="user.account"
-            class="mx-2 min-w-0 text-base"
-            type="text"
-            placeholder="帳號"
-          />
+          <input v-model="user.account" class="mx-2 min-w-0 text-base" type="text" placeholder="帳號" />
         </div>
 
         <!-- 密碼輸入框 -->
         <div class="flex w-full border-2 rounded-md shadow-md p-3 items-center">
           <PhLockKey :size="32" color="#4d4d4d" class="flex-shrink-0" />
-          <input
-            v-model="user.password"
-            @focus="doingPw = true"
-            @blur="doingPw = false"
-            class="mx-2 min-w-0 text-base"
-            :type="showPassword ? 'text' : 'password'"
-            placeholder="密碼"
-          />
-          <PhEyeClosed
-            v-if="!showPassword"
-            @click="togglePassword"
-            :size="32"
-            color="#4d4d4d"
-            class="flex-shrink-0"
-          />
-          <PhEye
-            v-else
-            @click="togglePassword"
-            :size="32"
-            class="flex-shrink-0"
-          />
+          <input v-model="user.password" @focus="doingPw = true" @blur="doingPw = false" class="mx-2 min-w-0 text-base"
+            :type="showPassword ? 'text' : 'password'" placeholder="密碼" />
+          <PhEyeClosed v-if="!showPassword" @click="togglePassword" :size="32" color="#4d4d4d" class="flex-shrink-0" />
+          <PhEye v-else @click="togglePassword" :size="32" class="flex-shrink-0" />
         </div>
 
         <!-- 按鈕 -->
-        <button
-          @click="loginHandler(user)"
-          class="w-full bg-[#90c700] text-white font-bold text-2xl py-3 sm:py-2 rounded shadow-md"
-          type="button"
-        >
+        <button @click="loginHandler(user)"
+          class="w-full bg-[#90c700] text-white font-bold text-2xl py-3 sm:py-2 rounded shadow-md" type="button">
           登入
         </button>
       </form>
-      <router-link
-        to="/account/forgot-password"
-        class="flex text-lg text-[#92c700] justify-center"
-      >
+      <router-link to="/account/forgot-password" class="flex text-lg text-[#92c700] justify-center">
         忘記密碼？
       </router-link>
     </div>
@@ -71,14 +43,10 @@
         <div>
           <label class="flex text-sm justify-center">其他登入方式</label>
           <div class="flex justify-center space-x-4 mt-4">
-            <button
-              class="w-12 h-12 rounded-full flex justify-center items-center shadow bg-[#92c700]"
-            >
+            <button class="w-12 h-12 rounded-full flex justify-center items-center shadow bg-[#92c700]">
               <PhGoogleLogo :size="24" color="#fff" />
             </button>
-            <button
-              class="w-12 h-12 rounded-full flex justify-center items-center shadow bg-[#92c700]"
-            >
+            <button class="w-12 h-12 rounded-full flex justify-center items-center shadow bg-[#92c700]">
               <PhFacebookLogo :size="24" color="#fff" />
             </button>
           </div>
@@ -88,10 +56,7 @@
           <span class="mx-3">or</span>
           <div class="flex-1 border-t"></div>
         </div>
-        <router-link
-          to="/account/register"
-          class="flex text-lg text-[#92c700] justify-center"
-        >
+        <router-link to="/account/register" class="flex text-lg text-[#92c700] justify-center">
           創建帳號
         </router-link>
         <router-link to="/home" class="flex text-lg text-[#92c700] justify-center">回首頁</router-link>
@@ -112,6 +77,7 @@ import {
   PhLockKey,
   PhUser,
 } from "@phosphor-icons/vue";
+import validate from "validate.js";
 import { ref } from "vue";
 
 const userStroe = useUserStore();
@@ -121,7 +87,36 @@ class form {
 }
 const user = ref<form>(new form());
 
+var constraints = {
+  account: {
+    length: {
+      minimum: 3,
+      maximum: 10,
+      message: "賬號長度需在3-10個字元間"
+    }
+  },
+  password: {
+    format: {
+      pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/,
+      message: "密碼必须包含至少一个大写字母、一个小写字母和一个数字"
+    },
+    length: {
+      minimum: 3,
+      maximum: 10,
+      message: "密碼長度需在3-10個字元間"
+    }
+  }
+};
+
+
+
 const loginHandler = async (user: form) => {
+  const vaildResult = await validate(user, constraints)
+  if (vaildResult) {
+    alert(vaildResult[0])
+    return
+  }
+
   try {
     const result = await request.post("users/doLogin", JSON.stringify(user));
     localStorage.setItem(result.data.tokenName, result.data.tokenValue);
@@ -129,7 +124,6 @@ const loginHandler = async (user: form) => {
     router.push("/home");
   } catch (err: any) {
     alert(err.response.data.error);
-
     return;
   }
 };
@@ -142,7 +136,6 @@ function loginWithGoogle() {
 }
 
 //圖片更動
-const password = ref(""); // 用于存储密码
 const doingPw = ref(false); // 用于指示是否处于密码输入状态
 
 //點眼睛密碼明文顯示
@@ -151,8 +144,5 @@ const togglePassword = () => {
   showPassword.value = !showPassword.value; // 切换 showPassword 的值
 };
 
-const check = ref(false);
-const checklogin = () => {
-  check.value = !check.value;
-};
+
 </script>
