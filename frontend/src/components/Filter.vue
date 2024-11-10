@@ -14,7 +14,7 @@
         <transition>
           <div v-if="showRegionDropdown"
             class="fixed flex flex-col w-1/2 overflow-auto max-h-96 z-10 bg-white rounded-md border border-gray-300 p-3">
-            <span v-for="region in 19" class="text-xl font-bold p-2" :class="{active:getRegionActive(region)}" :key="region" @click="selectRegion(region)">
+            <span v-for="region in 19" class=" select-none text-xl font-bold p-2" :class="{active:getRegionActive(region)}" :key="region" @click="selectRegion(region)">
               {{ getTextByLocation(region) }}
             </span>
           </div>
@@ -32,7 +32,7 @@
       <Transition>
         <div v-if="showServiceDropdown"
           class="fixed flex flex-col gap-3 z-10 overflow-auto max-h-96 w-1/2 bor bg-white rounded-md border border-gray-300 p-3">
-          <span v-for="service in 10" class="text-xl font-bold p-2" :key="service"  :class="{active:getServiceActive(service)}"  @click="selectService(service)">
+          <span v-for="service in 10" class=" select-none text-xl font-bold p-2" :key="service"  :class="{active:getServiceActive(service)}"  @click="selectService(service)">
             {{ getTextByService(service) }}
           </span>
         </div>
