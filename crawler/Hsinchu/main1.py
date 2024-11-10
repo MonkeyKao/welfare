@@ -16,6 +16,7 @@ def scrape_data(city, url):
             else:
                 results.append({"category": [1], "city": city, "url": "https://social.hsinchu.gov.tw/"+temp.attrs['href'], "title": temp.attrs['title']})
 
+    session.close();
     return results
 
 def main(city, url):

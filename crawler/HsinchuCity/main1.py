@@ -15,6 +15,7 @@ def scrape_data(city, url):
         about = r.html.find('#css_table a')
         for item in about:
             results.append({"category": [1], "city": city, "url": ("https://society.hccg.gov.tw/ch/"+item.attrs['href']), "title": item.attrs['title']})
+    session.close()
     return results
 
 def main(city,url):

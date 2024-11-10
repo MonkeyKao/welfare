@@ -1,4 +1,4 @@
-import importlib
+import importlib.util
 import json
 import os
 import pandas as pd
@@ -19,75 +19,125 @@ SIMILARITY_THRESHOLD = 80
 
 def match_category(title):
     matched_categories = []
-    
-    # 使用 jieba 進行分詞
     words = jieba.lcut(title)
-    
     for keyword, category_id in category_mapping.items():
         for word in words:
-            # 使用模糊匹配，若相似度超過閾值則視為匹配
             if fuzz.partial_ratio(keyword, word) >= SIMILARITY_THRESHOLD:
                 matched_categories.append(category_id)
-                break  # 匹配到一個就跳出詞彙的迴圈，避免重複加入相同類別
-    
+                break
     return matched_categories
 
+classifier = pipeline("zero-shot-classification", model="facebook/bart-large-mnli")
+categories = ["家庭與育兒","教育","健康與退休","老人與退休","低收入戶與弱勢族群","殘疾與特殊需求","就業與創業","社會安全與基本生活支援","兒童及少年","其他特定族群"]
+
+# 定義 JSON 檔案路徑
+json_file_path = "../data.json"
+
+if os.path.exists(json_file_path):
+    with open(json_file_path, "r", encoding="utf-8") as f:
+        old_data = json.load(f)
+else:
+    old_data = []
+
+old_data_lookup = {
+    item["city"]: {entry["title"]: entry for entry in item.get("output", [])}
+    for item in old_data
+}
+
+next_id = max(
+    (entry["id"] for item in old_data for entry in item.get("output", [])), default=0
+) + 1
+updated_data = []
 
 # 載入 Excel 檔案
 file_path = '../list.xlsx'
 df = pd.read_excel(file_path)
 
-results = []
-id = 0
-classifier = pipeline("zero-shot-classification", model="facebook/bart-large-mnli")
-categories = ["家庭與育兒","教育","健康與退休","老人與退休","低收入戶與弱勢族群","殘疾與特殊需求","就業與創業","社會安全與基本生活支援","兒童及少年","其他特定族群"]
+new_crawled_data = []
 
 # 迭代每一列，呼叫對應的爬蟲腳本並傳遞 city 和 url
 for index, row in df.iterrows():
     city = str(row['city'])
     url = str(row['url'])
-    script_path = str(row['name'])  # 這裡的 name 是腳本路徑
-    
+    script_path = str(row['name'])
+
+    if not os.path.exists(script_path):
+        print(f"{city} 異常: 找不到腳本 {script_path}")
+        continue
+
     try:
-        print(city+"開始爬蟲")
-        # 動態載入 Python 腳本
+        print(f"{city} 開始爬蟲")
         spec = importlib.util.spec_from_file_location("module.name", script_path)
         module = importlib.util.module_from_spec(spec)
         sys.modules["module.name"] = module
         spec.loader.exec_module(module)
 
-        # 假設每個腳本有一個 main 函數，並傳遞 city 和 url 參數
         if hasattr(module, 'main'):
             result = module.main(city, url)
         else:
-            result = f"Error: {script_path} does not have a main() function."
+            print(f"Error: {script_path} does not含有 main() 函式。")
+            result = []
 
-        print(city+"爬蟲成功,開始進行分類及編號")
+        print(f"{city} 爬蟲成功，開始進行分類及編號")
         for item in result:
+            item["id"] = next_id
             item['category'] = match_category(item['title'])
-            # results = classifier(item['title'],candidate_labels=categories)
-            item['id'] = id
-            id = id + 1
-        print(city+"已經分類完畢")
-        # 儲存回傳結果
-        results.append({
+        print(f"{city} 已經分類完畢")
+
+        new_crawled_data.append({
             'city': city,
             'output': result
         })
-        
+
     except Exception as e:
-        # 捕捉任何異常
-        results.append({
+        print(f"{city} 異常: {e}")
+        new_crawled_data.append({
             'city': city,
             'output': []
         })
-        print(city+"異常:"+str(e))
 
-# 定義 JSON 檔案的路徑
-json_file_path = os.path.join("../", 'data.json')
+# print(new_crawled_data[0])
 
-# 將結果儲存為 JSON 格式
-with open(json_file_path, 'w', encoding='utf-8') as json_file:
-    json.dump(results, json_file, ensure_ascii=False, indent=4)  # 保存為 JSON 文件
+updated_output = []
+
+# 比對新資料並處理 ID
+for new_city_data in new_crawled_data:
+    city = new_city_data["city"]
+    updated_output = []  # 每次新的 city 處理時初始化
+
+    if "output" not in new_city_data:
+        print(f"{city} 異常: 缺少 output 資料")
+        continue
+
+    for new_item in new_city_data["output"]:
+        # new_item每個爬蟲回來的資料
+        if city in old_data_lookup and new_item["title"] in old_data_lookup[city]:
+            # 如果舊的資料存在則沿用id
+            new_item["id"] = old_data_lookup[city][new_item["title"]]["id"]
+        else:
+            # 不存在則新增id
+            new_item["id"] = next_id
+            next_id += 1
+        updated_output.append(new_item)
+    updated_data.append({"city": city, "output": updated_output})
+
+
+# 將舊資料中未出現於新資料的項目加入 updated_data
+for city, old_items in old_data_lookup.items():
+    if city not in [entry["city"] for entry in updated_data]:
+        updated_data.append({"city": city, "output": list(old_items.values())})
+    else:
+        # 將不在新 output 中的舊項目加入
+        for entry in updated_data:
+            if entry["city"] == city:
+                current_titles = {item["title"] for item in entry["output"]}
+                for old_title, old_item in old_items.items():
+                    if old_title not in current_titles:
+                        entry["output"].append(old_item)
+
+
+# 將更新後的資料覆蓋寫回相同的 JSON 檔案
+with open(json_file_path, "w", encoding="utf-8") as f:
+    json.dump(updated_data, f, ensure_ascii=False, indent=4)
 
 print(f"Results saved to {json_file_path}")
