@@ -94,6 +94,7 @@
         >
           創建帳號
         </router-link>
+        <router-link to="/home" class="flex text-lg text-[#92c700] justify-center">回首頁</router-link>
       </div>
     </div>
   </div>

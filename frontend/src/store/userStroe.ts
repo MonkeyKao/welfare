@@ -10,8 +10,13 @@ export const useUserStore = defineStore("user", {
             this.user = result.data
         },
         async saveUserHanlder(user: string) {
-            const result = await request.post("/users/updateuser", user);
-            this.user = result.data
+            try{
+                const result = await request.post("/users/updateuser", user);
+                this.user = result.data
+            }catch{
+
+            }
+            
         },
     },
 })

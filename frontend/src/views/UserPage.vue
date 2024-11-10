@@ -8,39 +8,27 @@
     </div>
 
     <div class="p-10 flex flex-col gap-5">
-      <div
-        v-for="(item, index) in menuItems"
-        :key="index"
-        class="flex items-center"
-        @click="router.push(item.path)"
-      >
+      <div v-for="(item, index) in menuItems" :key="index" class="flex items-center" @click="router.push(item.path)">
         <component :is="item.icon" :size="40" color="#4d4d4d" />
         <label class="text-lg font-bold flex ml-3">{{ item.label }}</label>
       </div>
 
-      <router-link v-if="user" to="/account/login" class="forgot-password-link"
-        ><button
-          class="w-full bg-[#90c700] text-white font-bold text-2xl py-3 rounded shadow-md"
-          type="button"
-          @click="logoutHandler"
-        >
+      <router-link v-if="user.account" to="/account/login" class="forgot-password-link"><button
+          class="w-full bg-[#90c700] text-white font-bold text-2xl py-3 rounded shadow-md" type="button"
+          @click="logoutHandler">
           登出
-        </button></router-link
-      >
-      <router-link v-else to="/account/login" class="forgot-password-link"
-        ><button
-          class="w-full bg-[#90c700] text-white font-bold text-2xl py-3 rounded shadow-md"
-          type="button"
-        >
+        </button></router-link>
+      <router-link v-else to="/account/login" class="forgot-password-link"><button
+          class="w-full bg-[#90c700] text-white font-bold text-2xl py-3 rounded shadow-md" type="button">
           登入
-        </button></router-link
-      >
+        </button></router-link>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import Avatar from "@/components/Avatar.vue";
+import User from "@/model/user";
 import router from "@/router";
 import { useUserStore } from "@/store/userStroe";
 import {
@@ -63,7 +51,8 @@ const menuItems = [
 
 const logoutHandler = () => {
   localStorage.removeItem("token");
-  router.push("/login");
+  userStroe.user = new User();
+  router.push("/account/login");
 };
 </script>
 

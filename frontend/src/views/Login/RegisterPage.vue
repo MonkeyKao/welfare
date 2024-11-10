@@ -118,8 +118,8 @@ const user = ref<form>(new form());
 const registerHandler = async (user: form) => {
   try {
     const json = JSON.stringify(user);
+    localStorage.setItem("email", user.email);
     const result = await request.post("/users/register", json);
-    localStorage.setItem("email", result.data.msg);
     router.push("/account/verify");
   } catch (error: any) {
     alert(error.response.data.error);

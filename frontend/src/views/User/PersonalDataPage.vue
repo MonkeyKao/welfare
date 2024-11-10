@@ -41,7 +41,6 @@
         </div>
       </form>
     </div>
-    {{user}}
   </body>
 </template>
 <script setup lang="ts">

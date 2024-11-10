@@ -52,18 +52,27 @@ func SetVerify(email, receiveCode string) error {
 			delete(verifyCode, email)
 			return nil
 		} else {
-			fmt.Println(2)
 			return errors.New("驗證碼錯誤")
 		}
 	} else {
-		fmt.Println(3)
 		return errors.New("驗證碼未發送")
 	}
 }
 
+func IsVerify(email string) bool {
+	mu.Lock()
+	defer mu.Unlock()
+	for _, item := range verifyAccount {
+		if item == email {
+			return true
+		}
+	}
+	return false
+}
+
 func Register(user *models.User) error {
 	// 判斷賬號是否已經存在
-	if err := models.GetUserByAccount(&models.User{}, user.Account); err == nil {
+	if err := user.GetUserByAccount(user.Account); err == nil {
 		return errors.New("賬號已經存在")
 	}
 
@@ -75,7 +84,7 @@ func Register(user *models.User) error {
 	user.Password = encryptedText
 
 	// 創建賬號
-	if err := models.CreateUser(user); err != nil {
+	if err := user.CreateUser(); err != nil {
 		return err
 	}
 
@@ -92,7 +101,7 @@ func Register(user *models.User) error {
 		}
 
 		if flag {
-			models.DeleteUser(uId)
+			user.DeleteUser()
 		}
 	}(user.Email, user.ID)
 
@@ -109,7 +118,7 @@ func Login(account string, password string) (string, error) {
 	const TokenExpireDuration = time.Hour * 24 * 30 * 12 * 30
 
 	//檢查帳號是否存在
-	if err := models.GetUserByAccount(&user, account); err != nil {
+	if err := user.GetUserByAccount(account); err != nil {
 		return "", errors.New("account is not exist")
 	}
 

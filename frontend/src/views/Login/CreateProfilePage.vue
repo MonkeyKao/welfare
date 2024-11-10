@@ -22,15 +22,15 @@
         <label class="flex text-2xl font-bold">性別</label>
         <div class="flex justify-around">
           <div>
-            <input v-model="user.female" type="radio" id="female" name="gender" value=1 />
+            <input v-model="user.female" type="radio" id="female" name="gender" :value=1 />
             <label for="male" class="text-2xl ml-2">男性</label>
           </div>
           <div>
-            <input v-model="user.female" type="radio" id="female" name="gender" value=2 />
+            <input v-model="user.female" type="radio" id="female" name="gender" :value=2 />
             <label for="neutral" class="text-2xl ml-2">中性</label>
           </div>
           <div>
-            <input v-model="user.female" type="radio" id="female" name="gender" value=3 />
+            <input v-model="user.female" type="radio" id="female" name="gender" :value=3 />
             <label for="female" class="text-2xl ml-2">女性</label>
           </div>
         </div>
@@ -57,7 +57,6 @@
       </div>
     </form>
   </body>
-  {{ user }}
 </template>
 
 <script setup lang="ts">

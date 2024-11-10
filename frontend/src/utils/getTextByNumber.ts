@@ -17,6 +17,7 @@ export function getTextByService(number: number): string {
 
 export function getTextByGender(number: number): string {
     const textMapping: { [key: number]: string } = {
+        0: "未設定",
         1: "男性",
         2: "中性",
         3: "女性",
@@ -27,6 +28,7 @@ export function getTextByGender(number: number): string {
 
 export function getTextByLocation(number: number): string {
     const textMapping: { [key: number]: string } = {
+        0: "未設定",
         1: "台北市",
         2: "新北市",
         3: "基隆市",

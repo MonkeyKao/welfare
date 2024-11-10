@@ -76,7 +76,7 @@ func VerifyEmailHandler(c *gin.Context) {
 	}
 
 	var user models.User
-	if err := models.GetUserByEmail(&user, form.Email); err != nil {
+	if err := user.GetUserByEmail(form.Email); err != nil {
 		c.IndentedJSON(http.StatusBadGateway, gin.H{"error": "查詢失敗"})
 		return
 	}
@@ -89,28 +89,35 @@ func VerifyEmailHandler(c *gin.Context) {
 
 // UpdateuserHandler 处理用户更新请求
 func UpdateuserHandler(c *gin.Context) {
-	// 从上下文中获取用户 ID
-	userID := c.GetUint("UserID")
-
-	// 定义一个 map 用于接收更新数据
-	var form models.User
+	var user models.User
 
 	// 从请求中绑定数据到 map 中
-	if err := c.ShouldBindJSON(&form); err != nil {
+	if err := c.ShouldBindJSON(&user); err != nil {
 		c.IndentedJSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	form.ID = userID
+	user.ID = c.GetUint("UserID")
+	var tempUser models.User
+
+	if tempUser.GetUserByID(user.ID) != nil {
+		c.IndentedJSON(http.StatusUnauthorized, gin.H{"error": "查詢不到id"})
+		return
+	}
+
+	if !services.IsVerify(tempUser.Email) {
+		c.IndentedJSON(http.StatusUnauthorized, gin.H{"error": "未設定二級認證"})
+		return
+	}
 
 	// 更新用户信息
-	if err := models.UpdateUser(userID, &form); err != nil {
+	if err := user.UpdateUser(); err != nil {
 		c.IndentedJSON(http.StatusInternalServerError, gin.H{"error": "Failed to update user"})
 		return
 	}
 
 	// 返回成功响应
-	c.IndentedJSON(http.StatusOK, form)
+	c.IndentedJSON(http.StatusOK, user)
 }
 
 func GetUserByUserIDHandler(c *gin.Context) {
@@ -118,7 +125,7 @@ func GetUserByUserIDHandler(c *gin.Context) {
 	userID := c.GetUint("UserID")
 
 	var user models.User
-	if err := models.GetUserByID(&user, int(userID)); err != nil {
+	if err := user.GetUserByID(userID); err != nil {
 		c.IndentedJSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}

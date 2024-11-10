@@ -21,7 +21,6 @@ onMounted(() => {
 </script>
 
 <template>
-  <button @click="tipmsg.showMsg('我要閒的的話')">提示</button>
   <!-- 渲染當前頁面 -->
   <div class="overflow-y-auto h-full flex flex-col justify-between">
     <div class="overflow-auto">

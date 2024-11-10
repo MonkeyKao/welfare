@@ -20,27 +20,27 @@ type User struct {
 	Email    string    `json:"email"`
 }
 
-func GetUserByID(user *User, id int) error {
+func (user *User) GetUserByID(id uint) error {
 	return database.DB.Table("Users").First(user, id).Error
 }
 
-func GetUserByAccount(user *User, account string) error {
+func (user *User) GetUserByAccount(account string) error {
 	return database.DB.Table("Users").Where("account = ?", account).First(user).Error
 }
 
-func GetUserByEmail(user *User, email string) error {
+func (user *User) GetUserByEmail(email string) error {
 	return database.DB.Table("Users").Where("email = ?", email).First(user).Error
 }
 
-func CreateUser(user *User) error {
+func (user *User) CreateUser() error {
 	return database.DB.Table("Users").Create(user).Error
 }
 
-func UpdateUser(id uint, user *User) error {
+func (user *User) UpdateUser() error {
 	// 使用 GORM 的 Model 方法并通过 map 进行更新
-	return database.DB.Table("Users").Where("id = ?", id).Updates(user).Error
+	return database.DB.Table("Users").Where("id = ?", user.ID).Updates(user).Error
 }
 
-func DeleteUser(id uint) error {
-	return database.DB.Table("Users").Where("id = ?", id).Delete(id).Error
+func (user *User) DeleteUser() error {
+	return database.DB.Table("Users").Where("id = ?", user.ID).Delete(user.ID).Error
 }
