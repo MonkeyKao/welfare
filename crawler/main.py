@@ -5,6 +5,7 @@ import pandas as pd
 import sys
 import jieba
 from fuzzywuzzy import fuzz
+from transformers import pipeline
 
 # 關鍵字與種類編號對應字典
 category_mapping = {
@@ -37,7 +38,9 @@ file_path = '../list.xlsx'
 df = pd.read_excel(file_path)
 
 results = []
-
+id = 0
+classifier = pipeline("zero-shot-classification", model="facebook/bart-large-mnli")
+categories = ["家庭與育兒","教育","健康與退休","老人與退休","低收入戶與弱勢族群","殘疾與特殊需求","就業與創業","社會安全與基本生活支援","兒童及少年","其他特定族群"]
 
 # 迭代每一列，呼叫對應的爬蟲腳本並傳遞 city 和 url
 for index, row in df.iterrows():
@@ -59,9 +62,12 @@ for index, row in df.iterrows():
         else:
             result = f"Error: {script_path} does not have a main() function."
 
-        print(city+"爬蟲成功,開始進行分類")
+        print(city+"爬蟲成功,開始進行分類及編號")
         for item in result:
             item['category'] = match_category(item['title'])
+            # results = classifier(item['title'],candidate_labels=categories)
+            item['id'] = id
+            id = id + 1
         print(city+"已經分類完畢")
         # 儲存回傳結果
         results.append({
@@ -73,7 +79,7 @@ for index, row in df.iterrows():
         # 捕捉任何異常
         results.append({
             'city': city,
-            'output': "異常"
+            'output': []
         })
         print(city+"異常:"+str(e))
 

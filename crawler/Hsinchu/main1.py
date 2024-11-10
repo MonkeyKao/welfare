@@ -1,46 +1,26 @@
-import json
-import sys
-import time
-import random
-from bs4 import BeautifulSoup
-import requests
+from requests_html import HTMLSession
+import validators
 
 def scrape_data(city, url):
-    headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.121 Safari/537.36"
-    }
+    results = []
 
-    try:
-        # 模擬瀏覽器請求並添加隨機延遲
-        time.sleep(random.uniform(2, 5))
-        res = requests.get(url, headers=headers)
-        res.encoding = 'gbk'
-        res.encoding = 'utf-8'
-        
-        soup = BeautifulSoup(res.text, "html.parser").find_all("a")[19:45]  # 取第 21 到 45 筆資料
+    session = HTMLSession()
+    r = session.get(url)
+    about = r.html.find('.content-list  a',)
+    for item in about:
+        r = session.get('https://social.hsinchu.gov.tw/'+item.attrs['href'])
+        about2 = r.html.find("tbody a")
+        for temp in about2:
+            if validators.url(temp.attrs['href']):
+                results.append({"category": [1], "city": city, "url": temp.attrs['href'], "title": temp.attrs['title']})
+            else:
+                results.append({"category": [1], "city": city, "url": "https://social.hsinchu.gov.tw/"+temp.attrs['href'], "title": temp.attrs['title']})
 
-        results = []
-        for a_tag in soup:
-            if 'href' in a_tag.attrs:
-                link_url = a_tag["href"]
-                if not link_url.startswith("http"):  # 處理相對 URL
-                    link_url = f"https://social.hsinchu.gov.tw/Default.aspx"
-                title = a_tag.get_text(strip=True)
-                results.append({"city":city,"url": link_url, "title": title})
-        
-        return results
-    
-    except requests.exceptions.RequestException as e:
-        print(f"RequestException: {e}")
-        return []
+    return results
 
-def main():
-    city = sys.argv[1]
-    url = sys.argv[2]
+def main(city, url):
+    return scrape_data(city, url)  # 调用 scrape_data 函数获取数据
 
-    data = scrape_data(city, url)  # 调用 scrape_data 函数获取数据
-    json_data = json.dumps(data, ensure_ascii=False, indent=4)  # 将数据转换为 JSON 格式
-    print(json_data)  # 输出 JSON 数据
 
 if __name__ == "__main__":
     main()

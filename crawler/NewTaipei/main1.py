@@ -1,4 +1,5 @@
 from requests_html import HTMLSession
+import validators
 
 def scrape_data(city, url):
     results = []
@@ -16,14 +17,10 @@ def scrape_data(city, url):
             about = r.html.find('.con a')
             
             for temp in about:
-                url = ""
-                title = temp.attrs['title']
-                if "(開啟新視窗)" in title:
-                    url += temp.attrs['href']
+                if validators.url(temp.attrs['href']):
+                    results.append({"category": [1], "city": city, "url": temp.attrs['href'], "title": temp.attrs['title']})
                 else:
-                    url = ("https://www.sw.ntpc.gov.tw/"+item.attrs["href"])
-                
-                results.append({"category": [1], "city": city, "url": url, "title": title})
+                    results.append({"category": [1], "city": city, "url": "https://www.sw.ntpc.gov.tw/"+temp.attrs['href'], "title": temp.attrs['title']})
     session.close()
     return results  # 返回包含所有结果的列表
 
