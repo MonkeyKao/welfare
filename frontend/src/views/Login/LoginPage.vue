@@ -91,8 +91,8 @@ var constraints = {
   account: {
     length: {
       minimum: 3,
-      maximum: 10,
-      message: "賬號長度需在3-10個字元間"
+      maximum: 12,
+      message: "賬號長度需在3-12個字元間"
     }
   },
   password: {
@@ -102,8 +102,8 @@ var constraints = {
     },
     length: {
       minimum: 3,
-      maximum: 10,
-      message: "密碼長度需在3-10個字元間"
+      maximum: 15,
+      message: "密碼長度需在3-15個字元間"
     }
   }
 };

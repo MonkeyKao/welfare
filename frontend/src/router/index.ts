@@ -57,7 +57,7 @@ const routes: Array<RouteRecordRaw> = [
         meta: { needLogin: false },
       },
       {
-        path: "account/create-profile",
+        path: "create-profile",
         name: "CreateProfilePage",
         component: CreateProfilePage,
         meta: { needLogin: false },
