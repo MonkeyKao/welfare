@@ -1,42 +1,45 @@
 <template>
-  <header class="top-0 left-0 right-0 flex items-center p-5 pt-14 bg-[#92c700]">
+  <div class="flex justify-start items-center gap-3 p-4 bg-[#92c700]">
     <router-link to="/home" class="forgot-password-link">
-      <PhArrowUUpLeft :size="32" color="#000" class="ml-5" />
+      <PhArrowUUpLeft :size="32" color="#000" />
     </router-link>
-    <label class="ml-5 text-3xl font-bold">通知</label>
-  </header>
-  
-  <div class="flex items-end p-4">
+    <label class="text-3xl font-bold">通知</label>
+  </div>
+
+  <div
+    v-for="(message, index) in messages"
+    :key="index"
+    class="flex items-end p-4"
+  >
     <img src="@/images/user-square.png" alt="類別圖片" class="w-10 h-10" />
-    <div class="flex-1 ml-4 p-3 bg-white shadow-md rounded-tl-lg rounded-tr-lg rounded-br-lg">
-      <p class="text-gray-800">
-        哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈
-      </p>
+    <div class="flex p-4 bg-white shadow-md rounded-tl-lg rounded-tr-lg rounded-br-lg">
+      <p class="text-gray-800 ">{{ message.text }}</p>
     </div>
     <div class="ml-4">
       <PhHeartStraight
         :size="28"
-        :weight="isFavorited ? 'fill' : 'regular'"
+        :weight="message.isFavorited ? 'fill' : 'regular'"
         class="cursor-pointer"
-        @click="toggleFavorite"
+        @click="toggleFavorite(index)"
       />
     </div>
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue';
 import { PhArrowUUpLeft, PhHeartStraight } from '@phosphor-icons/vue';
 
-const isFavorited = ref(true);
+const messages = ref([
+  { text: '【文化部消息】震驚!!!114年文化幣每人可領取2000元', isFavorited: false },
+  { text: '【文化部消息】花蓮振興文化幣再加碼 16-22歲青年快衝一波', isFavorited: false },
+]);
 
-function toggleFavorite() {
-  isFavorited.value = !isFavorited.value;
-}
+const toggleFavorite = (index: number) => {
+  messages.value[index].isFavorited = !messages.value[index].isFavorited;
+  messages.value.splice(index, 1);
+};
 </script>
 
 <style scoped>
-.icon {
-  transition: color 0.3s;
-}
 </style>

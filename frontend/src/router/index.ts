@@ -15,6 +15,7 @@ import PersonalDataPage from "@/views/User/PersonalDataPage.vue";
 import QAPage from "@/views/User/QAPage.vue";
 import SettingsPage from "@/views/User/SettingsPage.vue";
 import UserPage from "@/views/UserPage.vue";
+import NotifyPage from "@/views/NotifyPage.vue";
 import { createRouter, createWebHistory, RouterView, type RouteRecordRaw } from "vue-router";
 
 const routes: Array<RouteRecordRaw> = [
@@ -128,7 +129,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: "/notifications",
     name: "NotifyPage",
-    component: Notification,
+    component: NotifyPage,
     meta: { needLogin: true },
   },
 ];
