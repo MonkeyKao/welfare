@@ -7,6 +7,8 @@ import { useWelfareStore } from "./store/welfareStroe";
 import { provide } from 'vue'
 import TipMsg from "./components/tipMsg.vue";
 
+import aiinput from "@/components/aiinput.vue";
+
 const route = useRoute(); // 獲取當前路由
 const userStore = useUserStore();
 const welfareStore = useWelfareStore();
@@ -23,28 +25,37 @@ onMounted(() => {
 <template>
   <!-- 渲染當前頁面 -->
   <div class="overflow-y-auto h-full flex flex-col justify-between">
-    <div class="overflow-auto">
+    <div v-if="['AiPage',].includes(route.name)" class="overflow-auto pb-10">
       <RouterView />
     </div>
-
-    <div
-      class="flex flex-col-reverse h-20"
-      v-if="
-        ![
-          'LoginPage',
-          'RegisterPage',
-          'ForgetPasswordPage',
-          'ResetPasswordPage',
-          'CreateProfile',
-          'VerifyPage',
-          'LikePage',
-          'NotifyPage',
-          'CreateProfilePage',
-        ].includes(route.name)
-      "
-    >
-      <BottomNav />
+    <div v-else class="overflow-auto">
+      <RouterView />
     </div>
+    <div class="flex flex-col-reverse h-20">
+      <div      
+        v-if="
+          ![
+            'LoginPage',
+            'RegisterPage',
+            'ForgetPasswordPage',
+            'ResetPasswordPage',
+            'CreateProfile',
+            'VerifyPage',
+            'LikePage',
+            'NotifyPage',
+            'CreateProfilePage',
+            
+          ].includes(route.name)
+        "
+      >
+        <BottomNav />
+      </div>
+      <div class=" z-20" v-if="['AiPage',].includes(route.name)">
+        <aiinput />
+      </div>   
+    </div>
+
+    
   </div>
 
   <TipMsg ref="tipmsg"></TipMsg>
