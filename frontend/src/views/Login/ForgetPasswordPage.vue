@@ -48,19 +48,19 @@ const verificationCode = ref("");
 const emailInput = ref(false)
 
 const sendVerificationCode = async () => {
-  const vaildResult =  validate.async({email:email.value}, {
+  const vaildResult = await validate({ email: email.value }, {
     email: {
       email: {
         message: "郵箱輸入有誤"
       }
     }
-  }).catch((err) => {
-    console.log(err);
-    
-    return
   })
-  
 
+  if(vaildResult){
+    alert(vaildResult[0])
+    return
+  }
+  
   try {
     const result = await request.get("/users/getVerifyEmail", { params: { "email": email.value } })
     emailInput.value = true
@@ -75,7 +75,7 @@ const verifyCode = async () => {
     code: verificationCode.value,
   }
 
-  const vaildResult = await validate.async(form, {
+  const vaildResult = await validate(form, {
     email: {
       email: {
         message: "郵箱輸入有誤"
@@ -95,7 +95,6 @@ const verifyCode = async () => {
     const result = await request.post("/users/verify", form)
     router.push("/account/reset-password")
     localStorage.setItem('token', result.data.msg)
-    console.log("成功");
 
   } catch (error: any) {
     alert(error.response.data.error)
