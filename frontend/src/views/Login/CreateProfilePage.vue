@@ -60,7 +60,6 @@
 </template>
 
 <script setup lang="ts">
-import request from "@/axios";
 import Avatar from "@/components/Avatar.vue";
 import User from "@/model/user";
 import router from "@/router";
@@ -74,7 +73,7 @@ import { RouterLink } from "vue-router";
 
 const formatDate = "yyyy-MM-dd";
 const user = ref<User>({
-  _id: 0,
+  ID: 0,
   account: "",
   name: "",
   password: "",

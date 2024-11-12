@@ -13,7 +13,7 @@
         <label class="text-lg font-bold flex ml-3">{{ item.label }}</label>
       </div>
 
-      <router-link v-if="user.account" to="/account/login" class="forgot-password-link"><button
+      <router-link v-if="user.ID" to="/account/login" class="forgot-password-link"><button
           class="w-full bg-[#90c700] text-white font-bold text-2xl py-3 rounded shadow-md" type="button"
           @click="logoutHandler">
           登出
@@ -24,6 +24,8 @@
         </button></router-link>
     </div>
   </div>
+
+  {{ user }}
 </template>
 
 <script setup lang="ts">

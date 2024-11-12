@@ -1,4 +1,3 @@
-
 import AiPage from "@/views/AiPage.vue";
 import HomePage from "@/views/HomePage.vue";
 import LikePage from "@/views/LikePage.vue";
@@ -15,6 +14,12 @@ import PersonalDataPage from "@/views/User/PersonalDataPage.vue";
 import QAPage from "@/views/User/QAPage.vue";
 import SettingsPage from "@/views/User/SettingsPage.vue";
 import UserPage from "@/views/UserPage.vue";
+import {
+  createRouter,
+  createWebHistory,
+  RouterView,
+  type RouteRecordRaw,
+} from "vue-router";
 import NotifyPage from "@/views/NotifyPage.vue";
 import { createRouter, createWebHistory, RouterView, type RouteRecordRaw } from "vue-router";
 
@@ -58,13 +63,13 @@ const routes: Array<RouteRecordRaw> = [
         meta: { needLogin: false },
       },
       {
-        path: "account/create-profile",
+        path: "create-profile",
         name: "CreateProfilePage",
         component: CreateProfilePage,
         meta: { needLogin: false },
       },
     ],
-    component:RouterView 
+    component: RouterView,
   },
   {
     path: "/user/settings",
@@ -100,7 +105,7 @@ const routes: Array<RouteRecordRaw> = [
     path: "/user/link-account",
     name: "LinkAccountPage",
     component: LinkAccountPage,
-    meta: { needLogin: true },
+    meta: { needLogin: false }, //記得改回true
   },
   // 最后定义父路径
   {
