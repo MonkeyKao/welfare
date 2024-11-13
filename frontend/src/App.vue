@@ -25,13 +25,13 @@ onMounted(() => {
 <template>
   <!-- 渲染當前頁面 -->
   <div class="overflow-y-auto h-full flex flex-col justify-between">
-    <div v-if="['AiPage',].includes(route.name)" class="overflow-auto pb-10">
+    <div v-if="['AiPage'].includes(route.name)" class="overflow-auto pb-10">
       <RouterView />
     </div>
     <div v-else class="overflow-auto">
       <RouterView />
     </div>
-    <div class="flex flex-col-reverse h-20">
+    <div class="flex flex-col-reverse">
       <div      
         v-if="
           ![
