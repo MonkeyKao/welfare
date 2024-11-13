@@ -50,9 +50,7 @@ onMounted(() => {
       >
         <BottomNav />
       </div>
-      <div class=" z-20" v-if="['AiPage',].includes(route.name)">
-        <aiinput />
-      </div>   
+      
     </div>
 
     

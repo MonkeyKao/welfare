@@ -4,15 +4,29 @@
     <!-- insert col -->
   </div>
 
+  <div class=" fixed bottom-14 w-full z-20">
+    <Aiinput @click-send-msg="(msg) => reciveAccountMsg(msg)" />
+  </div>
+
 </template>
 
 <script setup lang="ts">
+import Aiinput from '@/components/aiinput.vue';
 import { useWelfareStore } from '@/store/welfareStroe';
 import { onMounted, ref } from 'vue';
 
 const welfareStroe = useWelfareStore()
 
-const colContainer = ref<HTMLDivElement>({})
+const reciveAccountMsg = (msg: string) => {
+  insertAccountMsg(msg)
+  setTimeout(() => {
+    const result = "我聽不懂你在說啥"
+    insertResultInfCard([{ title: "我聽不懂你在說啥\n點擊返回主界面", url: "home" }])
+  }, 1000)
+
+}
+
+const colContainer = ref<HTMLDivElement>(document.createElement('div'))
 
 //創建用戶消息
 const insertAccountMsg = (message: string) => { //用戶
@@ -174,12 +188,12 @@ const clickPlaceHandler = (name: string) => {
 const ResultInfHandler = (input: Array<string | number>) => {
   welfareStroe.getWelfare([1, 2, 3, 4, 5], [1, 2, 3, 4, 5])
   const result = welfareStroe.getWelfare([Number(input[0])], [Number(input[3])])
-  if (result.length>0) {
+  if (result.length > 0) {
     insertResultInfCard(result)
-  }else{
-    insertResultInfCard([{title:"未找到相關福利\n點擊返回主界面",url:"home"}])
+  } else {
+    insertResultInfCard([{ title: "未找到相關福利\n點擊返回主界面", url: "home" }])
   }
-  
+
 }
 
 // 插入最終篩選資料
@@ -196,7 +210,7 @@ const insertResultInfCard = (items: Array<{ title: string, url: string }>) => {
   itemDiv.className = 'px-3 space-y-3';
 
   items.forEach(item => //for迴圈陣列
-    itemDiv.appendChild(createResultInfCard(item.title, "/"+item.url)),
+    itemDiv.appendChild(createResultInfCard(item.title, "/" + item.url)),
     colDiv.appendChild(itemDiv)
   );
 
