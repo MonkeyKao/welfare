@@ -1,36 +1,42 @@
 <template>
   <div ref="colContainer" class="container flex gap-4 flex-col mx-auto p-4">
-    <button @click="insertItems(ewlfareitems,0)" class="mt-4 bg-lime-500 text-white p-2 rounded">阿哞篩選</button>
+    <!-- <button class="mt-4 bg-lime-500 text-white p-2 rounded">阿哞篩選</button> -->
     <!-- insert col -->
   </div>
-  
+
+  <div class=" fixed bottom-14 w-full z-20">
+    <Aiinput @click-send-msg="(msg) => reciveAccountMsg(msg)" />
+  </div>
+
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import Aiinput from '@/components/aiinput.vue';
+import { useWelfareStore } from '@/store/welfareStroe';
+import { onMounted, ref } from 'vue';
 
-const colContainer = ref<HTMLDivElement>()
+const welfareStroe = useWelfareStore()
 
-let temp: Array<Number> = [0, 0, 0];
+const reciveAccountMsg = (msg: string) => {
+  insertAccountMsg(msg)
+  setTimeout(() => {
+    const result = "我聽不懂你在說啥"
+    insertResultInfCard([{ title: "我聽不懂你在說啥\n點擊返回主界面", url: "home" }])
+  }, 1000)
 
-//將元素插入到colContainer中，存在的話進createCol函數把內容附加到容器
-const insertItems = (items: Array<{ "id": number, "name": string, "image": string }>,num:number) => { 
-  if (colContainer.value) {
-    
-    colContainer.value.appendChild(createCol(items,num));
-    
-  }
-};
+}
 
-//創建消息插入colContainer中
-const insertMsg = (message: string) => { //用戶方
+const colContainer = ref<HTMLDivElement>(document.createElement('div'))
+
+//創建用戶消息
+const insertAccountMsg = (message: string) => { //用戶
   const colDiv = document.createElement("div");
   colDiv.className = 'flex flex-row-reverse gap-4';
 
-  //圖片區塊
- /* const imgdiv = document.createElement("div");
+  // 創建頭像div
+  const imgdiv = document.createElement("div");
   imgdiv.className = "relative";
-  imgdiv.appendChild(createLogo("1.jpg"));*/
+  imgdiv.appendChild(createAvatar("avatar.jpg"));
 
   //文字區塊
   const itemDiv = document.createElement('div');
@@ -38,50 +44,61 @@ const insertMsg = (message: string) => { //用戶方
   itemDiv.innerHTML = message
 
   //圖片及文字區塊組合放進colDiv
-  //colDiv.appendChild(imgdiv)
-  colDiv.appendChild(itemDiv)  
+  colDiv.appendChild(itemDiv)
+  colContainer.value.appendChild(colDiv);
 
-  if (colContainer.value) {
-    colContainer.value.appendChild(colDiv);
-  }
-
-  if (colContainer.value) {
-    colContainer.value.appendChild(colDiv);
-    setTimeout(() => {
-      colDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }, 100); // 延遲確保插入完成後再滾動
-  }
+  colContainer.value.appendChild(colDiv);
+  setTimeout(() => {
+    colDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 100); // 延遲確保插入完成後再滾動
 
   return colDiv;
 }
 
-const createCol = (items: Array<{ "id": number, "name": string, "image": string }>,num:number) => { //阿哞
-  const colDiv = document.createElement("div"); 
-  colDiv.className = 'flex items-end'; 
+// 創建橫排服務選擇卡片
+const insertServiceCard = (items: Array<{ "id": number, "name": string, "image": string }>) => {
+  const colDiv = document.createElement("div");
+  colDiv.className = 'flex items-end';
+
+  // 創建頭像div
+  const imgdiv = document.createElement("div");
+  imgdiv.className = "relative";
+  imgdiv.appendChild(createAvatar("avatar.jpg"));
+  colDiv.appendChild(imgdiv);
+
+  const itemDiv = document.createElement('div');
+  itemDiv.className = 'overflow-x-auto flex space-x-4 ml-4';
+
+  items.forEach(item => //for迴圈陣列
+    itemDiv.appendChild(createServiceCard(item.image, item.name)),
+    colDiv.appendChild(itemDiv)
+  );
+
+  colContainer.value.appendChild(colDiv);
+  setTimeout(() => {
+    colDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 300); // 延遲確保插入完成後再滾動
+}
+
+// 創建豎排地區選擇卡片 
+const insertPlaceCard = (items: Array<{ "id": number, "name": string, "image": string }>) => { //阿哞
+  const colDiv = document.createElement("div");
+  colDiv.className = 'flex items-end';
 
   const imgdiv = document.createElement("div");
   imgdiv.className = "relative";
-  imgdiv.appendChild(createLogo("avatar.jpg"));
+  imgdiv.appendChild(createAvatar("avatar.jpg"));
   colDiv.appendChild(imgdiv);
-  console.log('num=',num)
-  if(num==1){
-    const itemDiv = document.createElement('div');
-    itemDiv.className = 'px-3 space-y-3';
- 
-    items.forEach(item => //for迴圈陣列
-    itemDiv.appendChild(cardplace(item.name)),
+
+  const itemDiv = document.createElement('div');
+  itemDiv.className = 'px-3 space-y-3';
+
+  items.forEach(item => //for迴圈陣列
+    itemDiv.appendChild(createPlaceCard(item.name)),
     colDiv.appendChild(itemDiv)
   );
-  }else{
-    const itemDiv = document.createElement('div');
-    itemDiv.className = 'overflow-x-auto flex space-x-4 ml-4';
- 
-    items.forEach(item => //for迴圈陣列
-    itemDiv.appendChild(createCard(item.image,item.name)),
-    colDiv.appendChild(itemDiv)
-    );
-  } 
-   // 滾動到新插入的 colDiv
+
+  // 滾動到新插入的 colDiv
   if (colContainer.value) {
     colContainer.value.appendChild(colDiv);
     setTimeout(() => {
@@ -92,158 +109,133 @@ const createCol = (items: Array<{ "id": number, "name": string, "image": string 
   return colDiv;
 }
 
+/**
+ * 根據傳入參數，找到點擊對應之id
+ * @param name 傳入參數
+ * 
+ * @returns [返回卡片之id,返回點擊之層級,返回點擊之name，返回選取之福利id]
+ */
+let selectedService: number = 0;
 const checkIndex = (name: string): Array<string | number> => {
-  let index = 0;  // 用來記錄當前項目的索引
-  let selectIndex = 0;  // 用來記錄找到的項目的索引
-  let category = 0;  // 用來記錄找到的項目的類別
-  let foundName = "";  // 用來記錄找到的名稱
+  const items = [
+    { data: ewlfareitems.value, index: 1 },
+    { data: taiwanitems.value, index: 2 },
+    { data: northitems.value, index: 3 },
+    { data: miditems.value, index: 3 },
+    { data: southitems.value, index: 3 },
+    { data: eastitems.value, index: 3 },
+  ];
 
-  // 遍歷 `ewlfareitems` 資料
-  ewlfareitems.value.forEach((item) => {
-    index++;  
-    category = 1; 
-    if (item.name === name) { 
-      selectIndex = index;  
-      foundName = item.name; 
+  for (let { data, index } of items) {
+    const foundItem = data.find(item => item.name === name);
+    if (foundItem) {
+      if (index == 1) {
+        selectedService = foundItem.id
+      }
+      return [foundItem.id, index, foundItem.name, selectedService];
     }
-  });
-
-  if (selectIndex != 0) {  
-    console.log(selectIndex, category, foundName); 
-    return [selectIndex, category, foundName]; 
   }
 
-  // 遍歷 `taiwanitems` 資料
-  index = 0;  // 重置索引
-  taiwanitems.value.forEach((item) => {
-    index++; 
-    category = 2; 
-    if (item.name === name) { 
-      selectIndex = index; 
-      foundName = item.name;  
-    }
-  });
+  // 如果未找到匹配的項目，回傳空陣列
+  return [];
 
-  if (selectIndex != 0) {  // 如果找到了匹配的項目
-    console.log(selectIndex, category, foundName);  
-    return [selectIndex, category, foundName];  
-  }
-
-  // 遍歷 `northitems` 資料
-  index = 0;  // 重置索引
-  northitems.value.forEach((item) => {
-    index++; 
-    category = 3; 
-    if (item.name === name) {  
-      selectIndex = index; 
-      foundName = item.name;  
-    }
-  });
-
-  if (selectIndex != 0) {  
-    console.log(selectIndex, category, foundName);  
-    return [selectIndex, category, foundName];  
-  }
-
-  // 遍歷 `miditems` 資料
-  index = 0;  // 重置索引
-  miditems.value.forEach((item) => {
-    index++;  
-    category = 3;  
-    if (item.name === name) {  
-      selectIndex = index;  
-      foundName = item.name;  
-    }
-  });
-
-  if (selectIndex != 0) { 
-    console.log(selectIndex, category, foundName)
-    return [selectIndex, category, foundName];  
-  }
-
-  // 遍歷 `southitems` 資料
-  index = 0;  // 重置索引
-  southitems.value.forEach((item) => {
-    index++;  
-    category = 3;  
-    if (item.name === name) { 
-      selectIndex = index; 
-      foundName = item.name; 
-    }
-  });
-
-  if (selectIndex != 0) { 
-    console.log(selectIndex, category, foundName); 
-    return [selectIndex, category, foundName];  
-  }
-
-  // 遍歷 `eastitems` 資料
-  index = 0;  // 重置索引
-  eastitems.value.forEach((item) => {
-    index++;  // 每次遍歷時，索引加 1
-    category = 3;  // 設定類別為 3，表示這是 `eastitems` 的資料
-    if (item.name === name) {  // 如果當前項目的名稱與傳入的 `name` 匹配
-      selectIndex = index;  // 記錄當前項目的索引
-      foundName = item.name;  // 記錄找到的名稱
-    }
-  });
-
-  if (selectIndex != 0) {  // 如果找到了匹配的項目
-    return [selectIndex, category, foundName];  // 返回找到的索引、類別和名稱
-  }
-
-  // 如果沒有找到匹配的項目，返回預設值
-  return [0, 0, ""];
 };
 
-//卡片格式by地區選擇
-const cardplace = (name:string)=>{
+//創建地區單個卡片
+const createPlaceCard = (name: string) => {
   const itemDiv = document.createElement('div');
-  itemDiv.className = 'w-36 h-8 border-b shadow-sm flex items-center justify-center'; 
+  itemDiv.className = 'w-36 h-8 border-b shadow-sm flex items-center justify-center';
+  itemDiv.addEventListener('click', (click) => clickPlaceHandler(name));
 
   const nameDiv = document.createElement('div');
   nameDiv.className = "text-H3";
   nameDiv.innerText = name;
 
   itemDiv.appendChild(nameDiv);  // 將 nameDiv 添加到 itemDiv
+  return itemDiv
+  // 返回整個 itemDiv 以便在 insertPlaceCard 中使用
 
-   // 添加点击事件
-   itemDiv.addEventListener('click', () => {
+}
 
+// 點擊地區卡片處理
+const clickPlaceHandler = (name: string) => {
   let index = checkIndex(name)
   //進全區
   if (index[1] == 1) {
-  insertMsg(index[2].toString())
-  insertItems(taiwanitems.value,1)
-  }   
+    insertAccountMsg(index[2].toString())
+    insertPlaceCard(taiwanitems.value)
+  }
   //看說要進北中南東哪區
   if (index[1] == 2) {
-    insertMsg(index[2].toString())
+    insertAccountMsg(index[2].toString())
     if (index[0] == 1) {
-      insertItems(northitems.value,1)
+      insertPlaceCard(northitems.value)
     } else if (index[0] == 2) {
-      insertItems(miditems.value,1)
+      insertPlaceCard(miditems.value)
     } else if (index[0] == 3) {
-      insertItems(southitems.value,1)
+      insertPlaceCard(southitems.value)
     } else if (index[0] == 4) {
-      insertItems(eastitems.value,1)
+      insertPlaceCard(eastitems.value)
     }
   }
   if (index[1] == 3) {
-    console.log("enter",index[2].toString())
-    insertMsg(index[2].toString())
+    insertAccountMsg(index[2].toString())
+    ResultInfHandler(index)
   }
-  });
-  // 将 imgElement 和 nameDiv 添加到 itemDiv 中
-
-  itemDiv.appendChild(nameDiv);
-  return itemDiv
-  // 返回整個 itemDiv 以便在 createCol 中使用
-  
 }
 
-//卡片格式by服務選擇
-const createCard = (image: string, name: string) => {
+// 最終資料處理方法
+const ResultInfHandler = (input: Array<string | number>) => {
+  welfareStroe.getWelfare([1, 2, 3, 4, 5], [1, 2, 3, 4, 5])
+  const result = welfareStroe.getWelfare([Number(input[0])], [Number(input[3])])
+  if (result.length > 0) {
+    insertResultInfCard(result)
+  } else {
+    insertResultInfCard([{ title: "未找到相關福利\n點擊返回主界面", url: "home" }])
+  }
+
+}
+
+// 插入最終篩選資料
+const insertResultInfCard = (items: Array<{ title: string, url: string }>) => {
+  const colDiv = document.createElement("div");
+  colDiv.className = 'flex items-end';
+
+  const imgdiv = document.createElement("div");
+  imgdiv.className = "relative";
+  imgdiv.appendChild(createAvatar("avatar.jpg"));
+  colDiv.appendChild(imgdiv);
+
+  const itemDiv = document.createElement('div');
+  itemDiv.className = 'px-3 space-y-3';
+
+  items.forEach(item => //for迴圈陣列
+    itemDiv.appendChild(createResultInfCard(item.title, "/" + item.url)),
+    colDiv.appendChild(itemDiv)
+  );
+
+
+  colContainer.value.appendChild(colDiv);
+  setTimeout(() => {
+    colDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 300); // 延遲確保插入完成後再滾動
+}
+
+const createResultInfCard = (title: string, url: string) => {
+  const itemDiv = document.createElement('div');
+  itemDiv.className = 'border-b shadow-sm flex items-center justify-center';
+  itemDiv.addEventListener('click', () => { window.location.href = url });
+
+  const nameDiv = document.createElement('div');
+  nameDiv.className = "text-H3 ";
+  nameDiv.innerText = title;
+
+  itemDiv.appendChild(nameDiv);  // 將 nameDiv 添加到 itemDiv
+  return itemDiv
+}
+
+//創建服務單個卡片
+const createServiceCard = (image: string, name: string) => {
   const itemDiv = document.createElement('div');
   itemDiv.className = 'flex-none w-40 h-56 text-H3 bold flex flex-col items-center justify-center rounded';
 
@@ -258,31 +250,37 @@ const createCard = (image: string, name: string) => {
   nameDiv.innerText = name;
 
   // 添加点击事件
-  itemDiv.addEventListener('click', () => {
-
-    let index = checkIndex(name)
-    //進全區
-    if (index[1] == 1) {
-      insertMsg(index[2].toString())
-      insertItems(taiwanitems.value,1)
-    }   
-   
-  });
+  itemDiv.addEventListener('click', () => clickServiceHandler(name));
   // 将 imgElement 和 nameDiv 添加到 itemDiv 中
   itemDiv.appendChild(imgElement);
   itemDiv.appendChild(nameDiv);
   return itemDiv
 }
 
-//logo
-const createLogo = (image: string) => {
-  const itemPhoto = document.createElement('div');
-  itemPhoto.className = 'flex-none w-10 h-10 bg-blue-500 text-white flex flex-col items-center justify-center rounded';
-  itemPhoto.innerHTML = `
+// 點擊服務卡片處理
+const clickServiceHandler = (name: string) => {
+  let index = checkIndex(name)
+
+  //進全區
+  if (index[1] == 1) {
+    insertAccountMsg(index[2].toString())
+    insertPlaceCard(taiwanitems.value)
+  }
+}
+
+//創建頭像div
+const createAvatar = (image: string) => {
+  const AvatarDiv = document.createElement('div');
+  AvatarDiv.className = 'flex-none w-10 h-10 bg-blue-500 text-white flex flex-col items-center justify-center rounded';
+  AvatarDiv.innerHTML = `
         <img src="${image}" class="w-10 h-10 object-cover rounded-t-md" />
       `;
-  return itemPhoto;
+  return AvatarDiv;
 }
+
+onMounted(() => {
+  insertServiceCard(ewlfareitems.value)
+})
 
 const ewlfareitems = ref([
   { id: 1, name: '家庭與育兒福利', image: 'login.jpg' },
@@ -316,24 +314,24 @@ const northitems = ref([
 ])
 
 const miditems = ref([
-  { id: 1, name: '台中市', image: 'login.jpg' },
-  { id: 1, name: '苗栗縣', image: 'password.jpg' },
-  { id: 1, name: '彰化縣', image: 'login.jpg' },
-  { id: 1, name: '南投縣', image: 'password.jpg' },
-  { id: 1, name: '雲林縣', image: 'login.jpg' },
+  { id: 8, name: '台中市', image: 'login.jpg' },
+  { id: 9, name: '苗栗縣', image: 'password.jpg' },
+  { id: 10, name: '彰化縣', image: 'login.jpg' },
+  { id: 11, name: '南投縣', image: 'password.jpg' },
+  { id: 12, name: '雲林縣', image: 'login.jpg' },
 ])
 
 const southitems = ref([
-  { id: 1, name: '高雄市', image: 'login.jpg' },
-  { id: 1, name: '台南市', image: 'password.jpg' },
-  { id: 1, name: '嘉義市', image: 'login.jpg' },
-  { id: 1, name: '嘉義縣', image: 'password.jpg' },
-  { id: 1, name: '屏東縣', image: 'login.jpg' },
+  { id: 13, name: '高雄市', image: 'login.jpg' },
+  { id: 14, name: '台南市', image: 'password.jpg' },
+  { id: 15, name: '嘉義市', image: 'login.jpg' },
+  { id: 16, name: '嘉義縣', image: 'password.jpg' },
+  { id: 17, name: '屏東縣', image: 'login.jpg' },
 ])
 
 const eastitems = ref([
-  { id: 1, name: '花蓮縣', image: 'login.jpg' },
-  { id: 1, name: '台東縣', image: 'password.jpg' },
+  { id: 18, name: '花蓮縣', image: 'login.jpg' },
+  { id: 19, name: '台東縣', image: 'password.jpg' },
 ])
 
 
