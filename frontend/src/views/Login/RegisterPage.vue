@@ -14,10 +14,10 @@
 
         <div class="flex border-2 rounded-md shadow-md y-2 p-1 px-3 items-center">
           <PhUser :size="32" color="#4d4d4d" class="flex-shrink-0" />
-          <input v-model="user.account" class="mx-2 min-w-0 text-base" type="text" placeholder="帳號" />
+          <input v-model="user.account" class=" border-none outline-none mx-2 min-w-0 text-base" type="text" placeholder="帳號" />
         </div>
         <!-- 密碼輸入框 -->
-        <div class="flex border-2 rounded-md shadow-md p-1 px-3 justify-between">
+        <div class="flex border-2 rounded-md shadow-md p-1 px-3 justify-between ">
             <div class="flex">
               <PhLockKey :size="32" color="#4d4d4d" class="flex-shrink-0" />
               <input
@@ -35,7 +35,7 @@
 
         <div class="flex border-2 rounded-md shadow-md y-2 p-1 px-3 items-center">
           <PhEnvelopeSimple :size="32" color="#4d4d4d" class="flex-shrink-0" />
-          <input v-model="user.email" class="mx-2 min-w-0 text-base" type="email" placeholder="信箱" />
+          <input v-model="user.email" class=" border-none outline-none mx-2 min-w-0 text-base" type="email" placeholder="信箱" />
         </div>
 
         <div class="flex items-center px-2">
