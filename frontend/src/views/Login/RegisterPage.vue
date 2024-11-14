@@ -35,7 +35,7 @@
 
         <div class="flex border-2 rounded-md shadow-md y-2 p-1 px-3 items-center">
           <PhEnvelopeSimple :size="32" color="#4d4d4d" class="flex-shrink-0" />
-          <input v-model="user.email" class=" border-none outline-none mx-2 min-w-0 text-base" type="email" placeholder="信箱" />
+          <input v-model="user.email" class=" border-none outline-none mx-2  text-base" type="email" placeholder="信箱" />
         </div>
 
         <div class="flex items-center px-2">
@@ -94,13 +94,13 @@ var constraints = {
     length: {
       minimum: 3,
       maximum: 12,
-      message: "賬號長度需在3-12個字元間"
+      message: "帳號長度需在3-12個字元間"
     }
   },
   password: {
     format: {
       pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/,
-      message: "密碼必须包含至少一个大写字母、一个小写字母和一个数字"
+      message: "密碼必須包含至少一個大寫字母、一個小寫字母和一個數字"
     },
     length: {
       minimum: 3,

@@ -4,6 +4,7 @@
       <img src="../../images/forgetpassword.jpg" />
     </div>
     <div class="flex-grow">
+      
     <form @submit.prevent class="flex flex-col space-y-10 px-10 mt-3">
       <div class="flex items-center w-full mt-7 relative">
         <router-link to="/account/login" class="flex-shrink-0"><PhArrowUUpLeft :size="32" weight="bold" color="#4d4d4d" /></router-link>
@@ -20,7 +21,7 @@
       <div class="flex border-2  rounded-md shadow-md p-1 px-3 justify-between">
         <div class="flex">
           <PhShieldCheck :size="28" color="#4d4d4d" class="flex-shrink-0" />
-          <input class="border-none resize outline-none p-1 mx-1 w-full" type="password" v-model="verificationCode" placeholder="驗證碼" />
+          <input class="border-none resize outline-none p-1 mx-1 w-full" type="text" v-model="verificationCode" placeholder="驗證碼" />
         </div>
         <div class="flex-shrink-0 flex items-center justify-center border-l-2 border-[#92c700] px-2">
           <button @click="sendVerificationCode" class="text-[#92c700] ">重設驗證碼</button>
