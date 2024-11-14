@@ -1,37 +1,36 @@
 <template>
-  <!-- 固定定位的 header，確保圖片維持在最上方 -->
-  <header>
-    <img src="/forgetpassword.jpg" class="w-full" />
-  </header>
-
-  <body>
-    <router-link to="/login">
-      <PhArrowUUpLeft :size="32" color="#4d4d4d" class="ml-5" />
-    </router-link>
-    <form @submit.prevent class="flex flex-col w-full h-full px-10 gap-5">
-      <label class="text-3xl font-bold">忘記密碼</label>
-      <div class="flex w-full border-2 rounded-md shadow-md p-3 items-center">
-        <PhEnvelopeSimple :size="32" color="#4d4d4d" class="flex-shrink-0" />
-        <input v-model="email" type="email" placeholder="信箱" class="ml-2" :disabled="emailInput" />
+  <div class="flex flex-col h-screen w-full justify-between">
+    <div class="flex-shrink-0">
+      <img src="../../images/forgetpassword.jpg" />
+    </div>
+    <div class="flex-grow">
+    <form @submit.prevent class="flex flex-col space-y-10 px-10 mt-3">
+      <div class="flex items-center w-full mt-7 relative">
+        <router-link to="/account/login" class="flex-shrink-0"><PhArrowUUpLeft :size="32" weight="bold" color="#4d4d4d" /></router-link>
+        <label class="absolute left-1/2 transform -translate-x-1/2 text-H1 font-bold">忘記密碼</label>
       </div>
 
-      <div class="flex w-full border-2 rounded-md shadow-md p-3 items-center">
-        <PhShieldCheck :size="32" color="#4d4d4d" class="flex-shrink-0" />
-        <input class="mx-2 min-w-0" type="password" v-model="verificationCode" placeholder="驗證碼" />
-        <button @click="sendVerificationCode"
-          class="flex text-lg text-[#92c700] border-l-2 border-[#92c700] whitespace-nowrap px-2">
-          發送驗證碼
-        </button>
+
+      
+      <div class="flex border-2 rounded-md shadow-md y-5 p-1 items-center px-3 ">
+        <PhEnvelopeSimple :size="28" color="#4d4d4d" class="flex-shrink-0" />
+        <input v-model="email" type="email" placeholder="信箱" class="border-none resize outline-none p-1 w-full" :disabled="emailInput" />
       </div>
 
-      <div>
-        <button class="w-full bg-[#90c700] text-white font-bold text-2xl py-3 rounded shadow-md" @click="verifyCode">
-          下一步
-        </button>
+      <div class="flex border-2  rounded-md shadow-md p-1 px-3 justify-between">
+        <div class="flex">
+          <PhShieldCheck :size="28" color="#4d4d4d" class="flex-shrink-0" />
+          <input class="border-none resize outline-none p-1 mx-1 w-full" type="password" v-model="verificationCode" placeholder="驗證碼" />
+        </div>
+        <div class="flex-shrink-0 flex items-center justify-center border-l-2 border-[#92c700] px-2">
+          <button @click="sendVerificationCode" class="text-[#92c700] ">重設驗證碼</button>
+        </div>
       </div>
+      
+      <button class=" bg-[#90c700] rounded shadow-md items-center text-white font-bold text-H3 p-2" @click="verifyCode">下一步</button>   
     </form>
-
-  </body>
+    </div>
+  </div>
 </template>
 <script setup lang="ts">
 import request from "@/axios";

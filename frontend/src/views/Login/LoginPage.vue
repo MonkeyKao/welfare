@@ -12,7 +12,7 @@
         <label class="flex text-H1 font-bold justify-center">Login</label>
 
         <!-- 帳號輸入框 -->
-        <div class="flex border-2 rounded-md shadow-md y-2 p-1 items-center">
+        <div class="flex border-2 rounded-md shadow-md y-2 p-1 items-center px-3">
           <PhUser :size="32" color="#4d4d4d" class="flex-shrink-0" />
           <input v-model="user.account" class="border-none resize outline-none p-1 w-full" type="text" placeholder="帳號" />
         </div>
@@ -20,7 +20,7 @@
         <div class="">
           <router-link to="/account/forgot-password" class="flex text-H3 text-[#92c700] justify-end">忘記密碼？</router-link>
           <!-- 密碼輸入框 -->
-          <div class="flex border-2 rounded-md shadow-md p-1 justify-between">
+          <div class="flex border-2 rounded-md shadow-md p-1 justify-between px-3">
             <div class="flex">
               <PhLockKey :size="32" color="#4d4d4d" class="flex-shrink-0" />
               <input
@@ -32,9 +32,9 @@
                 class="border-none resize outline-none p-1 w-full"
               >
             </div>
-            <PhEyeClosed v-if="!showPassword" @click="togglePassword" :size="32" color="#4d4d4d" class="flex-shrink-0" />
-            <PhEye v-else @click="togglePassword" :size="32" class="flex-shrink-0" />
-          </div>          
+              <PhEyeClosed v-if="!showPassword" @click="togglePassword" :size="32" color="#4d4d4d" class="flex-shrink-0" />
+              <PhEye v-else @click="togglePassword" :size="32" class="flex-shrink-0" />
+            </div>          
         </div>
 
         <div class=" flex flex-col pt-5">
