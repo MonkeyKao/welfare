@@ -7,38 +7,35 @@
   </div>
 
   <div
-    v-for="(message, index) in messages"
+    v-for="(welfare, index) in favoriteData"
     :key="index"
     class="flex items-end p-4"
   >
     <img src="@/images/user-square.png" alt="類別圖片" class="w-10 h-10" />
-    <div class="flex p-4 bg-white shadow-md rounded-tl-lg rounded-tr-lg rounded-br-lg">
-      <p class="text-gray-800 ">{{ message.text }}</p>
+    <div     @click="router.push(welfare.url)" class="flex p-4 bg-white shadow-md rounded-tl-lg rounded-tr-lg rounded-br-lg">
+      <p class="text-gray-800 ">{{ welfare.title }}</p>
     </div>
-    <div class="ml-4">
+    <div class="ml-4" @click="favoriteStore.deleteFavoriteHandler(welfare.id)">
       <PhHeartStraight
         :size="28"
-        :weight="message.isFavorited ? 'fill' : 'regular'"
+        weight= 'fill'
         class="cursor-pointer"
-        @click="toggleFavorite(index)"
       />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { PhArrowUUpLeft, PhHeartStraight } from '@phosphor-icons/vue';
+import request from '@/axios';
+import type Welfare from '@/model/welfare';
+import router from '@/router';
+import { useFavoriteStore } from '@/store/favorite';
+const favoriteStore = useFavoriteStore()
+const favoriteData = computed(() => favoriteStore.favorites)
 
-const messages = ref([
-  { text: '【文化部消息】震驚!!!114年文化幣每人可領取2000元', isFavorited: true },
-  { text: '【文化部消息】花蓮振興文化幣再加碼 16-22歲青年快衝一波', isFavorited: true },
-]);
 
-const toggleFavorite = (index: number) => {
-  messages.value[index].isFavorited = !messages.value[index].isFavorited;
-  messages.value.splice(index, 1);
-};
 </script>
 
 <style scoped>
