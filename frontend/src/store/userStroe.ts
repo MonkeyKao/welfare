@@ -6,17 +6,22 @@ export const useUserStore = defineStore("user", {
     state: () => ({ user: new User() }),
     actions: {
         async fetchUser() {
-            const result = await request.get("/users")
-            this.user = result.data
+            try {
+                const result = await request.get("/users")
+                this.user = result.data
+            } catch (err: any) {
+                localStorage.removeItem("token")
+            }
+
         },
         async saveUserHanlder(user: string) {
-            try{
-                const result = await request.post("/users/updateuser", user);
+            try {
+                const result = await request.put("/users", user);
                 this.user = result.data
-            }catch{
+            } catch (err: any) {
 
             }
-            
+
         },
     },
 })

@@ -26,7 +26,6 @@ func GetVerify(email string) error {
 	// 	fmt.Print(err.Error())
 	// 	return errors.New("發送email失敗")
 	// }
-	fmt.Printf("%s 已發送驗證碼: %s\n", email, code)
 
 	go func(email, oldCode string) {
 		time.Sleep(5 * time.Minute)
@@ -48,6 +47,7 @@ func SetVerify(email, receiveCode string) error {
 	defer mu.Unlock()
 	if oldCode, exist := verifyCode[email]; exist {
 		if oldCode == receiveCode {
+			fmt.Printf("%s已經新增二級驗證清單", email)
 			verifyAccount = append(verifyAccount, email)
 			delete(verifyCode, email)
 			return nil

@@ -7,7 +7,7 @@
 
     <!-- Flexbox 居中表單 -->
     <div class="flex-grow">
-      <form class="flex flex-col px-10 mt-3 space-y-3">
+      <form @submit.prevent="loginHandler(user)" class="flex flex-col px-10 mt-3 space-y-3">
         <!-- 標題 -->
         <label class="flex text-H1 font-bold justify-center">Login</label>
 
@@ -38,7 +38,7 @@
         </div>
 
         <div class=" flex flex-col pt-5">
-          <button @click="loginHandler(user)" class=" bg-[#90c700] text-white text-H3 py-2 rounded shadow-md">登入</button>
+          <button class=" bg-[#90c700] text-white text-H3 py-2 rounded shadow-md">登入</button>
           <router-link to="/home" class="flex text-H3 text-[#92c700] justify-center pt-2">訪客登入</router-link>          
         </div>
 

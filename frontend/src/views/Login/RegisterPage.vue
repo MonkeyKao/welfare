@@ -8,7 +8,7 @@
 
     <div class="flex-grow">
       <!-- Flexbox 居中表单 -->
-      <form class="flex flex-col px-10 mt-3 space-y-5">
+      <form @submit.prevent="registerHandler(user)" class="flex flex-col px-10 mt-3 space-y-5">
         <!-- 限制最大宽度 -->
         <label class="flex text-H1 font-bold justify-center">Register</label>
 
@@ -38,14 +38,8 @@
           <input v-model="user.email" class=" border-none outline-none mx-2  text-base" type="email" placeholder="信箱" />
         </div>
 
-        <div class="flex items-center px-2">
-          <PhSquare v-if="!check" @click="checklogin" :size="20" />
-          <PhCheckSquare v-else @click="checklogin" :size="20" />
-          <span class="ml-2 text-lg">保持登入</span>
-        </div>
-
-        <div  class="flex flex-col">
-          <button @click="registerHandler(user)" class="bg-[#90c700] text-white text-H3 py-2 rounded shadow-md" type="button">創建</button>
+        <div class="flex flex-col">
+          <button class="bg-[#90c700] text-white text-H3 py-2 rounded shadow-md" type="submit">創建</button>
         </div>
       </form>
     </div>
@@ -126,15 +120,13 @@ const registerHandler = async (user: form) => {
   try {
     const json = JSON.stringify(user);
     localStorage.setItem("email", user.email);
-    const result = await request.post("/users/register", json);
+    const result = await request.post("/users", json);
     router.push("/account/verify");
   } catch (error: any) {
     alert(error.response.data.error);
   }
 };
 
-//圖片更動
-const password = ref(""); // 用于存储密码
 const doingPw = ref(false); // 用于指示是否处于密码输入状态
 
 //點眼睛密碼明文顯示

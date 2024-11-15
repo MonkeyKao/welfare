@@ -47,7 +47,7 @@ let countdownInterval: number;
 const startCountdown = async () => {
   // 禁用按鈕並開始倒計時
   try {
-    const result = await request.get("/users/getVerifyEmail", { params: { email: email } })
+    const result = await request.get("/verify", { params: { email: email } })
     showMsg("已發送驗證碼")
   } catch (err: any) {
   }
@@ -90,12 +90,13 @@ const sendVerificationCode = async (verificationCode: string) => {
   }
 
   try {
-    const result = await request.post("/users/verify", {
+    const result = await request.post("/verify", {
       email: email,
       code: verificationCode,
     });
     localStorage.setItem("token", result.data.msg);
-    router.push("account/create-profile");
+    localStorage.removeItem("email")
+    router.push("/account/create-profile");
   } catch (err: any) {
     console.log(err);
 

@@ -1,6 +1,7 @@
 package api
 
 import (
+	"fmt"
 	"net/http"
 	"time"
 
@@ -51,6 +52,7 @@ func RegisterHandler(c *gin.Context) {
 
 func GetVerifyEmailHandler(c *gin.Context) {
 	email := c.Query("email")
+	fmt.Print(email)
 	if err := services.GetVerify(email); err != nil {
 		c.IndentedJSON(http.StatusBadGateway, gin.H{"error": err.Error()})
 		return
@@ -97,15 +99,7 @@ func UpdateuserHandler(c *gin.Context) {
 		return
 	}
 
-	user.ID = c.GetUint("UserID")
-	var tempUser models.User
-
-	if tempUser.GetUserByID(user.ID) != nil {
-		c.IndentedJSON(http.StatusUnauthorized, gin.H{"error": "查詢不到id"})
-		return
-	}
-
-	if !services.IsVerify(tempUser.Email) {
+	if !services.IsVerify(user.Email) {
 		c.IndentedJSON(http.StatusUnauthorized, gin.H{"error": "未設定二級認證"})
 		return
 	}
