@@ -17,5 +17,6 @@ func UserRoutes(router *gin.Engine) {
 		protectedRoutes := UserRoutes.Use(api.JwtAuthMiddleware())
 		protectedRoutes.GET("", api.GetUserByUserIDHandler)
 		protectedRoutes.PUT("", api.UpdateuserHandler)
+		protectedRoutes.GET("/bind", api.GetBindQrCode)
 	}
 }

@@ -1,6 +1,7 @@
 package api
 
 import (
+	"encoding/base64"
 	"fmt"
 	"net/http"
 	"time"
@@ -11,6 +12,7 @@ import (
 	"walfare/utils"
 
 	"github.com/gin-gonic/gin"
+	"github.com/skip2/go-qrcode"
 )
 
 // 登入ing
@@ -125,4 +127,27 @@ func GetUserByUserIDHandler(c *gin.Context) {
 	}
 
 	c.IndentedJSON(http.StatusOK, user)
+}
+
+func GetBindQrCode(c *gin.Context) {
+	// 生成代碼
+	code := utils.GenerateCode()
+
+	// 將代碼放入 QR Code 資料
+	data := code
+
+	// 生成 QR code 的 PNG 格式
+	var png []byte
+	var err error
+	png, err = qrcode.Encode(data, qrcode.Medium, 256)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	// 返回 JSON 響應，包含 QR code 以及 code
+	c.JSON(http.StatusOK, gin.H{
+		"code":  code,                                                                            // 返回生成的代碼
+		"image": fmt.Sprintf("data:image/png;base64,%s", base64.StdEncoding.EncodeToString(png)), // 返回 Base64 編碼的圖片
+	})
 }
