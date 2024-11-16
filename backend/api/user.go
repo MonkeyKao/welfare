@@ -101,11 +101,6 @@ func UpdateuserHandler(c *gin.Context) {
 		return
 	}
 
-	if !services.IsVerify(user.Email) {
-		c.IndentedJSON(http.StatusUnauthorized, gin.H{"error": "未設定二級認證"})
-		return
-	}
-
 	// 更新用户信息
 	if err := user.UpdateUser(); err != nil {
 		c.IndentedJSON(http.StatusInternalServerError, gin.H{"error": "Failed to update user"})
