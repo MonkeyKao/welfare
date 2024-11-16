@@ -44,6 +44,10 @@ onMounted(() => {
             'LikePage',
             'NotifyPage',
             'CreateProfilePage',
+            'ElderlySearchPage',
+            'RegionSelectionPage',
+            'ServiceSelectionPage',
+            'SearchResultPage'
             
           ].includes(route.name)
         "
