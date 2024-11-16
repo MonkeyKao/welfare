@@ -21,26 +21,35 @@ type User struct {
 }
 
 func (user *User) GetUserByID(id uint) error {
-	return database.DB.Table("Users").First(user, id).Error
+	return database.DB.First(user, id).Error
 }
 
 func (user *User) GetUserByAccount(account string) error {
-	return database.DB.Table("Users").Where("account = ?", account).First(user).Error
+	return database.DB.Where("account = ?", account).First(user).Error
 }
 
 func (user *User) GetUserByEmail(email string) error {
-	return database.DB.Table("Users").Where("email = ?", email).First(user).Error
+	return database.DB.Where("email = ?", email).First(user).Error
+}
+
+func (user *User) GetUserEmailByUserID(id uint) (string, error) {
+	var email string
+	err := database.DB.Model(&User{}).Select("email").Where("id = ?", id).Take(&email).Error
+	if err != nil {
+		return "", err
+	}
+	return email, nil
 }
 
 func (user *User) CreateUser() error {
-	return database.DB.Table("Users").Create(user).Error
+	return database.DB.Create(user).Error
 }
 
 func (user *User) UpdateUser() error {
 	// 使用 GORM 的 Model 方法并通过 map 进行更新
-	return database.DB.Table("Users").Where("id = ?", user.ID).Updates(user).Error
+	return database.DB.Updates(user).Error
 }
 
 func (user *User) DeleteUser() error {
-	return database.DB.Table("Users").Where("id = ?", user.ID).Delete(user.ID).Error
+	return database.DB.Delete(user).Error
 }

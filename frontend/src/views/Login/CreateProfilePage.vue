@@ -1,43 +1,50 @@
 <template>
   <!-- 固定定位的 header，確保圖片維持在最上方 -->
-  <header class="flex flex-col gap-3 p-4 basis-1">
-    <div class="text-center">
-      <label class="text-4xl font-bold">建立個人檔案</label>
-    </div>
-  </header>
 
-  <body>
-    <Avatar />
-    <form class="flex flex-col w-full h-full p-10 gap-5">
-      <div>
-        <label class="flex text-2xl font-bold">姓名</label>
-        <input v-model="user.name" class="flex w-full border-2 rounded-md shadow-md p-3" type="text" />
+    <div class="text-center">
+      <label class="text-H1 font-bold">建立個人檔案</label>
+      <Avatar />            
+    </div>
+
+
+    <div class=" flex flex-col mt-3 space-y-8 px-10">
+      
+      <div class=" space-y-2">
+        <label class="flex text-H2 font-bold">姓名</label>
+        <input v-model="user.name" class=" border-2 w-full p-2 shadow-md outline-none pl-2 text-H3" type="text" />
       </div>
-      <div>
-        <label class="flex text-2xl font-bold">生日</label>
-        <Datepicker v-model="user.birthday" :format="formatDate" :enable-time-picker="false"
-          class="w-full rounded-md shadow-md" />
+
+      <div class=" space-y-2">
+        <label class=" flex text-H2 font-bold">生日</label>
+        <Datepicker 
+          v-model="user.birthday" 
+          :format="formatDate" 
+          :enable-time-picker="false"
+          class="datepicker-custom w-ful" 
+        />
       </div>
-      <div>
+
+      <div  class=" space-y-2">
         <label class="flex text-2xl font-bold">性別</label>
         <div class="flex justify-around">
           <div>
             <input v-model="user.female" type="radio" id="female" name="gender" :value=1 />
-            <label for="male" class="text-2xl ml-2">男性</label>
+            <label for="male" class="text-H3 ml-2">男性</label>
           </div>
           <div>
             <input v-model="user.female" type="radio" id="female" name="gender" :value=2 />
-            <label for="neutral" class="text-2xl ml-2">中性</label>
+            <label for="neutral" class="text-H3 ml-2">中性</label>
           </div>
           <div>
             <input v-model="user.female" type="radio" id="female" name="gender" :value=3 />
-            <label for="female" class="text-2xl ml-2">女性</label>
+            <label for="female" class="text-H3 ml-2">女性</label>
           </div>
         </div>
       </div>
+
       <div>
         <label class="flex text-2xl font-bold">地區</label>
-        <select v-model="user.location" class="flex w-full border-2 rounded-md shadow-md p-3 text-2xl">
+        <select v-model="user.location" class="flex w-full rounded-md shadow-md p-3 text-2xl">
           <option :value="item" v-for="item in 19">{{ getTextByLocation(item) }}</option>
         </select>
       </div>
@@ -55,8 +62,8 @@
           <PhArrowCircleRight :size="32" />
         </RouterLink>
       </div>
-    </form>
-  </body>
+</div>
+
 </template>
 
 <script setup lang="ts">
@@ -92,3 +99,11 @@ const saveUserHanlder = async (user: User) => {
   }
 };
 </script>
+
+<style>
+.datepicker-custom {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+</style>

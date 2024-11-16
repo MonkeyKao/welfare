@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col h-screen w-full">
+  <div class="flex flex-col h-screen w-full justify-between">
     <div class="flex-shrink-0">
       <img v-show="!doingPw" src="../../images/login.jpg" />
       <img v-show="doingPw" src="../../images/password.jpg" />
@@ -7,34 +7,44 @@
 
     <!-- Flexbox 居中表單 -->
     <div class="flex-grow">
-      <form class="flex flex-col gap-5 px-10 mt-5">
+      <form @submit.prevent="loginHandler(user)" class="flex flex-col px-10 mt-3 space-y-3">
         <!-- 標題 -->
-        <label class="flex text-4xl font-bold justify-center">Login</label>
+        <label class="flex text-H1 font-bold justify-center">Login</label>
 
         <!-- 帳號輸入框 -->
-        <div class="flex w-full border-2 rounded-md shadow-md p-3 items-center">
+        <div class="flex border-2 rounded-md shadow-md y-2 p-1 items-center px-3">
           <PhUser :size="32" color="#4d4d4d" class="flex-shrink-0" />
-          <input v-model="user.account" class="mx-2 min-w-0 text-base" type="text" placeholder="帳號" />
+          <input v-model="user.account" class="border-none resize outline-none p-1 w-full" type="text" placeholder="帳號" />
         </div>
 
-        <!-- 密碼輸入框 -->
-        <div class="flex w-full border-2 rounded-md shadow-md p-3 items-center">
-          <PhLockKey :size="32" color="#4d4d4d" class="flex-shrink-0" />
-          <input v-model="user.password" @focus="doingPw = true" @blur="doingPw = false" class="mx-2 min-w-0 text-base"
-            :type="showPassword ? 'text' : 'password'" placeholder="密碼" />
-          <PhEyeClosed v-if="!showPassword" @click="togglePassword" :size="32" color="#4d4d4d" class="flex-shrink-0" />
-          <PhEye v-else @click="togglePassword" :size="32" class="flex-shrink-0" />
+        <div class="">
+          <router-link to="/account/forgot-password" class="flex text-H3 text-[#92c700] justify-end">忘記密碼？</router-link>
+          <!-- 密碼輸入框 -->
+          <div class="flex border-2 rounded-md shadow-md p-1 justify-between px-3">
+            <div class="flex">
+              <PhLockKey :size="32" color="#4d4d4d" class="flex-shrink-0" />
+              <input
+                v-model="user.password"
+                @focus="doingPw = true"
+                @blur="doingPw = false"
+                :type="showPassword ? 'text' : 'password'"
+                placeholder="密碼"
+                class="border-none resize outline-none p-1 w-full"
+              >
+            </div>
+              <PhEyeClosed v-if="!showPassword" @click="togglePassword" :size="32" color="#4d4d4d" class="flex-shrink-0" />
+              <PhEye v-else @click="togglePassword" :size="32" class="flex-shrink-0" />
+            </div>          
+        </div>
+
+        <div class=" flex flex-col pt-5">
+          <button class=" bg-[#90c700] text-white text-H3 py-2 rounded shadow-md">登入</button>
+          <router-link to="/home" class="flex text-H3 text-[#92c700] justify-center pt-2">訪客登入</router-link>          
         </div>
 
         <!-- 按鈕 -->
-        <button @click="loginHandler(user)"
-          class="w-full bg-[#90c700] text-white font-bold text-2xl py-3 sm:py-2 rounded shadow-md" type="button">
-          登入
-        </button>
       </form>
-      <router-link to="/account/forgot-password" class="flex text-lg text-[#92c700] justify-center">
-        忘記密碼？
-      </router-link>
+      
     </div>
 
     <!-- 底部連結區域 -->
@@ -56,10 +66,10 @@
           <span class="mx-3">or</span>
           <div class="flex-1 border-t"></div>
         </div>
-        <router-link to="/account/register" class="flex text-lg text-[#92c700] justify-center">
+        <router-link to="/account/register" class="flex text-lg text-[#92c700] justify-center pb-2">
           創建帳號
         </router-link>
-        <router-link to="/home" class="flex text-lg text-[#92c700] justify-center">回首頁</router-link>
+        
       </div>
     </div>
   </div>

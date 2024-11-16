@@ -8,12 +8,16 @@ import { provide } from 'vue'
 import TipMsg from "./components/tipMsg.vue";
 
 import aiinput from "@/components/aiinput.vue";
+import { useFavoriteStore } from "./store/favorite";
 
 const route = useRoute(); // 獲取當前路由
 const userStore = useUserStore();
 const welfareStore = useWelfareStore();
+const favoriteStore = useFavoriteStore();
 userStore.fetchUser()
 welfareStore.fetchWelfare();
+favoriteStore.fetchFavorite();
+
 
 const tipmsg = ref(null)
 
@@ -25,13 +29,13 @@ onMounted(() => {
 <template>
   <!-- 渲染當前頁面 -->
   <div class="overflow-y-auto h-full flex flex-col justify-between">
-    <div v-if="['AiPage',].includes(route.name)" class="overflow-auto pb-10">
+    <div v-if="['AiPage'].includes(route.name)" class="overflow-auto pb-10">
       <RouterView />
     </div>
     <div v-else class="overflow-auto">
       <RouterView />
     </div>
-    <div class="flex flex-col-reverse h-20">
+    <div class="flex flex-col-reverse">
       <div      
         v-if="
           ![
@@ -54,9 +58,7 @@ onMounted(() => {
       >
         <BottomNav />
       </div>
-      <div class=" z-20" v-if="['AiPage',].includes(route.name)">
-        <aiinput />
-      </div>   
+      
     </div>
 
     

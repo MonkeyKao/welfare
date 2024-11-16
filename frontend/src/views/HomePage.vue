@@ -7,21 +7,40 @@
 
     <div class="overflow-auto">
       <!-- 根據 API 回應資料動態生成 HomeInsideText 元件 -->
-      <HomeInsideText @clickFavorited="(data) => { }" v-for="(item, index) in welfareData" :key="index" :data="item" />
+      <HomeInsideText @clickFavorited="(data: Welfare) => clickFavoriteHandler(data)"
+        v-for="(item, index) in welfareData" :key="index" :data="item" />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed } from 'vue';
 import TopNav from '@/components/TopNav.vue';
 import HomeInsideText from '@/components/HomeInsideText.vue';
 import { useWelfareStore } from '@/store/welfareStroe';
+import request from '@/axios';
+import type Welfare from '@/model/welfare';
+import { useFavoriteStore } from '@/store/favorite';
+
+const favoriteStore = useFavoriteStore()
+const favoriteData = computed(() => favoriteStore.favorites)
+
+const clickFavoriteHandler = (welfare: Welfare) => {
+  if (Array.isArray(favoriteData.value) && favoriteData.value.some((item) => item.id === welfare.id)) {
+    // 如果已存在，则调用删除
+    favoriteStore.deleteFavoriteHandler(welfare.id)
+  } else {
+    // 如果未收藏，则添加
+    favoriteStore.createFavoriteHanlder(welfare)
+  }
+}
 
 const welfareStore = useWelfareStore()
 const welfareData = computed(() => welfareStore.getWelfare(selectedRegion.value, selectedService.value))
 let selectedRegion = ref([])
 let selectedService = ref([])
+
+
 </script>
 
 <style scoped></style>

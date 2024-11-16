@@ -52,7 +52,7 @@ const QAs = ref<QA[]>([]); // 明確指定 QAs 為 QA 型別的陣列
 const openItems = ref<number[]>([]);
 
 const getQa = async () => {
-  const result = await request.get("welfare/QA");
+  const result = await request.get("QA");
   QAs.value = result.data; // 將 API 回傳的資料儲存到 QAs 中
 };
 

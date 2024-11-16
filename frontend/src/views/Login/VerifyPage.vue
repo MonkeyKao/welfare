@@ -1,32 +1,34 @@
 <template>
-  <!-- 固定定位的 header，確保圖片維持在最上方 -->
-  <div>
-    <img src="/forgetpassword.jpg" class="w-full" />
+
+  <div class="flex-shrink-0">
+      <img src="../../images/forgetpassword.jpg" />
   </div>
 
-  <body>
-    <router-link to="/account/register" class="forgot-password-link">
-      <PhArrowUUpLeft :size="32" color="#4d4d4d" class="ml-5" />
-    </router-link>
-    <div class="flex flex-col w-full h-full px-10 gap-5">
-      <label class="text-xl font-bold">驗證碼已寄至</label>
-      <label class="text-xl font-bold">{{ maskEmail(email) }}</label>
+  
+  <form class="flex flex-col space-y-10 px-10 mt-3">
 
-      <div class="flex w-full border-2 rounded-md shadow-md p-3 items-center">
-        <PhShieldCheck :size="32" class="flex-shrink-0" />
-        <input class="mx-2 min-w-0" type="password" v-model="verificationCode" placeholder="驗證碼" />
-        <button :disabled="isDisabled" @click="startCountdown"
-          class="flex text-lg text-[#92c700] border-l-2 border-[#92c700] whitespace-nowrap px-2">
-          {{ buttonText }}
-        </button>
+    <div class="flex items-center w-full mt-7 relative">
+      <router-link to="/account/register" class=""><PhArrowUUpLeft :size="36" color="#4d4d4d" weight="bold" /></router-link>
+      <label class="absolute left-1/2 transform -translate-x-1/2 text-H1 font-bold">寄驗證碼</label>
+    </div>
+
+
+      <label class="text-xl font-bold">驗證碼已寄至 {{ maskEmail(email) }}</label>
+
+      <div class="flex border-2  rounded-md shadow-md p-1 px-3 justify-between">
+        <PhShieldCheck :size="28" class="flex-shrink-0" />
+        <input class="border-none resize outline-none p-1 mx-1 w-full" type="password" v-model="verificationCode" placeholder="驗證碼" />
+        <div class="flex-shrink-0 flex items-center justify-center border-l-2 border-[#92c700] px-2">
+          <button :disabled="isDisabled" @click="startCountdown" class="text-[#92c700]">
+            {{ buttonText }}
+          </button>          
+        </div>
+
       </div>
 
-      <button class="w-full bg-[#90c700] text-white font-bold text-2xl py-3 rounded shadow-md"
-        @click="sendVerificationCode(verificationCode)">
-        繼續
-      </button>
-    </div>
-  </body>
+      <button class=" bg-[#90c700] rounded shadow-md items-center text-white font-bold text-H3 p-2" @click="sendVerificationCode(verificationCode)">繼續</button>
+  </form>
+
 </template>
 <script setup lang="ts">
 import request from "@/axios";
@@ -41,13 +43,13 @@ const email: string = localStorage.getItem("email")!;
 
 const countdown = ref<number>(60);
 const isDisabled = ref<boolean>(false);
-const buttonText = ref<string>("重新發送");
+const buttonText = ref<string>("重設驗證碼");
 let countdownInterval: number;
 
 const startCountdown = async () => {
   // 禁用按鈕並開始倒計時
   try {
-    const result = await request.get("/users/getVerifyEmail", { params: { email: email } })
+    const result = await request.get("/verify", { params: { email: email } })
     showMsg("已發送驗證碼")
   } catch (err: any) {
   }
@@ -90,12 +92,13 @@ const sendVerificationCode = async (verificationCode: string) => {
   }
 
   try {
-    const result = await request.post("/users/verify", {
+    const result = await request.post("/verify", {
       email: email,
       code: verificationCode,
     });
     localStorage.setItem("token", result.data.msg);
-    router.push("account/create-profile");
+    localStorage.removeItem("email")
+    router.push("/account/create-profile");
   } catch (err: any) {
     console.log(err);
 

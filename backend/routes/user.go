@@ -9,11 +9,14 @@ import (
 func UserRoutes(router *gin.Engine) {
 	UserRoutes := router.Group("/users")
 	{
+		// 不需要 JwtAuthMiddleware 的路由
 		UserRoutes.POST("/doLogin", api.DoLoginHandler)
-		UserRoutes.POST("/register", api.RegisterHandler)
-		UserRoutes.POST("/verify", api.VerifyEmailHandler)
-		UserRoutes.GET("/getVerifyEmail", api.GetVerifyEmailHandler)
-		UserRoutes.Use(api.JwtAuthMiddleware()).GET("", api.GetUserByUserIDHandler)
-		UserRoutes.Use(api.JwtAuthMiddleware()).POST("/updateuser", api.UpdateuserHandler)
+		UserRoutes.POST("", api.RegisterHandler)
+
+		// 需要 JwtAuthMiddleware 的路由
+		protectedRoutes := UserRoutes.Use(api.JwtAuthMiddleware())
+		protectedRoutes.GET("", api.GetUserByUserIDHandler)
+		protectedRoutes.PUT("", api.UpdateuserHandler)
+		protectedRoutes.GET("/bind", api.GetBindQrCode)
 	}
 }

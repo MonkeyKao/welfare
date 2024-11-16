@@ -8,7 +8,6 @@ import RegisterPage from "@/views/Login/RegisterPage.vue";
 import ResetPasswordPage from "@/views/Login/ResetPasswordPage.vue";
 import VerifyPage from "@/views/Login/VerifyPage.vue";
 import EditPersonalDataPage from "@/views/User/EditPersonalDataPage.vue";
-import FamilyPage from "@/views/User/FamilyPage.vue";
 import LinkAccountPage from "@/views/User/LinkAccountPage.vue";
 import PersonalDataPage from "@/views/User/PersonalDataPage.vue";
 import QAPage from "@/views/User/QAPage.vue";
@@ -25,6 +24,7 @@ import {
   RouterView,
   type RouteRecordRaw,
 } from "vue-router";
+import FamilyPage from "@/components/FamilyPage.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {

@@ -10,6 +10,5 @@ func WelfareRoutes(router *gin.Engine) {
 	WelfareRoutes := router.Group("/welfare")
 	{
 		WelfareRoutes.GET("", api.WelfareHandler)
-		WelfareRoutes.GET("QA", api.GetQAHandler)
 	}
 }
