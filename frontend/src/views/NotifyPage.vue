@@ -1,37 +1,47 @@
 <template>
-  <div class="flex justify-start items-center gap-3 p-4 bg-[#92c700]">
+  <div class="flex bg-[#90c700] p-3 items-center fixed z-10 w-full px-6 space-x-2">
     <router-link to="/home" class="forgot-password-link">
-      <PhArrowUUpLeft :size="32" color="#000" />
+      <PhArrowUUpLeft :size="32" color="" />
     </router-link>
     <label class="text-3xl font-bold">通知</label>
   </div>
 
-  <div
-    v-for="(message, index) in messages"
-    :key="index"
-    class="flex items-end p-4"
-  >
-    <img src="@/images/user-square.png" alt="類別圖片" class="w-10 h-10" />
-    <div class="flex p-4 bg-white shadow-md rounded-tl-lg rounded-tr-lg rounded-br-lg">
-      <p class="text-gray-800 ">{{ message.text }}</p>
-    </div>
-    <div class="ml-4">
-      <PhHeartStraight
-        :size="28"
-        :weight="message.isFavorited ? 'fill' : 'regular'"
-        class="cursor-pointer"
-        @click="toggleFavorite(index)"
-      />
-    </div>
+  <div class="mt-[70px] space-y-5 mb-2"><!-- mb-2 在修最後一項下斜線不見的問題-->
+    <div
+      v-for="(message, index) in messages"
+      :key="index"
+      class="flex items-end space-x-2 px-4"
+    >
+      <div > <!--這個div在解決icon大小無法正確顯示的問題-->
+        <PhUserSquare :size="40" />        
+      </div>
+
+      <div class="flex p-4 bg-white shadow-md rounded-tl-lg rounded-tr-lg rounded-br-lg">
+        <p class="text-gray-800 ">{{ message.text }}</p>
+      </div>
+      <div class="">
+        <PhHeartStraight
+          :size="28"
+          :weight="message.isFavorited ? 'fill' : 'regular'"
+          class="cursor-pointer"
+          @click="toggleFavorite(index)"
+        />
+      </div>    
+  </div>
+
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { PhArrowUUpLeft, PhHeartStraight } from '@phosphor-icons/vue';
+import { PhArrowUUpLeft, PhHeartStraight,PhUserSquare } from '@phosphor-icons/vue';
 
 const messages = ref([
   { text: '【文化部消息】震驚!!!114年文化幣每人可領取2000元', isFavorited: false },
+  { text: '【文化部消息】花蓮振興文化幣再加碼 16-22歲青年快衝一波', isFavorited: false },
+  { text: '【文化部消息】花蓮振興文化幣再加碼 16-22歲青年快衝一波', isFavorited: false },
+  { text: '【文化部消息】花蓮振興文化幣再加碼 16-22歲青年快衝一波', isFavorited: false },
+  { text: '【文化部消息】花蓮振興文化幣再加碼 16-22歲青年快衝一波', isFavorited: false },
   { text: '【文化部消息】花蓮振興文化幣再加碼 16-22歲青年快衝一波', isFavorited: false },
 ]);
 
