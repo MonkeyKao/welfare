@@ -17,7 +17,8 @@
     "pinia": "^2.2.6",
     "validate.js": "^0.13.1",
     "vue": "^3.5.12",
-    "vue3-datepicker": "^0.4.0"
+    "vue3-datepicker": "^0.4.0",
+    "vuex": "^4.1.0"
   },
   "devDependencies": {
     "@tsconfig/node20": "^20.1.4",

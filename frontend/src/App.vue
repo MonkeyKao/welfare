@@ -51,6 +51,10 @@ onMounted(() => {
             'QAPage',
             'Settings',
             'LinkAccountPage',
+            'ElderlySearchPage',
+            'RegionSelectionPage',
+            'ServiceSelectionPage',
+            'SearchResultPage'
             
           ].includes(route.name)
         "

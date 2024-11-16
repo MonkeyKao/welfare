@@ -14,6 +14,10 @@ import QAPage from "@/views/User/QAPage.vue";
 import SettingsPage from "@/views/User/SettingsPage.vue";
 import UserPage from "@/views/UserPage.vue";
 import NotifyPage from "@/views/NotifyPage.vue";
+import ElderlySearchPage from "@/views/ElderlySearchPage.vue";
+import RegionSelectionPage from "@/views/RegionSelectionPage.vue";
+import ServiceSelectionPage from "@/views/ServiceSelectionPage.vue";
+import SearchResultPage from '@/views/SearchResultPage.vue';
 import {
   createRouter,
   createWebHistory,
@@ -135,6 +139,30 @@ const routes: Array<RouteRecordRaw> = [
     name: "NotifyPage",
     component: NotifyPage,
     meta: { needLogin: true },
+  },
+  {
+    path: "/elderlysearch",
+    name: "ElderlySearchPage",
+    component: ElderlySearchPage,
+    meta:{ needLogin:false },
+  },
+  {
+    path: "/regionselection",
+    name: "RegionSelectionPage",
+    component: RegionSelectionPage,
+    meta:{ needLogin:false },
+  },
+  {
+    path: "/serviceselection",
+    name: "ServiceSelectionPage",
+    component: ServiceSelectionPage,
+    meta:{ needLogin:false },
+  },
+  {
+    path: "/searchresult",
+    name: "SearchResultPage",
+    component: SearchResultPage,
+    meta:{ needLogin:false },
   },
 ];
 
