@@ -7,12 +7,12 @@
         <input type="text" placeholder="Ex.租屋補助" class="p-1 w-full text-base bg-transparent border-none outline-none" />
       </div>
 
-      <div class="flex">
+      <div class="flex space-x-3">
         <router-link to="/favorites" class="icon-link" title="收藏">
-          <PhHeartStraight size="32" color="#6b7280" class="icon" />
+          <PhHeartStraight size="28" color="#424E2A" class="icon" />
         </router-link>
         <router-link to="/notifications" class="icon-link" title="通知">
-          <PhBell size="32" color="#6b7280" class="icon" />
+          <PhBell size="28" color="#424E2A" class="icon" />
         </router-link>
       </div>
     </div>
