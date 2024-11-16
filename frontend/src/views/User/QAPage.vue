@@ -1,21 +1,23 @@
 <!--HTML-->
 <template>
-  <header class="top-0 left-0 right-0 flex items-center p-5 pt-14 bg-[#92c700]">
-    <router-link to="/user" class="forgot-password-link">
-      <PhArrowUUpLeft :size="32" color="#000" class="ml-5" />
-    </router-link>
-    <label class="ml-5 text-3xl font-bold">常見問題 Q&A</label>
-  </header>
+  <div class="flex bg-[#90c700] p-3 items-center fixed z-10 w-full px-6">
+    <router-link to="/user" class=""><PhArrowUUpLeft :size="32"  weight="bold"  color="#000"/></router-link>
+    <label class="ml-5 text-H2 font-bold">常見問題 Q&A</label>
+  </div>
 
-  <div class="flex flex-col">
+  <div class="flex flex-col mt-[70px]">
     <div
       v-for="item in QAs"
       :key="item.Id"
-      class="mx-10 gap-5 p-4 px-6 mt-3 cursor-pointer border border-gray-300 rounded-lg shadow-md"
+      class="mx-8 gap-5 p-4 px-4 mt-3 cursor-pointer border border-gray-300 rounded-lg shadow-md "
       @click="toggle(item.Id)"
     >
-      <div class="flex justify-between items-center">
-        <span class="text-lg font-semibold">Q : {{ item.Question }}</span>
+      <div class="flex justify-between space-x-1">
+        <div class=" flex ">
+          <span class=" text-H3 font-bold ">Q </span>
+          <span class="mx-2">:</span>
+          <span class=" font-bold">{{ item.Question }}</span>          
+        </div>
         <span>
           <PhCaretRight
             v-if="!getIsActive(item.Id)"
@@ -25,13 +27,14 @@
           <PhCaretDown v-if="getIsActive(item.Id)" :size="25" color="#92c700" />
         </span>
       </div>
+
       <div>
         <transition name="fade">
           <div
             v-if="getIsActive(item.Id)"
-            class="flex items-start space-x-2 m-7"
+            class="flex items-start mx-5 pt-5 "
           >
-            <span class="font-semibold">A</span>
+            <span class="font-bold">A</span>
             <span class="mx-2">:</span>
             <span>{{ item.Answer }}</span>
           </div>
@@ -39,6 +42,8 @@
       </div>
     </div>
   </div>
+
+    
 </template>
 
 <!--JS/TS-->

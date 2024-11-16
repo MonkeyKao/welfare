@@ -16,6 +16,7 @@
       <label class="text-xl font-bold">驗證碼已寄至 {{ maskEmail(email) }}</label>
 
       <div class="flex border-2  rounded-md shadow-md p-1 px-3 justify-between">
+        
         <PhShieldCheck :size="28" class="flex-shrink-0" />
         <input class="border-none resize outline-none p-1 mx-1 w-full" type="password" v-model="verificationCode" placeholder="驗證碼" />
         <div class="flex-shrink-0 flex items-center justify-center border-l-2 border-[#92c700] px-2">

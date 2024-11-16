@@ -48,6 +48,9 @@ onMounted(() => {
             'LikePage',
             'NotifyPage',
             'CreateProfilePage',
+            'QAPage',
+            'Settings',
+            'LinkAccountPage',
             
           ].includes(route.name)
         "

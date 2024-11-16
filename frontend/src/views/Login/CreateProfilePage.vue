@@ -1,7 +1,7 @@
 <template>
   <!-- 固定定位的 header，確保圖片維持在最上方 -->
 
-    <div class="text-center">
+    <div class="text-center flex flex-col p-3">
       <label class="text-H1 font-bold">建立個人檔案</label>
       <Avatar />            
     </div>
@@ -11,7 +11,7 @@
       
       <div class=" space-y-2">
         <label class="flex text-H2 font-bold">姓名</label>
-        <input v-model="user.name" class=" border-2 w-full p-2 shadow-md outline-none pl-2 text-H3" type="text" />
+        <input v-model="user.name" class=" border-2 w-full p-2 shadow-md outline-none pl-2 text-H3 rounded-md" type="text" />
       </div>
 
       <div class=" space-y-2">
@@ -42,9 +42,9 @@
         </div>
       </div>
 
-      <div>
+      <div  class=" space-y-2">
         <label class="flex text-2xl font-bold">地區</label>
-        <select v-model="user.location" class="flex w-full rounded-md shadow-md p-3 text-2xl">
+        <select v-model="user.location" class=" border-2 w-full p-2 shadow-md outline-none pl-2 text-H3 rounded-md">
           <option :value="item" v-for="item in 19">{{ getTextByLocation(item) }}</option>
         </select>
       </div>

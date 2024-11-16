@@ -1,14 +1,13 @@
 <template>
-  <div class="flex items-center p-5 pt-14 bg-[#92c700]">
-    <router-link to="/user" class="forgot-password-link">
-      <PhArrowUUpLeft :size="32" color="#000" class="ml-5" />
-    </router-link>
-    <label class="ml-5 text-3xl font-bold">連結帳戶</label>
+
+  <div class="flex bg-[#90c700] p-3 items-center fixed z-10 w-full px-6">
+    <router-link to="/user" class=""><PhArrowUUpLeft :size="32"  weight="bold"  color="#000"/></router-link>
+    <label class="ml-5 text-H2 font-bold">連結帳戶</label>
   </div>
-  <div class="flex flex-col p-10">
+  <div class="flex flex-col mt-[90px] items-center">
     <button
       type="button"
-      class="w-full inline-flex gap-x-2 justify-center items-center border-2 rounded-md shadow-md p-3"
+      class="w-3/4 inline-flex gap-x-2 justify-center items-center border-2 rounded-md shadow-md p-3"
     >
       <svg
         class="shrink-0 size-4"
@@ -58,7 +57,7 @@
 
     <button
       type="button"
-      class="w-full inline-flex gap-x-2 justify-center items-center border-2 rounded-md shadow-md p-3"
+      class="w-3/4 inline-flex gap-x-2 justify-center items-center border-2 rounded-md shadow-md p-3"
     >
       <svg
         class="shrink-0 size-4"
