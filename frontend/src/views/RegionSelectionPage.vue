@@ -1,8 +1,8 @@
 <template>
   <div class="flex justify-start items-center gap-3 p-4 bg-[#92c700]">
-    <router-link to="/elderlysearch" class="forgot-password-link">
+    <div class="forgot-password-link" @click="returnSelection">
       <PhArrowUUpLeft :size="32" color="#000" />
-    </router-link>
+    </div>
     <label class="text-H2 font-bold">選擇地區</label>
   </div>
 
@@ -100,6 +100,27 @@ const confirmSelection = () => {
     name: 'ElderlySearchPage',
     query: {
       selectedRegions: selectedRegionNames.join(','), // 更新選中的地區
+      selectedServices: selectedServices // 保留之前選中的服務
+    },
+  });
+};
+
+const returnSelection = () => {
+  // 如果有新的選擇，直接返回上一頁
+  if (selectedRegions.value.length > 0) {
+    router.back();
+    return;
+  }
+
+  // 如果沒有新選擇，保留原本的選擇並返回
+  const currentQuery = router.currentRoute.value.query;
+  const selectedServices = currentQuery.selectedServices || '';
+  const previousRegions = (currentQuery.selectedRegions as string || '').split(',');
+
+  router.push({
+    name: 'ElderlySearchPage',
+    query: {
+      selectedRegions: previousRegions.join(','), // 保留之前的選擇
       selectedServices: selectedServices // 保留之前選中的服務
     },
   });

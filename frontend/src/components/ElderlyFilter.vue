@@ -104,7 +104,4 @@ initializeRegions();
 </script>
 
 <style scoped>
-button {
-  outline: none;
-}
 </style>
