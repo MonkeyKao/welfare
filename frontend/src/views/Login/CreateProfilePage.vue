@@ -1,13 +1,12 @@
 <template>
-  <!-- 固定定位的 header，確保圖片維持在最上方 -->
 
-    <div class="text-center flex flex-col p-3">
+  
+    <div class="text-center flex flex-col p-3 fixed z-10 w-full px-6 bg-white">
       <label class="text-H1 font-bold">建立個人檔案</label>
       <Avatar />            
     </div>
 
-
-    <div class=" flex flex-col mt-3 space-y-8 px-10">
+    <div class=" flex flex-col space-y-8 px-10 mt-[200px] mb-[20px]">
       
       <div class=" space-y-2">
         <label class="flex text-H2 font-bold">姓名</label>
@@ -15,28 +14,36 @@
       </div>
 
       <div class=" space-y-2">
-        <label class=" flex text-H2 font-bold">生日</label>
-        <Datepicker 
-          v-model="user.birthday" 
-          :format="formatDate" 
-          :enable-time-picker="false"
-          class="datepicker-custom w-ful" 
-        />
+        <label class=" flex text-H2 font-bold">生日</label>      
+        <VDatePicker v-model="user.birthday">
+        <template #default="{ inputValue, inputEvents }">
+          <input 
+            class=" border-2 w-full p-2 shadow-md outline-none pl-2 text-H3 rounded-md"
+            :value="inputValue"
+            v-on="inputEvents"
+            :format="formatDate"  
+          />
+        </template>
+        </VDatePicker>
       </div>
-
-      <div  class=" space-y-2">
+      <div  class=" space-y-3">
         <label class="flex text-2xl font-bold">性別</label>
         <div class="flex justify-around">
-          <div>
-            <input v-model="user.female" type="radio" id="female" name="gender" :value=1 />
+          <div @click="selectGender(1)" class="flex items-center cursor-pointer">        
+            <PhSealCheck v-if="user.female === 1" :size="20" color="#92c700" weight="fill" />
+            <PhSeal v-else :size="20" color="#0d0d0c" weight="thin" />
             <label for="male" class="text-H3 ml-2">男性</label>
           </div>
-          <div>
-            <input v-model="user.female" type="radio" id="female" name="gender" :value=2 />
+
+          <div @click="selectGender(2)" class="flex items-center cursor-pointer">
+            <PhSealCheck v-if="user.female === 2" :size="20" color="#92c700" weight="fill" />
+            <PhSeal v-else :size="20" color="#0d0d0c" weight="thin" />
             <label for="neutral" class="text-H3 ml-2">中性</label>
           </div>
-          <div>
-            <input v-model="user.female" type="radio" id="female" name="gender" :value=3 />
+
+          <div @click="selectGender(3)" class="flex items-center cursor-pointer">
+            <PhSealCheck v-if="user.female === 3" :size="20" color="#92c700" weight="fill" />
+            <PhSeal v-else :size="20" color="#0d0d0c" weight="thin" />
             <label for="female" class="text-H3 ml-2">女性</label>
           </div>
         </div>
@@ -49,19 +56,24 @@
         </select>
       </div>
 
-      <div>
+      <div class="flex flex-col pt-5">
         <button @click="saveUserHanlder(user)"
-          class="w-full bg-[#90c700] text-white font-bold text-2xl py-3 rounded shadow-md" type="button">
+          class="w-full bg-[#92C700] text-white text-H2 py-1 rounded shadow-md" type="button">
           繼續
         </button>
+        <router-link to="/home" class="flex text-H3 text-[#92c700] justify-center pt-2">先略過</router-link>          
       </div>
 
-      <div class="flex justify-end">
-        <RouterLink to="/home" class="flex items-center gap-2">
-          <label class="text-xl font-bold">先略過</label>
-          <PhArrowCircleRight :size="32" />
+      <!--
+      <div class="fixed bottom-4 right-4 z-10 flex items-center bg-white rounded-2xl shadow-md">
+        <RouterLink to="/home" class="flex  ">
+          <label class="text-H3 font-bold m-3">先略過</label>
+          <PhArrowCircleRight :size="24" class="m-3"/>
         </RouterLink>
-      </div>
+      </div>      
+      -->
+
+
 </div>
 
 </template>
@@ -72,13 +84,17 @@ import User from "@/model/user";
 import router from "@/router";
 import { useUserStore } from "@/store/userStroe";
 import { getTextByLocation } from "@/utils/getTextByNumber";
-import { PhArrowCircleRight } from "@phosphor-icons/vue";
+import { PhArrowCircleRight,PhSealCheck,PhSeal } from "@phosphor-icons/vue";
 import Datepicker from "@vuepic/vue-datepicker";
 import "@vuepic/vue-datepicker/dist/main.css";
-import { ref } from "vue";
+import { ref, watch  } from "vue";
 import { RouterLink } from "vue-router";
 
+import { DatePicker as VDatePicker } from 'v-calendar';
+
+const placeholder = "請選擇生日";
 const formatDate = "yyyy-MM-dd";
+
 const user = ref<User>({
   ID: 0,
   account: "",
@@ -97,6 +113,20 @@ const saveUserHanlder = async (user: User) => {
   } catch (err) {
     console.log(err);
   }
+};
+
+// 監聽 `user.birthday` 的變化，並在控制台輸出選擇的日期
+watch(() => user.value.birthday, (newDate) => {
+  console.log('選擇的生日日期:', newDate);
+});
+
+watch(() => user.value.female, (newfemale) => {
+  console.log('選擇的生日日期:', newfemale);
+});
+
+const selectGender = (value: number) => {
+  user.value.female = value; // 设置为选中的性别值
+  console.log(user.value.female);
 };
 </script>
 

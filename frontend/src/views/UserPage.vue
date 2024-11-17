@@ -1,21 +1,19 @@
 <template>
   <div class="flex flex-col w-full divide-y-2 ">
-    <div class="flex flex-col items-center gap-2 mt-10 mb-5 flex-shrink-0">
+    <div class="flex flex-col items-center gap-2 mt-3 mb-5 flex-shrink-0">
       <Avatar />
       <label class="text-H1 font-bold">{{user?.name ? user.name : "未登錄"}}</label>
     </div>
 
-    <div class="p-10 flex flex-col space-y-5">
+    <div class="p-10 flex flex-col space-y-8">
       <div v-for="(item, index) in menuItems" :key="index" class="flex items-center" @click="router.push(item.path)">
         <component :is="item.icon" :size="36" color="#4d4d4d" />
         <label class="text-H2 flex ml-3">{{ item.label }}</label>
       </div>
 
-      <router-link v-if="user.ID" to="/account/login" class="forgot-password-link"><button
-          class="w-full bg-[#90c700] text-white font-bold text-2xl py-1 rounded shadow-md" type="button"
-          @click="logoutHandler">
-          登出
-        </button></router-link>
+      <router-link v-if="user.ID" to="/account/login" class="forgot-password-link">
+
+      </router-link>
       <router-link v-else to="/account/login" class="forgot-password-link"><button
           class="w-full bg-[#90c700] text-white text-H3 py-1 rounded shadow-md" type="button">
           登入

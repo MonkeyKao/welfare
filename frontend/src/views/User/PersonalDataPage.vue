@@ -1,47 +1,71 @@
 <template>
-  <header class="flex items-center gap-3 p-4 bg-[#92c700] basis-1">
-    <router-link to="/user" class="forgot-password-link">
-      <PhArrowUUpLeft :size="32" color="#000" class="ml-5" />
-    </router-link>
-    <label class="text-3xl font-bold">個人資訊</label>
-  </header>
-
-  <body>
-    <div class="flex flex-col items-center gap-2 mt-5">
-      <Avatar />
-      <label class="text-sm text-[#7F8689]">{{
-        user?.name ? user.name : "未登錄"
-      }}</label>
-      <form class="flex flex-col w-full h-full p-10 gap-5">
-        <div class="flex rounded-md">
-          <label class="flex text-2xl font-bold">姓名:</label>
-          <label class="text-2xl font-bold">{{ user?.name }}</label>
+  <div class="flex flex-col h-screen justify-between">
+    <div>
+      <div>
+        <div class="flex h-20 bg-[#90c700] items-center space-x-2">
+          <router-link to="/user" class="forgot-password-link"><PhArrowUUpLeft :size="28" color="#000" class="ml-5" /></router-link>
+          <label class="text-H2 font-bold">個人資訊</label>    
         </div>
-        <div class="flex rounded-md">
-          <label class="flex text-2xl font-bold">帳號:</label>
-          <label class="text-2xl font-bold">{{ user?.account }}</label>
+        <div class="flex flex-col justify-center items-center space-y-2">
+          <Avatar />          
         </div>
-        <div class="flex rounded-md">
-          <label class="flex text-2xl font-bold">生日:</label>
-          <label class="text-2xl font-bold">{{ user?.birthday }}</label>
+      </div>
+      <div class="flex flex-col space-y-5 m-5 px-3">
+        <div class="flex space-x-2">
+          <label class="flex text-H2 font-bold">姓名</label>
+          <label class="flex text-H2 font-bold">:</label>
+          <label class="text-2xl ">{{ user?.name }}</label>
         </div>
-        <div class="flex rounded-md">
-          <label class="flex text-2xl font-bold">性別:</label>
-          <label class="text-2xl font-bold">{{ getTextByGender(user.female) }}</label>
+        <div class="flex space-x-2">
+          <label class="flex text-H2 font-bold">帳號</label>
+          <label class="flex text-H2 font-bold">:</label>
+          <label class="text-2xl ">{{ user?.account }}</label>
         </div>
-        <div class="flex rounded-md gap-2">
-          <label class="flex text-2xl font-bold">地區:</label>
-          <label class="text-2xl font-bold">{{ getTextByLocation(user.location) }}</label>
+        <div class="flex space-x-2">
+          <label class="flex text-H2 font-bold">生日</label>
+          <label class="flex text-H2 font-bold">:</label>
+          <label class="text-2xl ">{{ user?.birthday }}</label>
         </div>
-        <div>
-          <router-link to="/user/edit-personal-data"><button
-              class="w-full bg-[#90c700] text-white font-bold text-2xl py-3 rounded shadow-md" type="button">
-              編輯
-            </button></router-link>
+        <div class="flex space-x-2">
+          <label class="flex text-H2 font-bold">性別</label>
+          <label class="flex text-H2 font-bold">:</label>
+          <label class="text-2xl ">{{ getTextByGender(user.female) }}</label>
         </div>
-      </form>
+        <div class="flex space-x-2">
+          <label class="flex text-H2 font-bold">地區</label>
+          <label class="flex text-H2 font-bold">:</label>
+          <label class="text-2xl ">{{ getTextByLocation(user.location) }}</label>
+        </div>
+      </div>
     </div>
-  </body>
+
+    <div class="  flex justify-center space-x-5 m-10">
+
+      <router-link to="/user/edit-personal-data"><button
+          class="bg-[#90c700] text-white text-H3 p-2 px-5 rounded shadow-md w-full flex items-center space-x-5 " type="button">
+          <PhPencilLine :size="24" color="#fcfcfc" />
+          編輯
+      </button></router-link> 
+
+      <div>
+        <router-link v-if="user.ID" to="/account/login" class="forgot-password-link">
+          <button
+            class="bg-[#90c700] text-white text-H3 p-2 px-5 rounded shadow-md w-full flex items-center space-x-5" type="button"
+            @click="logoutHandler">
+           <PhSignOut :size="24" color="#fcfcfc" />            
+            登出
+          </button>
+        </router-link>
+        <router-link v-else to="/account/login" class="forgot-password-link"><button
+            class="bg-[#90c700] text-white text-H3 p-2 mb-8 px-5 rounded shadow-md w-full" type="button">
+            登入
+          </button></router-link>
+      </div>              
+    </div>
+    
+
+
+  </div>
 </template>
 <script setup lang="ts">
 import request from "@/axios";
@@ -51,7 +75,20 @@ import { useUserStore } from "@/store/userStroe";
 import { getTextByGender, getTextByLocation } from "@/utils/getTextByNumber";
 import { PhArrowUUpLeft } from "@phosphor-icons/vue";
 import { computed, onMounted, ref } from "vue";
+import {
+  PhSignOut,
+  PhPencilLine,
+} from "@phosphor-icons/vue";
+import router from "@/router";
 const userStore = useUserStore()
 const user = computed(() => userStore.user)
+
+const userStroe = useUserStore();
+
+const logoutHandler = () => {
+  localStorage.removeItem("token");
+  userStroe.user = new User();
+  router.push("/account/login");
+};
 
 </script>

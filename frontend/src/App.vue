@@ -54,8 +54,9 @@ onMounted(() => {
             'ElderlySearchPage',
             'RegionSelectionPage',
             'ServiceSelectionPage',
-            'SearchResultPage'
-            
+            'SearchResultPage',
+            'EditPersonalDataPage',
+            'PersonalDataPage',
           ].includes(route.name)
         "
       >
