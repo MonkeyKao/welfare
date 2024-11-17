@@ -1,6 +1,6 @@
 <template>
   <div class="flex justify-start items-center gap-3 p-4 bg-[#92c700]">
-    <router-link to="/elderlysearch" class="forgot-password-link">
+    <router-link to="/user/settings" class="forgot-password-link">
       <PhArrowUUpLeft :size="32" color="#000" />
     </router-link>
     <label class="text-H2 font-bold">福利查詢</label>
