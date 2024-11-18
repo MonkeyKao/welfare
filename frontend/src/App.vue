@@ -5,10 +5,6 @@ import { RouterView, useRoute } from "vue-router"; // 引入 RouterView 用來�
 import TipMsg from "./components/tipMsg.vue";
 import { useUserStore } from "./store/userStroe";
 import { useWelfareStore } from "./store/welfareStroe";
-import { provide } from 'vue'
-import TipMsg from "./components/tipMsg.vue";
-
-import aiinput from "@/components/aiinput.vue";
 import { useFavoriteStore } from "./store/favorite";
 
 const route = useRoute(); // 獲取當前路由
