@@ -4,13 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="688ba8ba-eea7-4794-8f44-982dcb593354" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/ChiayiCity/main1.py" beforeDir="false" afterPath="$PROJECT_DIR$/ChiayiCity/main1.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Hsinchu/main1.py" beforeDir="false" afterPath="$PROJECT_DIR$/Taichung/Hsinchu/main1.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data.json" beforeDir="false" afterPath="$PROJECT_DIR$/data.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/list.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/list.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-    </list>
+    <list default="true" id="688ba8ba-eea7-4794-8f44-982dcb593354" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -19,9 +13,9 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 7
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 7
+}</component>
   <component name="ProjectId" id="2nyj75gs0tHmYI5DnLhZSuCps1R" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -31,7 +25,7 @@
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "crawler",
+    "git-widget-placeholder": "OlderHomePage",
     "last_opened_file_path": "C:/Users/aitx6/OneDrive/桌面/welfare/crawler"
   }
 }]]></component>
