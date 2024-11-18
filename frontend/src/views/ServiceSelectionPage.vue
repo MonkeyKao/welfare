@@ -1,34 +1,32 @@
 <template>
-  <div class="flex justify-start items-center gap-3 p-4 bg-[#92c700]">
+  <div class="flex bg-[#90c700] p-3 items-center fixed z-10 w-full px-6">
     <div class="forgot-password-link" @click="returnSelection">
       <PhArrowUUpLeft :size="32" color="#000" />
     </div>
-    <label class="text-H2 font-bold">選擇服務</label>
+    <label class="ml-5 text-H2 font-bold">選擇服務</label>
   </div>
 
-  <div class="p-4">
+  <div class="flow flow-col p-4 space-y-5 mt-[60px] mb-[50px]">
     <div class="grid grid-cols-1 gap-5 mb-5">
       <button
         v-for="(service, serviceIndex) in services"
         :key="serviceIndex"
         :class="[ 
-          'flex bg-[#92c700] p-4 rounded-lg shadow-md text-H2 items-center gap-2',
-          selectedServices.includes(service) ? 'bg-[#73AA00]' : ''
+          'flex p-3 rounded-lg shadow-md text-H2 mx-3 px-5 gap-2 transition-colors',
+          selectedServices.includes(service) ? 'bg-[#73AA00] text-white' : 'bg-white text-black'
         ]"
         @click="toggleServiceSelection(service)"
       >
         {{ getTextByService(service) }}
-        <span v-if="selectedServices.includes(service)" class="text-white">
-          <PhCheck :size="24" weight="bold" />
-        </span>
-      </button>
-    </div>
-    <div class="flex flex-col justify-center mt-4">
-      <button class="bg-[#92c700] text-H2 p-1 rounded-lg shadow-md" @click="confirmSelection">
-        確定
       </button>
     </div>
   </div>
+
+  <div class="flex flex-col h-[10%] justify-center fixed bottom-0 w-full px-6 z-20 bg-white">
+      <button class="bg-[#92c700] text-H2 p-1 rounded-lg shadow-md text-white" @click="confirmSelection">
+        確定
+      </button>
+    </div>
 </template>
 
 <script setup lang="ts">

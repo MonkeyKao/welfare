@@ -9,7 +9,7 @@
       </button>
     </div>
     <div>
-      <p class="text-H3 mb-2">已選擇地區</p>
+      <p class="text-H3 mb-2 mt-2">已選擇地區</p>
       <div class="flex flex-wrap gap-2">
         <div
           v-for="region in selectedRegions"
@@ -33,7 +33,7 @@
       </button>
     </div>
     <div>
-      <p class="text-H3 mb-2">已選擇服務</p>
+      <p class="text-H3 mb-2 mt-2">已選擇服務</p>
       <div class="flex flex-wrap gap-2">
         <div
           v-for="service in selectedServices"

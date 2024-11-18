@@ -1,37 +1,39 @@
 <template>
-  <div class="flex justify-start items-center gap-3 p-4 bg-[#92c700]">
-    <div class="forgot-password-link" @click="returnSelection">
+
+  <div class="flex bg-[#90c700] p-3 items-center fixed z-10 w-full px-6">
+    <div class=" " @click="returnSelection">
       <PhArrowUUpLeft :size="32" color="#000" />
     </div>
-    <label class="text-H2 font-bold">選擇地區</label>
+    <label class="ml-5 text-H2 font-bold">選擇地區</label>
   </div>
 
-  <div class="flow flow-col p-4">
-    <div v-for="(area, index) in areas" :key="index">
-      <p class="text-H2">{{ area.name }}</p>
-      <div v-for="(row, rowIndex) in area.regions" :key="rowIndex" class="grid justify-stretch grid-cols-3 gap-3 mb-3">
+  <div class="flow flow-col p-4 space-y-5 mt-[50px] mb-[50px]">
+    <div v-for="(area, index) in areas" :key="index" class=" p-3">
+      <p class="text-H2 font-bold pb-2">{{ area.name }}</p>
+      <div v-for="(row, rowIndex) in area.regions" :key="rowIndex" class="grid grid-cols-3 gap-x-5 gap-y-8  mb-3">
         <button
           v-for="region in row"
           :key="region"
           :class="[ 
-            'flex bg-[#92c700] p-2 rounded-lg shadow-md text-H2 items-center gap-2',
-            isRegionSelected(region) ? 'bg-[#73AA00]' : ''
+            'flex p-2 rounded-lg shadow-md text-H2 items-center justify-center gap-2 transition-colors',
+          isRegionSelected(region) ? 'bg-[#73AA00] text-white' : 'bg-white text-black'
           ]"
           @click="toggleSelection(region)"
         >
           {{ getTextByLocation(region) }}
-          <span v-if="isRegionSelected(region)" class="text-white">
-            <PhCheck :size="24" weight="bold" />
-          </span>
         </button>
       </div>
     </div>
-    <div class="flex flex-col justify-center">
-      <button class="bg-[#92c700] text-H2 p-1 rounded-lg shadow-md" @click="confirmSelection">
-        確定
-      </button>
-    </div>
+
   </div>
+<!-- 確定按鈕容器，加入 z-20 確保按鈕位於其他元素之上 -->
+  <div class="flex flex-col h-[10%] justify-center fixed bottom-0 w-full px-6 z-20 bg-white">
+    <button class="bg-[#92c700] text-H2 p-1 rounded-lg shadow-md text-white" @click="confirmSelection">
+      確定
+    </button> 
+  </div>
+
+
 </template>
 
 <script setup lang="ts">
