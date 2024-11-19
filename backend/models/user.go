@@ -18,10 +18,11 @@ type User struct {
 	Female   int       `json:"female"`
 	Location int       `json:"location"`
 	Email    string    `json:"email"`
+	Families []Family  `gorm:"many2many:family_members;"`
 }
 
 func (user *User) GetUserByID(id uint) error {
-	return database.DB.First(user, id).Error
+	return database.DB.Preload("Families").First(user, id).Error
 }
 
 func (user *User) GetUserByAccount(account string) error {

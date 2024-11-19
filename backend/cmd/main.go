@@ -18,6 +18,7 @@ func main() {
 	routes.WelfareRoutes(router)
 	routes.VerifyRoutes(router)
 	routes.FavoriteRoutes(router)
+	routes.FamilyRoutes(router)
 	router.GET("QA", api.GetQAHandler)
 	router.Run(":8081")
 }
