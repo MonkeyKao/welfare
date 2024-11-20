@@ -17,6 +17,14 @@ const code = ref('');
 const time = ref(300);  // 5 分鐘
 const showQRCode = ref(false);
 
+const props = defineProps(['id'])
+
+const emit = defineEmits(["close"])
+
+onMounted(() => {
+  fetchQRCode(props.id)
+})
+
 // 格式化倒計時
 const formattedTime = computed(() => {
   const minutes = Math.floor(time.value / 60);
@@ -24,13 +32,9 @@ const formattedTime = computed(() => {
   return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
 });
 
-onMounted(() => {
-  fetchQRCode();
-})
-// 取得 QR code
-const fetchQRCode = async () => {
+const fetchQRCode = async (id:number) => {
   try {
-    const response = await request.get('/users/bind');
+    const response = await request.get('/family/bind/'+id);
     const data = response.data;
 
     // 更新 QR code 和 code
@@ -44,10 +48,13 @@ const fetchQRCode = async () => {
         time.value -= 1;
       } else {
         clearInterval(interval); // 停止倒計時
+        emit("close")
       }
     }, 1000); // 每秒更新一次
   } catch (error) {
     console.error("Error fetching QR code:", error);
   }
 };
+
+
 </script>

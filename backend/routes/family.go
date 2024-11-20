@@ -11,5 +11,8 @@ func FamilyRoutes(c *gin.Engine) {
 	{
 		FamilyRoutes.POST("/:name", api.CreateFamilyHandler)
 		FamilyRoutes.GET("", api.GetAllFamilyByUserIDHandler)
+		FamilyRoutes.GET("/bind/:familyId", api.GetFmailyCodeHandler)
+		FamilyRoutes.POST("/join/:code", api.JoinFmailyHandler)
+		FamilyRoutes.DELETE("/:id", api.DeleteFamilyHandler)
 	}
 }

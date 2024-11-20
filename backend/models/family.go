@@ -32,35 +32,45 @@ func GetAllFamilyByUserID(userID uint) (string, error) {
 
 	// 2. 查詢這些家庭中的所有成員及其角色
 	var rawResults []struct {
+		FamilyID   uint   `json:"family_id"`
 		FamilyName string `json:"family_name"`
 		UserName   string `json:"user_name"`
 		Role       string `json:"role"`
 	}
 	if err := database.DB.Table("family_members").
-		Select("families.family_name AS family_name, users.name AS user_name, family_members.role").
-		Joins("JOIN users ON users.id = family_members.user_id").
-		Joins("JOIN families ON families.id = family_members.family_id").
+		Select("families.id AS family_id, families.family_name AS family_name, users.name AS user_name, family_members.role").
+		Joins("JOIN users ON users.id = family_members.user_id AND users.deleted_at IS NULL").
+		Joins("JOIN families ON families.id = family_members.family_id AND families.deleted_at IS NULL").
 		Where("family_members.family_id IN ?", familyIDs).
 		Find(&rawResults).Error; err != nil {
 		return "", err
 	}
 
 	// 3. 整理數據為分組結構
-	groupedResults := make(map[string][]map[string]string)
+	groupedResults := make(map[uint]map[string]interface{}) // key 為 FamilyID
 	for _, result := range rawResults {
-		groupedResults[result.FamilyName] = append(groupedResults[result.FamilyName], map[string]string{
-			"user_name": result.UserName,
-			"role":      result.Role,
-		})
+		// 如果該 FamilyID 尚未初始化，創建一個新的分組
+		if _, exists := groupedResults[result.FamilyID]; !exists {
+			groupedResults[result.FamilyID] = map[string]interface{}{
+				"family_name": result.FamilyName,
+				"family_id":   result.FamilyID,
+				"users":       []map[string]string{},
+			}
+		}
+		// 添加用戶信息到對應的家庭
+		groupedResults[result.FamilyID]["users"] = append(
+			groupedResults[result.FamilyID]["users"].([]map[string]string),
+			map[string]string{
+				"user_name": result.UserName,
+				"role":      result.Role,
+			},
+		)
 	}
 
 	// 4. 將分組結果轉換為列表
 	finalResults := []map[string]interface{}{}
-	for familyName, users := range groupedResults {
-		finalResults = append(finalResults, map[string]interface{}{
-			"family_name": familyName,
-			"users":       users,
-		})
+	for _, family := range groupedResults {
+		finalResults = append(finalResults, family)
 	}
 
 	// 5. 將最終結果轉換為 JSON 字符串
@@ -70,4 +80,8 @@ func GetAllFamilyByUserID(userID uint) (string, error) {
 	}
 
 	return string(jsonData), nil
+}
+
+func (family *Family) DeleteFamily() error {
+	return database.DB.Delete(family).Error
 }
