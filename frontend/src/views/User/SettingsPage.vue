@@ -23,9 +23,5 @@ import { PhArrowUUpLeft, PhLink, PhDetective } from "@phosphor-icons/vue";
 const menuItems = [
   { path: "/user/link-account", label: "連結帳戶", icon: PhLink },
   { path: "/older-home", label: "老人模式", icon: PhDetective },
-  { path: "/user/link-account", label: "連結帳戶", icon: PhLink },
-  { path: "/user/link-account", label: "連結帳戶", icon: PhLink },
-  { path: "/user/link-account", label: "連結帳戶", icon: PhLink },
-  { path: "/user/link-account", label: "連結帳戶", icon: PhLink },
 ];
 </script>

@@ -13,7 +13,8 @@
 <script setup lang="ts">
 import Aiinput from '@/components/aiinput.vue';
 import { useWelfareStore } from '@/store/welfareStroe';
-import { onMounted, ref } from 'vue';
+import { inject, onMounted, ref } from 'vue';
+const showMsg: Function = inject("showMsg")!
 
 const welfareStroe = useWelfareStore()
 
@@ -210,7 +211,7 @@ const insertResultInfCard = (items: Array<{ title: string, url: string }>) => {
   itemDiv.className = 'px-3 space-y-3';
 
   items.forEach(item => //for迴圈陣列
-    itemDiv.appendChild(createResultInfCard(item.title, "/" + item.url)),
+    itemDiv.appendChild(createResultInfCard(item.title, item.url)),
     colDiv.appendChild(itemDiv)
   );
 
@@ -224,7 +225,17 @@ const insertResultInfCard = (items: Array<{ title: string, url: string }>) => {
 const createResultInfCard = (title: string, url: string) => {
   const itemDiv = document.createElement('div');
   itemDiv.className = 'border-b shadow-sm flex items-center justify-center';
-  itemDiv.addEventListener('click', () => { window.location.href = url });
+  itemDiv.addEventListener('click', () => {
+    try {
+      // 檢查URL是否合法
+      const validUrl = new URL(url);
+      window.open(validUrl.toString(), '_blank');
+    } catch (error) {
+      showMsg("該頁面路徑有誤，請自行搜尋")
+    }
+
+    //  window.open(url, '_blank');
+  });
 
   const nameDiv = document.createElement('div');
   nameDiv.className = "text-H3 ";

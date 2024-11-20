@@ -16,10 +16,10 @@ export const useFavoriteStore = defineStore("favorite", {
         },
         async createFavoriteHanlder(welfare:Welfare) {
             try {
-                const result = await request.post("/favorite/" + welfare.id)
+                await request.post("/favorite/" + welfare.id)
                 this.favorites.push(welfare)
             } catch (err: any) {
-
+                throw(err.response.data.error)
             }
 
         },

@@ -78,15 +78,12 @@
       </router-link>
     </div>      
     </div>
-
-
   </div>
 </template>
 
 <script setup lang="ts">
 import Avatar from "@/components/Avatar.vue";
 import { PhArrowUUpLeft,PhSealCheck,PhSeal } from "@phosphor-icons/vue";
-import Datepicker from "@vuepic/vue-datepicker";
 import { computed, ref } from "vue";
 
 import "@vuepic/vue-datepicker/dist/main.css";

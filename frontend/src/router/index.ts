@@ -25,7 +25,7 @@ import {
   RouterView,
   type RouteRecordRaw,
 } from "vue-router";
-import FamilyPage from "@/components/FamilyPage.vue";
+import FamilyPage from "@/views/User/FamilyPage.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {

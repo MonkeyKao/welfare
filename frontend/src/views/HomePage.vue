@@ -14,24 +14,29 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { ref, computed, inject } from 'vue';
 import TopNav from '@/components/TopNav.vue';
 import HomeInsideText from '@/components/HomeInsideText.vue';
 import { useWelfareStore } from '@/store/welfareStroe';
-import request from '@/axios';
 import type Welfare from '@/model/welfare';
 import { useFavoriteStore } from '@/store/favorite';
+const showMsg: Function = inject("showMsg")!
 
 const favoriteStore = useFavoriteStore()
 const favoriteData = computed(() => favoriteStore.favorites)
 
-const clickFavoriteHandler = (welfare: Welfare) => {
+const clickFavoriteHandler = async (welfare: Welfare) => {
   if (Array.isArray(favoriteData.value) && favoriteData.value.some((item) => item.id === welfare.id)) {
     // 如果已存在，则调用删除
     favoriteStore.deleteFavoriteHandler(welfare.id)
   } else {
+    try {
+      await favoriteStore.createFavoriteHanlder(welfare)
+    } catch (error) {
+      showMsg(error)
+    }
     // 如果未收藏，则添加
-    favoriteStore.createFavoriteHanlder(welfare)
+
   }
 }
 

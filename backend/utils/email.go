@@ -2,30 +2,31 @@ package utils
 
 import (
 	"fmt"
-
-	"github.com/wneessen/go-mail"
+	"net/smtp"
 )
 
 func SendEmail(email string, verifycode string) error {
-	message := mail.NewMsg()
-	if err := message.From("walfare@gamil.com"); err != nil {
-		return err
-	}
-	if err := message.To(email); err != nil {
-		return err
-	}
+	// 設定發件人郵箱和密碼
+	from := "cherites0610@gmail.com" // 發件人郵箱
+	password := "akkyxqatzdimenml"   // 應用專用密碼
 
-	message.Subject("哞福利驗證碼")
-	message.SetBodyString(mail.TypeTextPlain, fmt.Sprintf("驗證碼為:%s", verifycode))
+	// 設定郵件伺服器
+	smtpHost := "smtp.gmail.com"
+	smtpPort := "587"
 
-	client, err := mail.NewClient("smtp.gmail.com", mail.WithSMTPAuth(mail.SMTPAuthPlain),
-		mail.WithUsername("cherites0610@gmail.com"), mail.WithPassword("jpnxkodatrsxvjvm"))
+	// 設定收件人郵箱
+	to := []string{email}
+
+	// 設定郵件內容
+	subject := "Subject: 哞福利驗證碼\r\n"
+	body := fmt.Sprintf("驗證碼為: %s", verifycode)
+	message := []byte(subject + "\r\n" + body)
+
+	// 驗證身份並發送郵件
+	auth := smtp.PlainAuth("", from, password, smtpHost)
+	err := smtp.SendMail(smtpHost+":"+smtpPort, auth, from, to, message)
 	if err != nil {
-		return err
-	}
-
-	if err := client.DialAndSend(message); err != nil {
-		return err
+		return fmt.Errorf("failed to send email: %w", err)
 	}
 
 	return nil

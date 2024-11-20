@@ -22,10 +22,9 @@ func GetVerify(email string) error {
 
 	mu.Unlock()
 
-	// if err := utils.SendEmail(email, code); err != nil {
-	// 	fmt.Print(err.Error())
-	// 	return errors.New("發送email失敗")
-	// }
+	if err := utils.SendEmail(email, code); err != nil {
+		return errors.New("發送email失敗")
+	}
 
 	go func(email, oldCode string) {
 		time.Sleep(5 * time.Minute)
@@ -83,6 +82,11 @@ func Register(user *models.User) error {
 	user.Salt = salt
 	user.Password = encryptedText
 
+	// 請求二級認證
+	if err := GetVerify(user.Email); err != nil {
+		return err
+	}
+
 	// 創建賬號
 	if err := user.CreateUser(); err != nil {
 		return err
@@ -104,11 +108,6 @@ func Register(user *models.User) error {
 			user.DeleteUser()
 		}
 	}(user.Email, user.ID)
-
-	// 請求二級認證
-	if err := GetVerify(user.Email); err != nil {
-		return err
-	}
 
 	return nil
 }

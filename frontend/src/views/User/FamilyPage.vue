@@ -60,9 +60,9 @@
 <script setup lang="ts">
 import { PhArrowUUpLeft, PhPlus } from "@phosphor-icons/vue";
 import { inject, onMounted, ref } from "vue";
-import QRCODE from "@/views/User/QRCODE.vue";
+import QRCODE from "@/components/QRCODE.vue";
 import request from "@/axios";
-import Modal from "./modal.vue";
+import Modal from "@/components/modal.vue";
 const familyName = ref<string>("");
 const familyCode = ref<string>("");
 

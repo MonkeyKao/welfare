@@ -3,7 +3,7 @@ export default class User {
     account: string;
     name: string;
     password: string;
-    birthday: Date;
+    birthday: string;
     female: number; 
     location: number;
     email: string;
@@ -13,7 +13,7 @@ export default class User {
         account: string = "",
         name: string = "",
         password: string = "",
-        birthday: Date = new Date(),
+        birthday:string = "",
         female: number = 0,
         location: number = 0,
         email: string = ""

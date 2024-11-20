@@ -14,7 +14,7 @@ func JwtAuthMiddleware() gin.HandlerFunc {
 		authHandler := c.Request.Header.Get("token")
 
 		if authHandler == "" {
-			c.JSON(http.StatusOK, gin.H{"error": "未攜帶token"})
+			c.JSON(http.StatusUnauthorized, gin.H{"error": "未攜帶token"})
 			c.Abort()
 			return
 		}
@@ -23,7 +23,7 @@ func JwtAuthMiddleware() gin.HandlerFunc {
 		mc, err := utils.ParseToken(authHandler)
 		if err != nil {
 			fmt.Println("err = ", err.Error())
-			c.JSON(http.StatusOK, gin.H{
+			c.JSON(http.StatusUnauthorized, gin.H{
 				"isLogin": false,
 				"msg":     "无效的Token",
 			})

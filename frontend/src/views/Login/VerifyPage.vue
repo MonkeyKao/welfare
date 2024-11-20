@@ -88,7 +88,7 @@ const sendVerificationCode = async (verificationCode: string) => {
 
   const vaildResult = await validate.single(verificationCode,{format: {pattern:"^\\d{6}$",message:"驗證碼需為六位數字"}})
   if (vaildResult) {
-    alert(vaildResult[0])
+    showMsg(vaildResult[0])
     return
   }
 
@@ -101,9 +101,7 @@ const sendVerificationCode = async (verificationCode: string) => {
     localStorage.removeItem("email")
     router.push("/account/create-profile");
   } catch (err: any) {
-    console.log(err);
-
-    alert(err.response.data.error);
+    showMsg(err.response.data.error)
   }
 };
 </script>

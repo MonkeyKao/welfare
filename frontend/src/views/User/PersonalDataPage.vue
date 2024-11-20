@@ -56,10 +56,6 @@
             登出
           </button>
         </router-link>
-        <router-link v-else to="/account/login" class="forgot-password-link"><button
-            class="bg-[#90c700] text-white text-H3 p-2 mb-8 px-5 rounded shadow-md w-full" type="button">
-            登入
-          </button></router-link>
       </div>              
     </div>
     
@@ -68,7 +64,6 @@
   </div>
 </template>
 <script setup lang="ts">
-import request from "@/axios";
 import Avatar from "@/components/Avatar.vue";
 import User from "@/model/user";
 import { useUserStore } from "@/store/userStroe";
@@ -80,7 +75,9 @@ import {
   PhPencilLine,
 } from "@phosphor-icons/vue";
 import router from "@/router";
+import { useFavoriteStore } from "@/store/favorite";
 const userStore = useUserStore()
+const favoriteStore = useFavoriteStore()
 const user = computed(() => userStore.user)
 
 const userStroe = useUserStore();
@@ -88,6 +85,7 @@ const userStroe = useUserStore();
 const logoutHandler = () => {
   localStorage.removeItem("token");
   userStroe.user = new User();
+  favoriteStore.favorites = [] 
   router.push("/account/login");
 };
 
