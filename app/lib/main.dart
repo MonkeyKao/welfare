@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
-import 'screens/home_screen.dart';  // 引入 HomeScreen
+import 'screens/home_screen.dart';
+import 'package:logger/logger.dart';
+
+final logger = Logger();  // 引入 HomeScreen
 
 void main() {
+  print('Logger test: Application started');
   runApp( const SafeArea(child: MyApp()) );
 }
 
