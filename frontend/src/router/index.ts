@@ -26,11 +26,18 @@ import {
   type RouteRecordRaw,
 } from "vue-router";
 import FamilyPage from "@/views/User/FamilyPage.vue";
+import WelFarePage from "@/views/WelFarePage.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: "/",
     redirect: "/home", // 重定向到登入頁
+    meta: { needLogin: false },
+  },
+  {
+    path: "/welfare/:id",
+    name: "welfare",
+    component: WelFarePage,
     meta: { needLogin: false },
   },
   {
@@ -60,6 +67,7 @@ const routes: Array<RouteRecordRaw> = [
         component: RegisterPage,
         meta: { needLogin: false },
       },
+      
       {
         path: "verify",
         name: "VerifyPage",

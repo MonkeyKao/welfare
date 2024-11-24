@@ -7,39 +7,40 @@ import (
 	"strings"
 )
 
-type Data struct {
-	Script string    `json:"city"`
-	Output []Welfare `json:"output"`
-}
 type Welfare struct {
-	Id              int    `json:"id"`
+	Id              uint   `json:"id"`
 	Category        []int  `json:"category"`
 	City            string `json:"city"`
 	Date            string `json:"date"`
-	Priority        int    `json:"priority"`
 	Title           string `json:"title"`
 	Detail          string `json:"detail"`
 	DetailCondition string `json:"detailCodition"`
 	DetailDocument  string `json:"detailDocument"`
-	DetailLink      string `json:"url"`
+	Url             string `json:"url"`
 }
 
-func ParseData(jsonStr string) []Welfare {
-	var dataList []Data
-	err := json.Unmarshal([]byte(jsonStr), &dataList)
-	if err != nil {
-		fmt.Println("解析 JSON 错误：", err)
-		return nil
-	}
-
-	var result []Welfare
-	for _, data := range dataList {
-		result = append(result, data.Output...)
-	}
-	return result
-}
+var welfares []Welfare
 
 func GetWelfares() []Welfare {
+	return welfares
+}
+
+func GetWelfareByID(id uint) (Welfare, bool) {
+	for _, welfare := range welfares {
+		if welfare.Id == id {
+			return welfare, true
+		}
+	}
+
+	return Welfare{}, false
+}
+
+func GetWelfareFromJson() {
+	type data struct {
+		Script string    `json:"city"`
+		Output []Welfare `json:"output"`
+	}
+
 	originalPath, _ := os.Getwd()
 	fixedPart := "backend\\cmd"
 	index := strings.Index(originalPath, fixedPart)
@@ -50,6 +51,16 @@ func GetWelfares() []Welfare {
 
 	jsonStr := string(fileData)
 
-	items := ParseData(jsonStr)
-	return items
+	var dataList []data
+	err := json.Unmarshal([]byte(jsonStr), &dataList)
+	if err != nil {
+		fmt.Println("解析 JSON 错误：", err)
+	}
+
+	var result []Welfare
+	for _, data := range dataList {
+		result = append(result, data.Output...)
+	}
+	fmt.Print("取得福利json")
+	welfares = result
 }

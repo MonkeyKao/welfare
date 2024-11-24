@@ -38,7 +38,7 @@ func GetFavoritesByUserID(userID uint) ([]Welfare, error) {
 	for _, favorite := range favorites {
 		// 遍歷所有的 Welfare 資料，根據 welfare_id 查找匹配的 Welfare
 		for _, welfare := range allWelfares {
-			if welfare.Id == int(favorite.WelfareID) { // 如果 Welfare 的 id 與 favorite 的 welfare_id 匹配
+			if welfare.Id == uint(favorite.WelfareID) { // 如果 Welfare 的 id 與 favorite 的 welfare_id 匹配
 				welfares = append(welfares, welfare) // 加入到 welfares 切片
 				break                                // 找到後就停止尋找，避免重複加入
 			}
