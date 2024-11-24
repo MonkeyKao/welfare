@@ -1,8 +1,8 @@
 <template>
-  <div class="flex justify-start items-center gap-3 p-4 bg-[#92c700]">
-    <router-link to="/user/settings" class="forgot-password-link">
-      <PhArrowUUpLeft :size="32" color="#000" />
-    </router-link>
+  <div class="flex h-20 bg-[#90c700] items-center space-x-2">
+    <div @click="router.push('/older-home')" class="forgot-password-link">
+      <PhArrowUUpLeft :size="28" color="#000" class="ml-5" />
+    </div>
     <label class="text-H2 font-bold">福利查詢</label>
   </div>
 
@@ -19,10 +19,10 @@
 </template>
 
 <script setup lang="ts">
-import { PhArrowUUpLeft } from '@phosphor-icons/vue';
-import { ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
+import HeaderBar from '@/components/headerBar.vue';
 import ElderlyFilter from '@/components/ElderlyFilter.vue';
+import { PhArrowUUpLeft } from "@phosphor-icons/vue";
 
 const router = useRouter();
 

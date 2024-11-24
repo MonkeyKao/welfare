@@ -16,9 +16,9 @@
           :key="region"
           :class="[ 
             'flex p-2 rounded-lg shadow-md text-H2 items-center justify-center gap-2 transition-colors',
-          isRegionSelected(region) ? 'bg-[#73AA00] text-white' : 'bg-white text-black'
+          isRegionSelected(String(region)) ? 'bg-[#73AA00] text-white' : 'bg-white text-black'
           ]"
-          @click="toggleSelection(region)"
+          @click="toggleSelection(String(region))"
         >
           {{ getTextByLocation(region) }}
         </button>
@@ -37,7 +37,7 @@
 </template>
 
 <script setup lang="ts">
-import { PhArrowUUpLeft, PhCheck } from '@phosphor-icons/vue';
+import { PhArrowUUpLeft } from '@phosphor-icons/vue';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { getTextByLocation } from '@/utils/getTextByNumber'; // 確保這個函數是正確的
@@ -94,7 +94,7 @@ const confirmSelection = () => {
   const selectedServices = router.currentRoute.value.query.selectedServices || '';
 
  const selectedRegionNames = selectedRegions.value.map((regionNumber) =>
-    getTextByLocation(regionNumber)
+    regionNumber
   );
 
   // 將選中的地區代碼轉換為字符串，並加入路由參數

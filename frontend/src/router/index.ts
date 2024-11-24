@@ -1,32 +1,46 @@
+
+//三大界面 
 import AiPage from "@/views/AiPage.vue";
 import HomePage from "@/views/HomePage.vue";
-import LikePage from "@/views/LikePage.vue";
+import UserPage from "@/views/UserPage.vue";
+
+// 登錄注冊
 import CreateProfilePage from "@/views/Login/CreateProfilePage.vue";
 import ForgetPasswordPage from "@/views/Login/ForgetPasswordPage.vue";
 import LoginPage from "@/views/Login/LoginPage.vue";
 import RegisterPage from "@/views/Login/RegisterPage.vue";
 import ResetPasswordPage from "@/views/Login/ResetPasswordPage.vue";
 import VerifyPage from "@/views/Login/VerifyPage.vue";
+
+// 首頁小頁面
 import NotifyPage from "@/views/NotifyPage.vue";
-import OlderHomePage from "@/views/OlderHomePage.vue";
+import LikePage from "@/views/LikePage.vue";
+import WelFarePage from "@/views/WelFarePage.vue";
+
+// 個人資料頁面
 import EditPersonalDataPage from "@/views/User/EditPersonalDataPage.vue";
 import LinkAccountPage from "@/views/User/LinkAccountPage.vue";
 import PersonalDataPage from "@/views/User/PersonalDataPage.vue";
 import QAPage from "@/views/User/QAPage.vue";
 import SettingsPage from "@/views/User/SettingsPage.vue";
-import UserPage from "@/views/UserPage.vue";
-import ElderlySearchPage from "@/views/ElderlySearchPage.vue";
-import RegionSelectionPage from "@/views/RegionSelectionPage.vue";
-import ServiceSelectionPage from "@/views/ServiceSelectionPage.vue";
-import SearchResultPage from '@/views/SearchResultPage.vue';
+import FamilyPage from "@/views/User/FamilyPage.vue";
+
+
+
+// 老人界面
+import ElderlySearchPage from "@/views/Older/ElderlySearchPage.vue";
+import RegionSelectionPage from "@/views/Older/RegionSelectionPage.vue";
+import ServiceSelectionPage from "@/views/Older/ServiceSelectionPage.vue";
+import SearchResultPage from "@/views/Older/SearchResultPage.vue";
+import OlderHomePage from "@/views/Older/OlderHomePage.vue";
 import {
   createRouter,
   createWebHistory,
   RouterView,
   type RouteRecordRaw,
 } from "vue-router";
-import FamilyPage from "@/views/User/FamilyPage.vue";
-import WelFarePage from "@/views/WelFarePage.vue";
+
+
 
 const routes: Array<RouteRecordRaw> = [
   {

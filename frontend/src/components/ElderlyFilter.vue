@@ -3,20 +3,16 @@
     <!-- 選擇地區部分 -->
     <div class="justify-center">
       <button class="bg-[#92c700] w-full text-H2 p-1 rounded-lg shadow-md"
-      @click="() => navigateToSelection('/regionselection')"
-      >
+        @click="() => navigateToSelection('/regionselection')">
         點我選「地區」
       </button>
     </div>
     <div>
       <p class="text-H3 mb-2 mt-2">已選擇地區</p>
       <div class="flex flex-wrap gap-2">
-        <div
-          v-for="region in selectedRegions"
-          :key="region"
-          class="flex items-center bg-[#6ca000] text-white text-H3 px-3 py-1 rounded-lg shadow-md"
-        >
-          <span class="mr-2">{{ region }}</span>
+        <div v-for="region in selectedRegions" :key="region"
+          class="flex items-center bg-[#6ca000] text-white text-H3 px-3 py-1 rounded-lg shadow-md">
+          <span class="mr-2">{{ getTextByLocation(Number(region)) }}</span>
           <button @click="removeRegion(region)" class="text-white">
             ✕
           </button>
@@ -27,20 +23,16 @@
     <!-- 選擇服務部分 -->
     <div class="justify-center">
       <button class="bg-[#92c700] w-full text-H2 p-1 rounded-lg shadow-md mt-4"
-      @click="() => navigateToSelection('/serviceselection')"
-      >
+        @click="() => navigateToSelection('/serviceselection')">
         點我選「服務」
       </button>
     </div>
     <div>
       <p class="text-H3 mb-2 mt-2">已選擇服務</p>
       <div class="flex flex-wrap gap-2">
-        <div
-          v-for="service in selectedServices"
-          :key="service"
-          class="flex items-center bg-[#6ca000] text-white text-H3 px-3 py-1 rounded-lg shadow-md"
-        >
-          <span class="mr-2">{{ service }}</span>
+        <div v-for="service in selectedServices" :key="service"
+          class="flex items-center bg-[#6ca000] text-white text-H3 px-3 py-1 rounded-lg shadow-md">
+          <span class="mr-2">{{ getTextByService(Number(service)) }}</span>
           <button @click="removeService(service)" class="text-white">
             ✕
           </button>
@@ -51,7 +43,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { getTextByLocation, getTextByService } from '@/utils/getTextByNumber';
 
@@ -68,25 +60,19 @@ const navigateToSelection = (path: string) => {
   });
 };
 
-const initializeServices = () => {
-  const services = route.query.selectedServices;
-  if (services) {
-    const serviceNames = Array.isArray(services) ? services : services.split(',');
-    selectedServices.value = serviceNames;
-  }
-};
+onMounted(() => {
+  if (route.query.selectedServices)
+    selectedServices.value = route.query.selectedServices.toString().split(',')
+
+  if (route.query.selectedRegions)
+    selectedRegions.value = route.query.selectedRegions.toString().split(',')
+})
+
+
 
 const removeService = (service: string) => {
   selectedServices.value = selectedServices.value.filter((s) => s !== service);
   updateRouteParams('selectedServices', selectedServices.value);
-};
-
-const initializeRegions = () => {
-  const regions = route.query.selectedRegions;
-  if (regions) {
-    const regionIds = Array.isArray(regions) ? regions : regions.split(',');
-    selectedRegions.value = regionIds;
-  }
 };
 
 const removeRegion = (regionId: string) => {
@@ -99,9 +85,6 @@ const updateRouteParams = (key: string, values: string[]) => {
   router.replace({ name: route.name || '', query: newQuery });
 };
 
-initializeServices();
-initializeRegions();
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

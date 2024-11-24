@@ -2,10 +2,7 @@
   <div class="flex flex-col h-screen justify-between">
     <div>
       <div>
-        <div class="flex h-20 bg-[#90c700] items-center space-x-2">
-          <router-link to="/user" class="forgot-password-link"><PhArrowUUpLeft :size="28" color="#000" class="ml-5" /></router-link>
-          <label class="text-H2 font-bold">個人資訊</label>    
-        </div>
+        <HeaderBar>個人資訊</HeaderBar>
         <div class="flex flex-col justify-center items-center space-y-2">
           <Avatar />          
         </div>
@@ -76,6 +73,7 @@ import {
 } from "@phosphor-icons/vue";
 import router from "@/router";
 import { useFavoriteStore } from "@/store/favorite";
+import HeaderBar from "@/components/headerBar.vue";
 const userStore = useUserStore()
 const favoriteStore = useFavoriteStore()
 const user = computed(() => userStore.user)

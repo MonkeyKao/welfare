@@ -1,11 +1,8 @@
 <!--HTML-->
 <template>
-  <div class="flex bg-[#90c700] p-3 items-center fixed z-10 w-full px-6">
-    <router-link to="/user" class=""><PhArrowUUpLeft :size="32"  weight="bold"  color="#000"/></router-link>
-    <label class="ml-5 text-H2 font-bold">常見問題 Q&A</label>
-  </div>
+  <HeaderBar>常見問題</HeaderBar>
 
-  <div class="flex flex-col mt-[70px]">
+  <div class="flex flex-col mt-4">
     <div
       v-for="item in QAs"
       :key="item.Id"
@@ -52,6 +49,8 @@ import request from "@/axios";
 import QA from "@/model/qa";
 import { PhArrowUUpLeft, PhCaretDown, PhCaretRight } from "@phosphor-icons/vue";
 import { ref } from "vue";
+import router from "@/router";
+import HeaderBar from "@/components/headerBar.vue";
 
 const QAs = ref<QA[]>([]); // 明確指定 QAs 為 QA 型別的陣列
 const openItems = ref<number[]>([]);

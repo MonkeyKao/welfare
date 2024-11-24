@@ -13,9 +13,9 @@
         :key="serviceIndex"
         :class="[ 
           'flex p-3 rounded-lg shadow-md text-H2 mx-3 px-5 gap-2 transition-colors',
-          selectedServices.includes(service) ? 'bg-[#73AA00] text-white' : 'bg-white text-black'
+          selectedServices.includes(String(service)) ? 'bg-[#73AA00] text-white' : 'bg-white text-black'
         ]"
-        @click="toggleServiceSelection(service)"
+        @click="toggleServiceSelection(String(service))"
       >
         {{ getTextByService(service) }}
       </button>
@@ -59,7 +59,7 @@ const confirmSelection = () => {
 
   // 獲取選中的服務名稱
   const selectedServiceNames = selectedServices.value.map((serviceNumber) =>
-    getTextByService(serviceNumber)
+    serviceNumber
   );
 
   // 將 selectedRegions 和 selectedServices 一起帶回 /elderlysearch

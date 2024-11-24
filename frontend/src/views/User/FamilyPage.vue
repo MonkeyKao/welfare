@@ -1,10 +1,5 @@
 <template>
-  <header class="top-0 left-0 right-0 flex items-center p-5 pt-14 bg-[#92c700]">
-    <router-link to="/user" class="forgot-password-link">
-      <PhArrowUUpLeft :size="32" color="#000" class="ml-5" />
-    </router-link>
-    <label class="ml-5 text-3xl font-bold">家庭</label>
-  </header>
+  <HeaderBar>家庭</HeaderBar>
 
   <div class="p-4 flex flex-col gap-4">
     <div v-for="family in familes" class="w-full p-3 flex justify-between shadow-md">
@@ -25,7 +20,7 @@
           </template>
           <QRCODE :id="family.family_id" ref="qrCodeRef"></QRCODE>
         </Modal>
-        <button  @click="deleteFamily(family.family_id)" class="rounded border-2 px-4 border-black">
+        <button @click="deleteFamily(family.family_id)" class="rounded border-2 px-4 border-black">
           刪除家庭
         </button>
       </div>
@@ -63,6 +58,8 @@ import { inject, onMounted, ref } from "vue";
 import QRCODE from "@/components/QRCODE.vue";
 import request from "@/axios";
 import Modal from "@/components/modal.vue";
+import router from "@/router";
+import HeaderBar from "@/components/headerBar.vue";
 const familyName = ref<string>("");
 const familyCode = ref<string>("");
 

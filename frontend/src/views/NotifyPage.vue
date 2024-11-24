@@ -1,10 +1,5 @@
 <template>
-  <div class="flex bg-[#90c700] p-3 items-center fixed z-10 w-full px-6 space-x-2">
-    <router-link to="/home" class="forgot-password-link">
-      <PhArrowUUpLeft :size="32" color="" />
-    </router-link>
-    <label class="text-3xl font-bold">通知</label>
-  </div>
+  <HeaderBar>通知</HeaderBar>
 
   <div class="mt-[70px] space-y-5 mb-2"><!-- mb-2 在修最後一項下斜線不見的問題-->
     <div
@@ -35,6 +30,8 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { PhArrowUUpLeft, PhHeartStraight,PhUserSquare } from '@phosphor-icons/vue';
+import router from '@/router';
+import HeaderBar from '@/components/headerBar.vue';
 
 const messages = ref([
   { text: '【文化部消息】震驚!!!114年文化幣每人可領取2000元', isFavorited: false },
