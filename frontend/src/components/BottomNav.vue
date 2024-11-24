@@ -5,12 +5,12 @@
         <router-link to="/ai" class="flex flex-col items-center text-center">
           <img
             v-if="isActive('/ai')"
-            src="../images/amuoclick.png"
+            src="/amuoclick.png"
             class="h-7"
           />
           <img
             v-else
-            src="../images/amuo.png"
+            src="/amuo.png"
            class="h-7"
           />
           <span v-if="isActive('/ai')" class="text-gray-800 text-H4">阿哞</span>

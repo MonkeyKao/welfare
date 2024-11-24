@@ -2,8 +2,8 @@
   <div class="flex flex-col h-screen w-full justify-between">
     <div class="flex-shrink-0">
       <!-- 固定高度的 header -->
-      <img v-show="!doingPw" src="../../images/login.jpg" />
-      <img v-show="doingPw" src="../../images/password.jpg" />
+      <img v-show="!doingPw" src="/login.jpg" />
+      <img v-show="doingPw" src="/password.jpg" />
     </div>
 
     <div class="flex-grow">

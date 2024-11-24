@@ -5,7 +5,6 @@ import 'package:logger/logger.dart';
 final logger = Logger();  // 引入 HomeScreen
 
 void main() {
-  print('Logger test: Application started');
   runApp( const SafeArea(child: MyApp()) );
 }
 

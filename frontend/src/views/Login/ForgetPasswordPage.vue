@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col h-screen w-full justify-between">
     <div class="flex-shrink-0">
-      <img src="../../images/forgetpassword.jpg" />
+      <img src="/forgetpassword.jpg" />
     </div>
 
   <div class="flex-grow">
