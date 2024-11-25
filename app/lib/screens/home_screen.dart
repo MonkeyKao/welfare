@@ -1,3 +1,4 @@
+import 'package:app/screens/qr_scanner_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:logger/logger.dart';
@@ -55,12 +56,20 @@ class _HomeScreen extends State<HomeScreen> {
 
   // 打開二維碼掃描
   Future<void> _openQRCodeScanner() async {
+    final result = await Navigator.push(context, MaterialPageRoute(builder: (context) => const BarcodeScannerSimple() ) );
+
+    if(result!=null && result is String) {
+      await controller.runJavaScript("window.receiveQRCodeResult('$result');");
+      logger.d('QR Code Scanned: $result');
+    }else {
+      logger.d("QR Code Scnaning failed");
+    }
+
     // 假設掃描到的二維碼結果為 result
-    String result = "這是掃描到的結果"; // 替換為實際的掃描邏輯
+    // String result = "這是掃描到的結果"; // 替換為實際的掃描邏輯
 
     // 通過 WebView 回傳掃描結果給 Vue
-    await controller.runJavaScript("window.receiveQRCodeResult('$result');");
-    logger.d('QR Code Scanned: $result');
+    
   }
 
   @override
