@@ -40,11 +40,6 @@ class _BarcodeScannerSimpleState extends State<BarcodeScannerSimple> {
 
       // 返回掃描結果到上一頁
       Navigator.pop(context, barcode.displayValue);
-
-      // 可選：可以顯示一個提示用戶信息掃描完成的彈窗
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('掃描成功：${barcode.displayValue}')),
-      );
     }
   }
 

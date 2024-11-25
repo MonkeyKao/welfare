@@ -33,13 +33,13 @@ import RegionSelectionPage from "@/views/Older/RegionSelectionPage.vue";
 import ServiceSelectionPage from "@/views/Older/ServiceSelectionPage.vue";
 import SearchResultPage from "@/views/Older/SearchResultPage.vue";
 import OlderHomePage from "@/views/Older/OlderHomePage.vue";
+
 import {
   createRouter,
   createWebHistory,
   RouterView,
   type RouteRecordRaw,
 } from "vue-router";
-import ConfirmJoinFmaily from "@/views/ConfirmJoinFmaily.vue";
 
 
 
@@ -120,13 +120,6 @@ const routes: Array<RouteRecordRaw> = [
     path: "/user/personal-data",
     name: "PersonalDataPage",
     component: PersonalDataPage,
-    meta: { needLogin: true },
-  },
-  
-  {
-    path: "/user/family/join/:code",
-    name: "FamilyPage",
-    component: ConfirmJoinFmaily,
     meta: { needLogin: true },
   },
   {

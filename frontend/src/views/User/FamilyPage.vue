@@ -30,17 +30,16 @@
     <div>
       <form @submit.prevent="joinFmaily(familyCode)">
         <input class="border-2" type="text" v-model="familyCode">
-        <button class=" custom-button" type="submit">手動加入</button>
+        <button class="custom-button" type="submit">手動加入</button>
       </form>
     </div>
   </div>
 
   <div>
-    <button @click="openCamera">掃描二維碼</button>
-    <p>掃描到的結果: {{ qrResult }}</p>
+    <button class="custom-button" @click="openCamera">掃描二維碼</button>
   </div>
 
-  <div class="fixed bottom-16 right-10">
+  <div class="fixed bottom-5 right-10">
     <Modal>
       <template v-slot:open-slot>
         <PhPlus :size="32" />
@@ -56,21 +55,18 @@
 
 </template>
 <script setup lang="ts">
-import { PhArrowUUpLeft, PhPlus } from "@phosphor-icons/vue";
+import { PhPlus } from "@phosphor-icons/vue";
 import { inject, onMounted, ref } from "vue";
 import QRCODE from "@/components/QRCODE.vue";
 import request from "@/axios";
 import Modal from "@/components/modal.vue";
-import router from "@/router";
 import HeaderBar from "@/components/headerBar.vue";
 const familyName = ref<string>("");
 const familyCode = ref<string>("");
-const qrResult = ref<string>("");
 
 onMounted(() => {
-  (window as any).receiveQRCodeResult = (result: string) => {
-    qrResult.value = result;
-    console.log("接收到 Flutter 的掃描結果:", result);
+  (window as any).receiveQRCodeResult = async (result: string) => {
+    const res = await joinFmaily(result)
   };
 })
 
@@ -122,7 +118,6 @@ const joinFmaily = async (code: string) => {
     await request.post("/family/join/" + code)
     showMsg("加入成功")
   } catch (err: any) {
-
     showMsg(err.response.data)
   }
 

@@ -2,7 +2,6 @@ package services
 
 import (
 	"errors"
-	"fmt"
 	"sync"
 	"time"
 	"walfare/models"
@@ -24,19 +23,17 @@ func GenrateFmailyQRCode(familyId uint) (string, []byte) {
 			mutex.Lock()
 			codeToFamilyID[code] = familyId
 			mutex.Unlock()
-			fmt.Printf("已經加入%s驗證碼", code)
 			break
 		}
 	}
 
-	png, _ := qrcode.Encode(fmt.Sprintf("http://192.168.0.239:5000/user/family/join/%s", code), qrcode.Medium, 256)
+	png, _ := qrcode.Encode(code, qrcode.Medium, 256)
 
 	go func(code string) {
 		time.Sleep(time.Minute * 5)
 		mutex.Lock()
 		delete(codeToFamilyID, code)
 		mutex.Unlock()
-		fmt.Printf("已經移除%s驗證碼", code)
 	}(code)
 
 	return code, png
