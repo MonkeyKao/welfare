@@ -39,6 +39,7 @@ import {
   RouterView,
   type RouteRecordRaw,
 } from "vue-router";
+import ConfirmJoinFmaily from "@/views/ConfirmJoinFmaily.vue";
 
 
 
@@ -119,6 +120,13 @@ const routes: Array<RouteRecordRaw> = [
     path: "/user/personal-data",
     name: "PersonalDataPage",
     component: PersonalDataPage,
+    meta: { needLogin: true },
+  },
+  
+  {
+    path: "/user/family/join/:code",
+    name: "FamilyPage",
+    component: ConfirmJoinFmaily,
     meta: { needLogin: true },
   },
   {

@@ -29,7 +29,7 @@ func GenrateFmailyQRCode(familyId uint) (string, []byte) {
 		}
 	}
 
-	png, _ := qrcode.Encode(code, qrcode.Medium, 256)
+	png, _ := qrcode.Encode(fmt.Sprintf("http://192.168.0.239:5000/user/family/join/%s", code), qrcode.Medium, 256)
 
 	go func(code string) {
 		time.Sleep(time.Minute * 5)

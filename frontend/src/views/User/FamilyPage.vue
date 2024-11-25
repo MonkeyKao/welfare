@@ -33,8 +33,11 @@
         <button class=" custom-button" type="submit">手動加入</button>
       </form>
     </div>
+  </div>
 
-
+  <div>
+    <button @click="openCamera">掃描二維碼</button>
+    <p>掃描到的結果: {{ qrResult }}</p>
   </div>
 
   <div class="fixed bottom-16 right-10">
@@ -62,6 +65,22 @@ import router from "@/router";
 import HeaderBar from "@/components/headerBar.vue";
 const familyName = ref<string>("");
 const familyCode = ref<string>("");
+const qrResult = ref<string>("");
+
+onMounted(() => {
+  (window as any).receiveQRCodeResult = (result: string) => {
+    qrResult.value = result;
+    console.log("接收到 Flutter 的掃描結果:", result);
+  };
+})
+
+const openCamera = () => {
+  if ((window as any).FlutterChannel) {
+    (window as any).FlutterChannel.postMessage("openCamera");
+  } else {
+    console.error("FlutterChannel 不可用！");
+  }
+}
 
 class user {
   role: string;
