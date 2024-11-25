@@ -94,6 +94,7 @@ func VerifyEmailHandler(c *gin.Context) {
 // UpdateuserHandler 处理用户更新请求
 func UpdateuserHandler(c *gin.Context) {
 	var user models.User
+	userID := c.GetUint("UserID")
 
 	// 从请求中绑定数据到 map 中
 	if err := c.ShouldBindJSON(&user); err != nil {
@@ -101,10 +102,16 @@ func UpdateuserHandler(c *gin.Context) {
 		return
 	}
 
+	user.ID = userID
+
 	// 更新用户信息
 	if err := user.UpdateUser(); err != nil {
 		c.IndentedJSON(http.StatusInternalServerError, gin.H{"error": "Failed to update user"})
 		return
+	}
+
+	if user.Account == "" {
+		user.GetUserByID(user.ID)
 	}
 
 	// 返回成功响应

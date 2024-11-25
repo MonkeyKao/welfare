@@ -1,11 +1,11 @@
 <template>
 
   <div class="flex-shrink-0">
-      <img src="../../images/forgetpassword.jpg" />
+      <img src="/forgetpassword.jpg" />
   </div>
 
   
-  <form class="flex flex-col space-y-10 px-10 mt-3">
+  <form @submit.prevent="sendVerificationCode(verificationCode)" class="flex flex-col space-y-10 px-10 mt-3">
 
     <div class="flex items-center w-full mt-7 relative">
       <router-link to="/account/register" class=""><PhArrowUUpLeft :size="36" color="#4d4d4d" weight="bold" /></router-link>
@@ -20,14 +20,14 @@
         <PhShieldCheck :size="28" class="flex-shrink-0" />
         <input class="border-none resize outline-none p-1 mx-1 w-full" type="password" v-model="verificationCode" placeholder="驗證碼" />
         <div class="flex-shrink-0 flex items-center justify-center border-l-2 border-[#92c700] px-2">
-          <button :disabled="isDisabled" @click="startCountdown" class="text-[#92c700]">
+          <button type="button" :disabled="isDisabled" @click="startCountdown" class="text-[#92c700]">
             {{ buttonText }}
           </button>          
         </div>
 
       </div>
 
-      <button class=" bg-[#90c700] rounded shadow-md items-center text-white font-bold text-H3 p-2" @click="sendVerificationCode(verificationCode)">繼續</button>
+      <button type="submit" class=" bg-[#90c700] rounded shadow-md items-center text-white font-bold text-H3 p-2">繼續</button>
   </form>
 
 </template>
@@ -48,6 +48,7 @@ const buttonText = ref<string>("重設驗證碼");
 let countdownInterval: number;
 
 const startCountdown = async () => {
+  isDisabled.value = true;
   // 禁用按鈕並開始倒計時
   try {
     const result = await request.get("/verify", { params: { email: email } })
@@ -55,7 +56,7 @@ const startCountdown = async () => {
   } catch (err: any) {
   }
 
-  isDisabled.value = true;
+  
   buttonText.value = `請稍等 ${countdown.value} 秒...`;
   countdownInterval = setInterval(() => {
     countdown.value--;

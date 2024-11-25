@@ -39,7 +39,7 @@
         </div>
 
         <div class="flex flex-col">
-          <button class="bg-[#90c700] text-white text-H3 py-2 rounded shadow-md" type="submit">創建</button>
+          <button :disabled="disable" class="bg-[#90c700] text-white text-H3 py-2 rounded shadow-md" type="submit">創建</button>
         </div>
       </form>
     </div>
@@ -74,7 +74,8 @@ import {
   PhUser,
 } from "@phosphor-icons/vue";
 import validate from "validate.js";
-import { ref } from "vue";
+import { inject, ref } from "vue";
+const showMsg: Function = inject("showMsg")!
 
 class form {
   account: string = "";
@@ -110,10 +111,14 @@ var constraints = {
   }
 };
 
+const disable = ref<boolean>(false)
+
 const registerHandler = async (user: form) => {
+  disable.value = true
   const vaildResult = await validate(user, constraints)
   if (vaildResult) {
-    alert(vaildResult[0])
+    showMsg(vaildResult[0])
+    disable.value=false
     return
   }
 
@@ -123,7 +128,8 @@ const registerHandler = async (user: form) => {
     const result = await request.post("/users", json);
     router.push("/account/verify");
   } catch (error: any) {
-    alert(error.response.data.error);
+    showMsg(error.response.data.error)
+    disable.value=false
   }
 };
 
