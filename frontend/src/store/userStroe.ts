@@ -22,7 +22,6 @@ export const useUserStore = defineStore("user", {
             try {
                 const result = await request.put("/users", user);
                 this.user = result.data
-                this.user.birthday = dayjs(this.user.birthday).format("YYYY/MM/DD")
             } catch (err: any) {
 
             }

@@ -91,6 +91,7 @@ import { ref, watch  } from "vue";
 import { RouterLink } from "vue-router";
 
 import { DatePicker as VDatePicker } from 'v-calendar';
+import dayjs from "dayjs";
 
 const placeholder = "請選擇生日";
 const formatDate = "yyyy-MM-dd";
@@ -100,7 +101,7 @@ const user = ref<User>({
   account: "",
   name: "",
   password: "",
-  birthday: new Date(),
+  birthday: dayjs().format('YYYY/MM/DD'),
   female: 1,
   location: 1,
   email: "",
@@ -108,6 +109,7 @@ const user = ref<User>({
 const userStore = useUserStore(); 
 const saveUserHanlder = async (user: User) => {
   try {
+    user.birthday = dayjs(user.birthday).format("YYYY/MM/DD")
     userStore.saveUserHanlder(JSON.stringify(user))
     router.push("/home");
   } catch (err) {

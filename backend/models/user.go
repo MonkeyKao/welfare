@@ -1,7 +1,6 @@
 package models
 
 import (
-	"time"
 	"walfare/database"
 
 	"gorm.io/gorm"
@@ -10,15 +9,15 @@ import (
 type User struct {
 	gorm.Model
 
-	Account  string    `json:"account"`
-	Password string    `json:"-"`
-	Name     string    `json:"name"`
-	Salt     string    `json:"-"`
-	Birthday time.Time `json:"birthday"`
-	Female   int       `json:"female"`
-	Location int       `json:"location"`
-	Email    string    `json:"email"`
-	Families []Family  `gorm:"many2many:family_members;"`
+	Account  string   `json:"account"`
+	Password string   `json:"-"`
+	Name     string   `json:"name"`
+	Salt     string   `json:"-"`
+	Birthday string   `json:"birthday"`
+	Female   int      `json:"female"`
+	Location int      `json:"location"`
+	Email    string   `json:"email"`
+	Families []Family `gorm:"many2many:family_members;"`
 }
 
 func (user *User) GetUserByID(id uint) error {
