@@ -16,6 +16,7 @@ type User struct {
 	Birthday string   `json:"birthday"`
 	Female   int      `json:"female"`
 	Location int      `json:"location"`
+	Avatar   string   `json:"avatar"`
 	Email    string   `json:"email"`
 	Families []Family `gorm:"many2many:family_members;"`
 }

@@ -4,15 +4,15 @@ import dayjs from "dayjs";
 import { defineStore } from "pinia";
 
 export const useUserStore = defineStore("user", {
-    state: () => ({ user: new User() }),
+    state: () => ({ user: new User(), avatarBase64: "" }),
     actions: {
         async fetchUser() {
             try {
                 const result = await request.get("/users")
                 this.user = result.data
-                this.user.birthday = dayjs(this.user.birthday).format("YYYY/MM/DD")
-                
-                
+                const response = await request.get(`users/avatar`);
+                this.avatarBase64 = response.data.avatar_base64;
+
             } catch (err: any) {
                 localStorage.removeItem("token")
             }
@@ -21,7 +21,7 @@ export const useUserStore = defineStore("user", {
         async saveUserHanlder(user: string) {
             try {
                 const result = await request.put("/users", user);
-                this.user = result.data
+                this.fetchUser()
             } catch (err: any) {
 
             }

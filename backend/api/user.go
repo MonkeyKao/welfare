@@ -4,6 +4,8 @@ import (
 	"encoding/base64"
 	"fmt"
 	"net/http"
+	"os"
+	"path/filepath"
 	"time"
 
 	//"fmt"
@@ -12,7 +14,6 @@ import (
 	"walfare/utils"
 
 	"github.com/gin-gonic/gin"
-	"github.com/skip2/go-qrcode"
 )
 
 // 登入ing
@@ -131,25 +132,62 @@ func GetUserByUserIDHandler(c *gin.Context) {
 	c.IndentedJSON(http.StatusOK, user)
 }
 
-func GetBindQrCode(c *gin.Context) {
-	// 生成代碼
-	code := utils.GenerateCode()
-
-	// 將代碼放入 QR Code 資料
-	data := code
-
-	// 生成 QR code 的 PNG 格式
-	var png []byte
-	var err error
-	png, err = qrcode.Encode(data, qrcode.Medium, 256)
+// 上傳頭像處理
+func UploadAvatar(c *gin.Context) {
+	userID := c.GetUint("UserID")
+	file, err := c.FormFile("avatar")
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "文件無法處理"})
 		return
 	}
 
-	// 返回 JSON 響應，包含 QR code 以及 code
+	// 保存文件到伺服器
+	uploadDir := fmt.Sprintf("../uploads/%v", userID)
+	if _, err := os.Stat(uploadDir); os.IsNotExist(err) {
+		os.Mkdir(uploadDir, os.ModePerm)
+	}
+	// 获取文件扩展名
+	ext := filepath.Ext(file.Filename)
+	filePath := filepath.Join(uploadDir, fmt.Sprintf("%s.%s", "avatar", ext))
+	if err := c.SaveUploadedFile(file, filePath); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "文件保存失敗"})
+		return
+	}
+
+	var user models.User
+	user.ID = userID
+	user.Avatar = filePath
+	user.UpdateUser()
+
 	c.JSON(http.StatusOK, gin.H{
-		"code":  code,                                                                            // 返回生成的代碼
-		"image": fmt.Sprintf("data:image/png;base64,%s", base64.StdEncoding.EncodeToString(png)), // 返回 Base64 編碼的圖片
+		"message": "頭像上傳成功",
+		"avatar":  fmt.Sprintf("/uploads/%s", file.Filename),
+	})
+}
+
+func GetAvatar(c *gin.Context) {
+	userID := c.GetUint("UserID")
+
+	var user models.User
+	user.GetUserByID(userID)
+
+	// 如果用户没有设置头像，使用默认头像
+	if user.Avatar == "" {
+		user.Avatar = "../uploads/logo.png" // 设置默认头像的路径
+	}
+
+	// 读取头像文件
+	fileContent, err := os.ReadFile(user.Avatar)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "读取头像文件失败"})
+		return
+	}
+
+	// 将文件内容转换为 Base64 编码
+	base64Content := base64.StdEncoding.EncodeToString(fileContent)
+
+	// 返回 Base64 编码的头像
+	c.JSON(http.StatusOK, gin.H{
+		"avatar_base64": base64Content,
 	})
 }

@@ -7,6 +7,7 @@ export default class User {
     female: number; 
     location: number;
     email: string;
+    avatar: string;
 
     constructor(
         ID: number = 0,
@@ -16,7 +17,8 @@ export default class User {
         birthday:string = "",
         female: number = 0,
         location: number = 0,
-        email: string = ""
+        email: string = "",
+        avatar: string = ""
     ) {
         this.ID = ID;
         this.account = account;
@@ -26,5 +28,6 @@ export default class User {
         this.female = female;
         this.location = location;
         this.email = email;
+        this.avatar = avatar
     }
 }

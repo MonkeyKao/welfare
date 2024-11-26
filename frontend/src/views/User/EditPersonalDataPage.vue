@@ -4,8 +4,14 @@
     <HeaderBar>編輯個人資訊</HeaderBar>
 
     <!-- 头像部分 -->
-    <div class="flex bg-white justify-center items-center">
-      <Avatar @click="" />
+    <div class="flex flex-col bg-white justify-center items-center">
+      <!-- 用头像触发文件选择 -->
+      <div @click="triggerFileInput" class="cursor-pointer">
+        <Avatar :src="previewUrl" />
+      </div>
+
+      <!-- 隐藏的文件输入框 -->
+      <input type="file" class=" hidden" ref="fileInput" @change="onFileChange" />
     </div>
 
     <div class="flex flex-col items-center px-3 overflow-auto m-2">
@@ -88,11 +94,43 @@ import Modal from "@/components/modal.vue";
 import type User from "@/model/user";
 import router from "@/router";
 import dayjs from "dayjs";
+import request from "@/axios";
 
 const formatDate = "yyyy/MM/dd";
 
 const userStore = useUserStore()
 const user = computed(() => userStore.user)
+
+const selectedFile = ref<File | null>(null);
+const previewUrl = ref("");
+const fileInput = ref();
+
+const triggerFileInput = () => {
+  fileInput.value.click(); // 觸發隱藏的文件選擇框
+};
+
+const onFileChange = (event: Event): void => {
+  const input = event.target as HTMLInputElement;
+  if (input.files && input.files[0]) {
+    const file: File = input.files[0];
+    selectedFile.value = file;
+    previewUrl.value = URL.createObjectURL(file); // 生成本地预览 URL
+  }
+};
+
+const uploadAvatar = async () => {
+  if (!selectedFile.value) return;
+  const formData = new FormData();
+  formData.append("avatar", selectedFile.value);
+
+  try {
+    const response = await request.post("/users/upload-avatar", formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
+    console.log(response.data);
+  } catch (error) {
+  }
+};
 
 // 点击选择性别时更新 `user.female`
 const selectGender = (value: number) => {
@@ -100,11 +138,15 @@ const selectGender = (value: number) => {
 };
 
 const updataDataHandler = async (user: User) => {
-  user.birthday = dayjs(user.birthday).add(7,'h').format('YYYY-MM-DD') 
-  try{
+  user.birthday = dayjs(user.birthday).add(7, 'h').format('YYYY-MM-DD')
+  try {
+    // 先上傳頭像
+    
+
     await userStore.saveUserHanlder(JSON.stringify(user))
+    await uploadAvatar();
     router.push('/user/personal-data')
-  }catch(err:any){
+  } catch (err: any) {
 
   }
 
