@@ -6,12 +6,9 @@
     <!-- 头像部分 -->
     <div class="flex flex-col bg-white justify-center items-center">
       <!-- 用头像触发文件选择 -->
-      <div @click="triggerFileInput" class="cursor-pointer">
+      <div @click="openImagePicker" class="cursor-pointer">
         <Avatar :src="previewUrl" />
       </div>
-
-      <!-- 隐藏的文件输入框 -->
-      <input type="file" class=" hidden" ref="fileInput" @change="onFileChange" />
     </div>
 
     <div class="flex flex-col items-center px-3 overflow-auto m-2">
@@ -82,7 +79,7 @@
 <script setup lang="ts">
 import Avatar from "@/components/Avatar.vue";
 import { PhArrowUUpLeft, PhSealCheck, PhSeal } from "@phosphor-icons/vue";
-import { computed, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 
 import "@vuepic/vue-datepicker/dist/main.css";
 import { getTextByLocation } from "@/utils/getTextByNumber";
@@ -105,18 +102,25 @@ const selectedFile = ref<File | null>(null);
 const previewUrl = ref("");
 const fileInput = ref();
 
-const triggerFileInput = () => {
-  fileInput.value.click(); // 觸發隱藏的文件選擇框
-};
+onMounted(() => {
+  (window as any).receiveImage = async (result: string) => {
+    // const res = await joinFmaily(result)
+    const blob = await (await fetch(`data:image/jpeg;base64,${result}`)).blob();
+    const file = new File([blob], "avatar.jpg", { type: blob.type });
 
-const onFileChange = (event: Event): void => {
-  const input = event.target as HTMLInputElement;
-  if (input.files && input.files[0]) {
-    const file: File = input.files[0];
     selectedFile.value = file;
-    previewUrl.value = URL.createObjectURL(file); // 生成本地预览 URL
+    previewUrl.value = URL.createObjectURL(file); // 使用 Blob 生成预览 URL
+    
+  };
+})
+
+const openImagePicker = () => {
+  if ((window as any).FlutterChannel) {
+    (window as any).FlutterChannel.postMessage("openImagePicker");
+  } else {
+    console.error("FlutterChannel 不可用！");
   }
-};
+}
 
 const uploadAvatar = async () => {
   if (!selectedFile.value) return;

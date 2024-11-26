@@ -71,6 +71,8 @@ onMounted(() => {
   };
 })
 
+
+
 const openCamera = () => {
   if ((window as any).FlutterChannel) {
     (window as any).FlutterChannel.postMessage("openCamera");
@@ -111,7 +113,7 @@ const joinFmaily = async (code: string) => {
     await request.post("/family/join/" + code)
     showMsg("加入成功")
   } catch (err: any) {
-    showMsg(err.response.data)
+    showMsg("加入失敗")
   }
 
 }

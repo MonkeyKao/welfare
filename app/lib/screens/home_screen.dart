@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:app/screens/qr_scanner_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:logger/logger.dart';
 
@@ -14,7 +17,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreen extends State<HomeScreen> {
   late final WebViewController controller;
-  final String initialUrl = 'http://192.168.0.239:5000'; // 初始 URL
+  final String initialUrl = 'http://172.20.10.2:5000'; // 初始 URL
   bool showBackButton = false; // 是否顯示返回按鈕
 
   @override
@@ -38,8 +41,12 @@ class _HomeScreen extends State<HomeScreen> {
         'FlutterChannel', // 添加 JavaScript 通道
         onMessageReceived: (message) {
           logger.d('Received message from Vue: ${message.message}');
+          logger.d('接收開啟照片選擇器');
           if (message.message == 'openCamera') {
             _openQRCodeScanner(); // 根據消息開啟二維碼掃描功能
+          }else if(message.message == 'openImagePicker') {
+            logger.d('接收開啟照片選擇器');
+            _selectedImage();
           }
         },
       )
@@ -64,12 +71,6 @@ class _HomeScreen extends State<HomeScreen> {
     }else {
       logger.d("QR Code Scnaning failed");
     }
-
-    // 假設掃描到的二維碼結果為 result
-    // String result = "這是掃描到的結果"; // 替換為實際的掃描邏輯
-
-    // 通過 WebView 回傳掃描結果給 Vue
-    
   }
 
   @override
@@ -92,4 +93,23 @@ class _HomeScreen extends State<HomeScreen> {
       body: WebViewWidget(controller: controller),
     );
   }
+
+  Future<void> _selectedImage() async {
+  final ImagePicker picker = ImagePicker();
+  final XFile? pickedFile = await picker.pickImage(source: ImageSource.gallery);
+
+  if (pickedFile != null) {
+    // 将图片转为 Base64 编码
+    final bytes = await pickedFile.readAsBytes();
+    final base64Image = base64Encode(bytes);
+
+    // 调用 WebView 的 JavaScript 方法，将 Base64 图片数据传递给 Vue
+    final script = "window.receiveImage('$base64Image');";
+    await controller.runJavaScript(script);
+
+    logger.d('Image selected and sent to Vue: $base64Image');
+  } else {
+    logger.d('Image selection cancelled');
+  }
+}
 }
