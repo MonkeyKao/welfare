@@ -1,5 +1,10 @@
 <template>
-    <HeaderBar>家庭詳情頁面</HeaderBar>
+    <HeaderBar>
+        家庭詳情頁面
+        <template v-slot:siderBar>
+            123
+        </template>
+    </HeaderBar>
     <div>
         <button class="rounded border-2 px-4 border-black" @click="showQRCODE = true;">產生QRCODE</button>
         <button @click="deleteFamily(Number(route.params.id.toString()))" class="rounded border-2 px-4 border-black">

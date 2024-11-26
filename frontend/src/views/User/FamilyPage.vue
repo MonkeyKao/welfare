@@ -105,14 +105,6 @@ class family {
 
 const familes = ref<Array<family>>([])
 
-const deleteFamily = async (id: number) => {
-  try {
-    await request.delete("/family/" + id)
-    showMsg("刪除成功")
-  } catch (err: any) {
-    showMsg(err.response.data)
-  }
-}
 
 const joinFmaily = async (code: string) => {
   try {
