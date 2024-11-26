@@ -4,14 +4,14 @@
   <div class="p-4 flex flex-col gap-4">
     <div v-for="family in familes" class="w-full p-3 flex justify-between shadow-md">
       <div>
-        <span class="text-H2 font-bold">{{ family.family_name }}</span>
-        <div v-for="people in family.users">
-          <span>{{ people.user_name }}-</span>
-          <span>{{ people.role }}</span>
-        </div>
+        <span class="text-H2 font-bold flex-2/3 ">{{ family.family_name }}</span>
       </div>
 
-      <div class="flex flex-col gap-2 flex-nowrap justify-center">
+      <button class="custom-button flex-1/3" @click="router.push('/user/family/'+family.family_id)">
+        進入家庭頁面        
+      </button>
+
+      <!-- <div class="flex flex-col gap-2 flex-nowrap justify-center">
         <Modal>
           <template v-slot:open-slot>
             <button class="rounded border-2 px-4 border-black">
@@ -23,7 +23,7 @@
         <button @click="deleteFamily(family.family_id)" class="rounded border-2 px-4 border-black">
           刪除家庭
         </button>
-      </div>
+      </div> -->
 
     </div>
 
@@ -61,6 +61,7 @@ import QRCODE from "@/components/QRCODE.vue";
 import request from "@/axios";
 import Modal from "@/components/modal.vue";
 import HeaderBar from "@/components/headerBar.vue";
+import router from "@/router";
 const familyName = ref<string>("");
 const familyCode = ref<string>("");
 
