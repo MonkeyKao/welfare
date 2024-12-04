@@ -27,7 +27,7 @@ func CreateFamilyMemberHandler(c *gin.Context) {
 	familyMember := models.FamilyMember{
 		UserID:   userID,
 		FamilyID: uint(familyID),
-		Role:     "測試",
+		Role:     "成員",
 	}
 
 	if err := familyMember.CreateFamilyMember(); err != nil {

@@ -110,7 +110,7 @@ onMounted(() => {
 
     selectedFile.value = file;
     previewUrl.value = URL.createObjectURL(file); // 使用 Blob 生成预览 URL
-    
+
   };
 })
 
@@ -122,37 +122,35 @@ const openImagePicker = () => {
   }
 }
 
+// 点击选择性别时更新 `user.female`
+const selectGender = (value: number) => {
+  user.value.female = value; // 设置为选中的性别值
+};
+
+
 const uploadAvatar = async () => {
   if (!selectedFile.value) return;
   const formData = new FormData();
   formData.append("avatar", selectedFile.value);
 
   try {
-    const response = await request.post("/users/upload-avatar", formData, {
+    await request.post("/users/upload-avatar", formData, {
       headers: { "Content-Type": "multipart/form-data" },
     });
-    console.log(response.data);
-  } catch (error) {
-  }
-};
+  } catch (err:any) {
+    console.log(err);
 
-// 点击选择性别时更新 `user.female`
-const selectGender = (value: number) => {
-  user.value.female = value; // 设置为选中的性别值
+  }
 };
 
 const updataDataHandler = async (user: User) => {
   user.birthday = dayjs(user.birthday).add(7, 'h').format('YYYY-MM-DD')
   try {
-    // 先上傳頭像
-    
-
     await userStore.saveUserHanlder(JSON.stringify(user))
     await uploadAvatar();
     router.push('/user/personal-data')
   } catch (err: any) {
-
+    console.log(err);
   }
-
 }
 </script>

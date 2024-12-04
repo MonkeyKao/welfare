@@ -25,15 +25,16 @@ import { inject, ref } from 'vue';
 import HeaderBar from '@/components/headerBar.vue';
 import request from '@/axios';
 import router from '@/router';
+import { useFamilyStore } from '@/store/family';
 const showQRCODE = ref<boolean>(false)
 const showMsg: Function = inject("showMsg")!
 const route = useRoute()
-
+const familyStore = useFamilyStore();
 
 const deleteFamily = async (id: number) => {
   try {
-    await request.delete("/family/" + id)
-    router.push("/user/family")
+    familyStore.deleteFamily(id);
+    router.push('/user/family')
     showMsg("刪除成功")
   } catch (err: any) {
     showMsg(err.response.data)

@@ -8,10 +8,12 @@ export const useUserStore = defineStore("user", {
     actions: {
         async fetchUser() {
             try {
-                const result = await request.get("/users")
-                this.user = result.data
                 const response = await request.get(`users/avatar`);
                 this.avatarBase64 = response.data.avatar_base64;
+
+                const result = await request.get("/users")
+                
+                this.user = result.data
 
             } catch (err: any) {
                 localStorage.removeItem("token")
@@ -21,7 +23,7 @@ export const useUserStore = defineStore("user", {
         async saveUserHanlder(user: string) {
             try {
                 const result = await request.put("/users", user);
-                this.fetchUser()
+                await this.fetchUser()
             } catch (err: any) {
 
             }

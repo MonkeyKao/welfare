@@ -15,9 +15,10 @@ func UserRoutes(router *gin.Engine) {
 
 		// 需要 JwtAuthMiddleware 的路由
 		protectedRoutes := UserRoutes.Use(api.JwtAuthMiddleware())
+		protectedRoutes.GET("/avatar", api.GetAvatar)
 		protectedRoutes.GET("", api.GetUserByUserIDHandler)
 		protectedRoutes.PUT("", api.UpdateuserHandler)
 		protectedRoutes.POST("/upload-avatar", api.UploadAvatar)
-		protectedRoutes.GET("/avatar", api.GetAvatar)
+
 	}
 }

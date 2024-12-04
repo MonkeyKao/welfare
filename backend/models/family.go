@@ -52,17 +52,17 @@ func GetAllFamilyByUserID(userID uint) (string, error) {
 		// 如果該 FamilyID 尚未初始化，創建一個新的分組
 		if _, exists := groupedResults[result.FamilyID]; !exists {
 			groupedResults[result.FamilyID] = map[string]interface{}{
-				"family_name": result.FamilyName,
-				"family_id":   result.FamilyID,
-				"users":       []map[string]string{},
+				"familyName": result.FamilyName,
+				"familyId":   result.FamilyID,
+				"users":      []map[string]string{},
 			}
 		}
 		// 添加用戶信息到對應的家庭
 		groupedResults[result.FamilyID]["users"] = append(
 			groupedResults[result.FamilyID]["users"].([]map[string]string),
 			map[string]string{
-				"user_name": result.UserName,
-				"role":      result.Role,
+				"userName": result.UserName,
+				"role":     result.Role,
 			},
 		)
 	}

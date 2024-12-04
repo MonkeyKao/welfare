@@ -3,7 +3,7 @@
         <router-link to="/home" class="">
             <PhArrowUUpLeft :size="32" weight="bold" color="#000" />
         </router-link>
-        <label class="ml-5 text-H2 font-bold">設定</label>
+        <label class="ml-5 text-H2 font-bold">福利詳細資料</label>
     </div>
 
     <div class="flex flex-col">

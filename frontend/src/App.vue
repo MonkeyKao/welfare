@@ -6,14 +6,17 @@ import TipMsg from "./components/tipMsg.vue";
 import { useUserStore } from "./store/userStroe";
 import { useWelfareStore } from "./store/welfareStroe";
 import { useFavoriteStore } from "./store/favorite";
+import { useFamilyStore } from "./store/family";
 
 const route = useRoute(); // 獲取當前路由
 const userStore = useUserStore();
 const welfareStore = useWelfareStore();
 const favoriteStore = useFavoriteStore();
+const familyStore = useFamilyStore();
 userStore.fetchUser();
 welfareStore.fetchWelfare();
 favoriteStore.fetchFavorite();
+familyStore.fetchFamily();
 
 
 const tipmsg = ref(null);
