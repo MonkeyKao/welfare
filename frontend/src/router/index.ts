@@ -24,8 +24,8 @@ import PersonalDataPage from "@/views/User/PersonalDataPage.vue";
 import QAPage from "@/views/User/QAPage.vue";
 import SettingsPage from "@/views/User/SettingsPage.vue";
 import FamilyPage from "@/views/User/FamilyPage.vue";
-import familyInf from "@/views/familyInf.vue";
-
+import FamilyInf from "@/views/familyInf.vue";
+import FamilySettingPage from "@/views/FamilySettingPage.vue";
 
 
 // 老人界面
@@ -41,7 +41,7 @@ import {
   RouterView,
   type RouteRecordRaw,
 } from "vue-router";
-import FamilyInf from "@/views/familyInf.vue";
+
 
 
 
@@ -84,7 +84,7 @@ const routes: Array<RouteRecordRaw> = [
         component: RegisterPage,
         meta: { needLogin: false },
       },
-      
+
       {
         path: "verify",
         name: "VerifyPage",
@@ -137,6 +137,12 @@ const routes: Array<RouteRecordRaw> = [
     meta: { needLogin: true },
   },
   {
+    path: "/user/family/setting/:id",
+    name: "FmailySettingPage",
+    component: FamilySettingPage,
+    meta: { needLogin: true }
+  },
+  {
     path: "/user/link-account",
     name: "LinkAccountPage",
     component: LinkAccountPage,
@@ -182,25 +188,25 @@ const routes: Array<RouteRecordRaw> = [
     path: "/elderlysearch",
     name: "ElderlySearchPage",
     component: ElderlySearchPage,
-    meta:{ needLogin:false },
+    meta: { needLogin: false },
   },
   {
     path: "/regionselection",
     name: "RegionSelectionPage",
     component: RegionSelectionPage,
-    meta:{ needLogin:false },
+    meta: { needLogin: false },
   },
   {
     path: "/serviceselection",
     name: "ServiceSelectionPage",
     component: ServiceSelectionPage,
-    meta:{ needLogin:false },
+    meta: { needLogin: false },
   },
   {
     path: "/searchresult",
     name: "SearchResultPage",
     component: SearchResultPage,
-    meta:{ needLogin:false },
+    meta: { needLogin: false },
   },
 ];
 
