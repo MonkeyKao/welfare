@@ -59,7 +59,9 @@ onMounted(() => {
             'PersonalDataPage',
             'OlderHomePage',
             'welfare',
-            'FamilyPage'
+            'FamilyPage',
+            'FamilyInfPage',
+            'FmailySettingPage'
           ].includes(route.name)
         "
       >

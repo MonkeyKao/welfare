@@ -8,13 +8,12 @@
 
     <dialog :id="ModalId" class=" z-50 bg-transparent ">
 
-        <div class="rounded-lg bg-white p-10">
+        <div class="rounded-lg bg-white p-6">
             <slot></slot>
             <div class="modal-action">
-                <form class="flex gap-3" method="dialog">
-                    <button v-if="displayCloseBtn" class="btn">關閉</button>
-                    <button @click="emit('onClickConfirm')" class="btn btn-primary">{{ closeBtnTitle ? closeBtnTitle :
-                        '關閉' }}</button>
+                <form class="flex justify-center mt-5" method="dialog">                  
+                    <button @click="emit('onClickConfirm')" class="btn btn-primary text-[#D06262]">{{ closeBtnTitle ? closeBtnTitle :
+                        '取消' }}</button>
                 </form>
             </div>
         </div>
