@@ -6,27 +6,27 @@
         <label class="ml-5 text-H2 font-bold">福利詳細資料</label>
     </div>
 
-    <div class="flex flex-col">
+    <div class="flex flex-col p-4">
         <span class=" text-H1 font-bold">{{ welfare.title }}</span>
-        <span>{{ welfare.city }}</span>
+        <span class=" text-H3 font-bold">{{ welfare.city }}</span>
         <span class="text-H3">發佈日期:{{ welfare.date ? welfare.date : "無法獲取日期" }}</span>
-        <div class="flex flex-col">
-            <span>申請條件:</span>
+        <div class="flex flex-col my-2 space-y-2">
+            <span class=" font-bold">申請條件:</span>
             <span>1.</span>
             <span>2.</span>
             <span>3.</span>
         </div>
 
-        <div class="flex flex-col">
-            <span>可獲得之福利:</span>
+        <div class="flex flex-col space-y-2 my-2 ">
+            <span class=" font-bold ">可獲得之福利:</span>
             <span>1.</span>
             <span>2.</span>
             <span>3.</span>
         </div>
 
 
-        <span><a class=" italic font" :href="welfare.url">原文鏈接</a></span>
-        <span class="text-H3">原文:{{ welfare.detail ? welfare.detail : "無法獲取原文" }}</span>
+        <span><a class=" italic font my-2" :href="welfare.url">原文鏈接</a></span>
+        <span class="text-H3 my-2 leading-loose">原文 : {{ welfare.detail ? welfare.detail : "無法獲取原文" }}</span>
 
     </div>
 </template>
