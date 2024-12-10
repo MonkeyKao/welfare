@@ -17,7 +17,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreen extends State<HomeScreen> {
   late final WebViewController controller;
-  final String initialUrl = 'http://192.168.0.167:5000/'; // 初始 URL
+  final String initialUrl = 'http://172.20.10.2:5000/'; // 初始 URL
   bool showBackButton = false; // 是否顯示返回按鈕
 
   @override

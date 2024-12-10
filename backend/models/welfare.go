@@ -8,15 +8,15 @@ import (
 )
 
 type Welfare struct {
-	Id              uint   `json:"id"`
-	Category        []int  `json:"category"`
-	City            string `json:"city"`
-	Date            string `json:"date"`
-	Title           string `json:"title"`
-	Detail          string `json:"detail"`
-	DetailCondition string `json:"detailCodition"`
-	DetailDocument  string `json:"detailDocument"`
-	Url             string `json:"url"`
+	Id              uint     `json:"id"`
+	Category        []int    `json:"category"`
+	City            string   `json:"city"`
+	Date            string   `json:"date"`
+	Title           string   `json:"title"`
+	Detail          string   `json:"detail"`
+	DetailCondition []string `json:"detailCondition"`
+	Forward         []string `json:"forward"`
+	Url             string   `json:"url"`
 }
 
 var welfares []Welfare

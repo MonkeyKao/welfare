@@ -6,8 +6,8 @@ export default class Welfare {
     priority: number;
     title: string;
     detail: string;
-    detailCondition: string;
-    detailDocument: string;
+    detailCondition: string[];
+    forward: string[];
     url: string;
 
     constructor(
@@ -18,8 +18,8 @@ export default class Welfare {
         priority: number = 0,
         title: string = "",
         detail: string = "",
-        detailCondition: string = "",
-        detailDocument: string = "",
+        detailCondition: string[] = [],
+        forward: string[] = [],
         url: string = ""
     ) {
         this.id = id;
@@ -30,7 +30,7 @@ export default class Welfare {
         this.title = title;
         this.detail = detail;
         this.detailCondition = detailCondition;
-        this.detailDocument = detailDocument;
+        this.forward = forward;
         this.url = url;
     }
 }
