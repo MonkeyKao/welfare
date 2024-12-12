@@ -54,6 +54,7 @@ const updateDisplayedData = () => {
   const start = 0;
   const end = currentPage.value * pageSize;
   displayedData.value = welfareData.value.slice(start, end);
+  
 };
 
 // 監聽 welfareData 資料變化

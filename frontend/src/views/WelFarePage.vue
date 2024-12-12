@@ -45,7 +45,9 @@ const welfare = ref<Welfare>(new Welfare())
 
 onMounted(async () => {
     const result = await request.get("/welfare/" + route.params.id)
+    console.log(result,'詳細福利')
     welfare.value = result.data
+
 })
 
 

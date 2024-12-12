@@ -19,6 +19,7 @@ func WelfareHandler(c *gin.Context) {
 		Title    string `json:"title"`
 		City     string `json:"city"`
 		Category []int  `json:"category"`
+		CanGet	 int	`json:"canGet"`
 	}
 
 	var response []WelfareResponse
@@ -29,6 +30,7 @@ func WelfareHandler(c *gin.Context) {
 			City:     welfare.City,
 			Category: welfare.Category,
 			Title:    welfare.Title,
+			CanGet:   welfare.CanGet,
 		})
 	}
 	c.IndentedJSON(http.StatusOK, response)

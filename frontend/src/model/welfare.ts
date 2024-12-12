@@ -8,6 +8,7 @@ export default class Welfare {
     detail: string;
     detailCondition: string[];
     forward: string[];
+    canGet: number;
     url: string;
 
     constructor(
@@ -20,6 +21,7 @@ export default class Welfare {
         detail: string = "",
         detailCondition: string[] = [],
         forward: string[] = [],
+        canGet: number = 0,
         url: string = ""
     ) {
         this.id = id;
@@ -31,6 +33,7 @@ export default class Welfare {
         this.detail = detail;
         this.detailCondition = detailCondition;
         this.forward = forward;
+        this.canGet = canGet;
         this.url = url;
     }
 }

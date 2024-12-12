@@ -16,6 +16,7 @@ type Welfare struct {
 	Detail          string   `json:"detail"`
 	DetailCondition []string `json:"detailCondition"`
 	Forward         []string `json:"forward"`
+	CanGet			int		 `json:"canGet"`
 	Url             string   `json:"url"`
 }
 
@@ -62,5 +63,10 @@ func GetWelfareFromJson() {
 		result = append(result, data.Output...)
 	}
 	fmt.Print("取得福利json")
+
+	for _, welfare := range result {
+		fmt.Println("Loaded welfare:", welfare)
+	}
+
 	welfares = result
 }

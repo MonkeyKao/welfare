@@ -7,9 +7,16 @@
         <p  class="text-base font-semibold basis-3/4">{{ data.title }}</p>
       </div>
 
-      <div class="flex flex-row-reverse mr-3">
+      <div class="flex flex-row-reverse mr-3 items-center">
         <PhHeartStraight :size="30" :weight="isFavorite(data.id) ? 'fill' : 'regular'"
           @click="emit('clickFavorited', props.data);" />
+        <PhCircle 
+          :size="20" 
+          :color="getCanGetColor(props.data.canGet)" 
+          weight="fill" 
+          class=" mx-5"
+        />  
+               
       </div>
 
     </div>
@@ -18,7 +25,7 @@
 
 <script setup lang="ts">
 import { getTextByService } from '@/utils/getTextByNumber';
-import { PhHeartStraight } from '@phosphor-icons/vue';
+import { PhHeartStraight,PhCircle } from '@phosphor-icons/vue';
 import { computed, ref } from 'vue';
 import { useFavoriteStore } from '@/store/favorite';
 import router from '@/router';
@@ -44,7 +51,18 @@ const toggleFavorite = () => {
   emit("clickFavorited", props.data);
 }
 
-
+const getCanGetColor = (canGet: number): string => {
+  switch (canGet) {
+    case 1:
+      return "#92C700"; // 綠色=快去領
+    case 2:
+      return "#FFEA53"; // 黃色=不確定能不能領
+    case 3:
+      return "#D06262"; // 紅色=沒得領啦
+    default:
+      return "#cccccc"; // 預設灰色
+  }
+};
 </script>
 
 <style scoped>
