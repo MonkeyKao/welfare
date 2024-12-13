@@ -41,12 +41,79 @@
 
     </div>
 
-    <div class="flex gap-1 items-center">
+    <div class="flex gap-1 items-center" @click="toggleSidebar">
       <PhHourglass :size="20" />
       <span>篩選</span>
     </div>
-
   </div>
+
+  <!-- 側邊欄 -->
+  <div :class="{'translate-x-0': showSidebar, 'translate-x-full': !showSidebar}" 
+         class="fixed top-0 right-0 space-y-4 w-64 h-full bg-white border-l border-gray-300 shadow-md p-4 transition-transform ease-in-out duration-300 z-10">
+      <h3 class="font-bold text-xl text-center">篩選條件</h3>
+
+      <div class="mt-4 space-y-5">
+        <p class="text-lg font-bold">年齡</p>
+        <div class="grid grid-cols-2 space-y-2" v-for="(item, index) in year" :key="index">
+          <button @click="toggleSelect(item)"  class="flex justify-between items-center">
+            <span :class="{ 'text-black': !item.selected, 'text-[#92c700]': item.selected }">
+              {{ item.name }}
+            </span>     
+            <PhCheck v-if="item.selected" :size="20" color="#92c700" />
+          </button>
+        </div>
+      </div>
+
+      <div class="mt-4 space-y-5">
+      <p class="text-lg font-bold">性別</p>
+      <div class="grid grid-cols-2 gap-4">
+        <button
+          v-for="(item, index) in sex"
+          :key="index"
+          @click="toggleSelectSingle(item)"
+          class="flex justify-between items-center"
+        >
+          <span :class="{ 'text-black': !item.selected, 'text-[#92c700]': item.selected }">
+            {{ item.name }}
+          </span>
+          <PhCheck v-if="item.selected" :size="20" color="#92c700" />
+        </button>
+        </div>
+      </div>
+
+      <div class="mt-4 space-y-5">
+        <p class="text-lg font-bold">收入</p>
+        <div class="grid grid-cols-2 space-y-2" v-for="(item, index) in money" :key="index">
+          <button @click="toggleSelectMoney(item)"  class="flex justify-between items-center">
+            <span :class="{ 'text-black': !item.selected, 'text-[#92c700]': item.selected }">
+              {{ item.name }}
+            </span>     
+            <PhCheck v-if="item.selected" :size="20" color="#92c700" />
+          </button>
+        </div>
+      </div>
+
+      <div class="mt-4 space-y-5">
+        <p class="text-lg font-bold">身分別</p>
+        <div class="grid grid-cols-2 space-y-2" v-for="(item, index) in people" :key="index">
+          <button @click="toggleSelect(item)"  class="flex justify-between items-center">
+            <span :class="{ 'text-black': !item.selected, 'text-[#92c700]': item.selected }">
+              {{ item.name }}
+            </span>     
+            <PhCheck v-if="item.selected" :size="20" color="#92c700" />
+          </button>
+        </div>
+      </div>
+
+      <div class=" flex mt-4 justify-center">
+        <button @click="applyFilters" class="bg-[#92c700] text-white px-4 py-2 rounded-md ">確定</button>
+      </div>
+    </div>
+
+    <!-- 遮罩層 -->
+    <div v-if="showSidebar" @click="toggleSidebar" 
+         class="fixed top-0 left-0 w-full h-full bg-black opacity-50 z-5"></div>
+
 
   <!-- 下拉選單遮罩用 -->
   <div v-if="showRegionDropdown||showServiceDropdown" class=" h-screen w-screen bg-slate-300 fixed top-0 left-0 z-5 opacity-0 " @click="toggleDropdown"></div>
@@ -55,7 +122,7 @@
 
 <script setup lang="ts">
 import { getTextByLocation, getTextByService } from '@/utils/getTextByNumber';
-import { PhCaretDown, PhHourglass } from '@phosphor-icons/vue';
+import { PhCaretDown, PhHourglass,PhCheck } from '@phosphor-icons/vue';
 import { ref } from 'vue';
 let showRegionDropdown = ref<boolean>(false);
 let showServiceDropdown = ref<boolean>(false);
@@ -110,6 +177,70 @@ const toggleDropdown = () => {
   showRegionDropdown.value = false
   showServiceDropdown.value = false
 }
+
+const showSidebar = ref(false); // 控制側邊欄的顯示
+
+const toggleSidebar = () => {
+  showSidebar.value = !showSidebar.value; // 切換側邊欄顯示狀態
+};
+
+const applyFilters = () => {
+  // 在這裡處理篩選應用邏輯
+  console.log('應用篩選');
+  toggleSidebar(); // 篩選後關閉側邊欄
+};
+
+const year = ref([
+  { id: 1, name: '20歲以下',selected: false },
+  { id: 2, name: '20歲~65歲',selected: false },
+  { id: 3, name: '65歲以上',selected: false },
+])
+
+const sex = ref([
+  { id:1, name:"男性",selected: false},
+  { id:2, name:"女性",selected: false},
+])
+
+const money = ref([
+  { id:1, name:"中低收入戶",selected: false},
+  { id:2, name:"低收入戶",selected: false},
+])
+
+const people = ref([
+  { id:1, name:"榮民",selected: false},
+  { id:2, name:"身心障礙者",selected: false},
+])
+
+const toggleSelect = (selectedItem: { id: number, name: string, selected: boolean }) => {
+  // 如果當前選項已選擇，則取消選擇
+  selectedItem.selected = !selectedItem.selected;
+};
+const toggleSelectSingle = (selectedItem: { id: number, name: string, selected: boolean }) => {
+  if (!selectedItem.selected) {
+    // 取消所有選項的選擇，然後選中當前項目
+    sex.value.forEach(item => {
+      item.selected = false;
+    });
+    selectedItem.selected = true; // 設置當前選項為選中狀態
+  } else {
+    // 如果當前項目已選擇，則取消選擇
+    selectedItem.selected = false;
+  }
+};
+const toggleSelectMoney = (selectedItem: { id: number, name: string, selected: boolean }) => {
+  if (!selectedItem.selected) {
+    // 取消所有選項的選擇，然後選中當前項目
+    money.value.forEach(item => {
+      item.selected = false;
+    });
+    selectedItem.selected = true; // 設置當前選項為選中狀態
+  } else {
+    // 如果當前項目已選擇，則取消選擇
+    selectedItem.selected = false;
+  }
+};
+
+
 </script>
 
 <style scoped>
