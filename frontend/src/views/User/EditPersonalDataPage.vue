@@ -1,7 +1,7 @@
 <template>
   <div class=" flex flex-col justify-between">
 
-    <HeaderBar>編輯個人資訊</HeaderBar>
+    <headerBar>編輯個人資訊</headerBar>
 
     <!-- 头像部分 -->
     <div class="flex flex-col bg-white justify-center items-center">
@@ -78,20 +78,17 @@
 
 <script setup lang="ts">
 import Avatar from "@/components/Avatar.vue";
-import { PhArrowUUpLeft, PhSealCheck, PhSeal } from "@phosphor-icons/vue";
+import { PhSealCheck, PhSeal } from "@phosphor-icons/vue";
 import { computed, onMounted, ref } from "vue";
-
-import "@vuepic/vue-datepicker/dist/main.css";
 import { getTextByLocation } from "@/utils/getTextByNumber";
 import { useUserStore } from "@/store/userStroe";
 
 import { DatePicker as VDatePicker } from 'v-calendar';
-import HeaderBar from "@/components/headerBar.vue";
-import Modal from "@/components/modal.vue";
+import headerBar from "@/components/HeaderBar.vue";
 import type User from "@/model/user";
 import router from "@/router";
-import dayjs from "dayjs";
 import request from "@/axios";
+import dayjs from "dayjs";
 
 const formatDate = "yyyy/MM/dd";
 
@@ -100,7 +97,6 @@ const user = computed(() => userStore.user)
 
 const selectedFile = ref<File | null>(null);
 const previewUrl = ref("");
-const fileInput = ref();
 
 onMounted(() => {
   (window as any).receiveImage = async (result: string) => {

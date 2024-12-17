@@ -47,10 +47,9 @@
 <script setup lang="ts">
 import request from "@/axios";
 import QA from "@/model/qa";
-import { PhArrowUUpLeft, PhCaretDown, PhCaretRight } from "@phosphor-icons/vue";
+import { PhCaretDown, PhCaretRight } from "@phosphor-icons/vue";
 import { ref } from "vue";
-import router from "@/router";
-import HeaderBar from "@/components/headerBar.vue";
+import HeaderBar from "@/components/HeaderBar.vue";
 
 const QAs = ref<QA[]>([]); // 明確指定 QAs 為 QA 型別的陣列
 const openItems = ref<number[]>([]);

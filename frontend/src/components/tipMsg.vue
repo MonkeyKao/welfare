@@ -2,7 +2,7 @@
     <div class="fixed z-50 bottom-5 flex justify-center w-screen">
         <Transition name="slide">
             <div v-if="tipState.visible" @click="tipState.onClick?.()"
-                class="border shadow-xl text-lime-600 rounded-xl bg-white w-auto px-10 py-1 text-lg">
+                :class="['border', 'shadow-xl', 'rounded-xl', 'bg-white', 'w-auto', 'px-10', 'py-1', 'text-lg', tipState.color]">
                 {{ tipState.text }}
             </div>
         </Transition>
@@ -10,16 +10,36 @@
 </template>
 
 <script setup lang="ts">
+import { AlertColor } from '@/type/ShowMsg';
 import { ref } from 'vue';
-
 const tipState = ref<{
     text: string;
     visible: boolean;
+    color: string;
     onClick?: () => void;
-}>({ text: "", visible: false });
+}>({
+    text: "",
+    visible: false,
+    color: 'text-lime-600'
+});
 
-const showMsg = (msg: string, clickFunction?: () => void) => {
-    tipState.value = { text: msg, visible: true, onClick: clickFunction };
+const showMsg = (msg: string, color?: AlertColor, clickFunction?: () => void) => {
+    tipState.value.text = msg
+    tipState.value.onClick = clickFunction;
+    tipState.value.visible = true;
+    switch (color) {
+        case AlertColor.success:
+            tipState.value.color = "text-lime-600"
+            break;
+        case AlertColor.error:
+            tipState.value.color = "text-red-400"
+            break;
+        case AlertColor.info:
+            tipState.value.color = "text-black"
+            break;
+        case AlertColor.waring:
+            tipState.value.color = "text-amber-400"
+    }
     autoClose();
 };
 
@@ -30,6 +50,7 @@ const autoClose = () => {
     timer = setTimeout(() => {
         tipState.value.visible = false;
         tipState.value.onClick = undefined;
+        tipState.value.color = "text-lime-600"
     }, 1500);
 };
 

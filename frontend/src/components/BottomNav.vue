@@ -2,39 +2,25 @@
   <nav class=" bg-gray-50">
     <ul class="flex justify-around items-center">
       <li>
-        <router-link to="/ai" class="flex flex-col items-center text-center">
-          <img
-            v-if="isActive('/ai')"
-            src="/amuoclick.png"
-            class="h-7"
-          />
-          <img
-            v-else
-            src="/amuo.png"
-           class="h-7"
-          />
+        <router-link to="/mou" class="flex flex-col items-center text-center">
+          <img v-if="isActive('/ai')" src="/amuoclick.png" class="h-7" />
+          <img v-else src="/amuo.png" class="h-7" />
           <span v-if="isActive('/ai')" class="text-gray-800 text-H4">阿哞</span>
         </router-link>
       </li>
       <li>
         <router-link to="/home" class="flex flex-col items-center text-center">
-          <PhHouse
-            :size="32"
-            :weight="isActive('/home') ? 'fill' : 'regular'"
+          <PhHouse :size="32" :weight="isActive('/home') ? 'fill' : 'regular'"
             :class="{ 'text-green-500': isActive('/home') }"
-            :style="{ color: isActive('/home') ? '#92C700' : 'black' }"
-          />
+            :style="{ color: isActive('/home') ? '#92C700' : 'black' }" />
           <span v-if="isActive('/home')" class="text-gray-800 text-H4">首頁</span>
         </router-link>
       </li>
       <li>
         <router-link to="/user" class="flex flex-col items-center text-center">
-          <PhUserGear
-            :size="32"
-            :weight="isActive('/user') ? 'fill' : 'regular'"
+          <PhUserGear :size="32" :weight="isActive('/user') ? 'fill' : 'regular'"
             :class="{ 'text-green-500': isActive('/user') }"
-            :style="{ color: isActive('/user') ? '#92C700' : 'black' }"
-          />
+            :style="{ color: isActive('/user') ? '#92C700' : 'black' }" />
           <span v-if="isActive('/user')" class="text-gray-800 text-H4">用戶</span>
           <span v-if="isActive('/settings')" class="text-gray-800 text-H4">用戶</span>
         </router-link>
@@ -43,19 +29,14 @@
   </nav>
 </template>
 
-<script>
-import { PhHouse, PhRobot, PhUserGear } from "@phosphor-icons/vue";
+<script setup lang="ts">
+import { PhHouse, PhUserGear } from "@phosphor-icons/vue";
+import { useRoute } from "vue-router";
 
-export default {
-  components: {
-    PhRobot,
-    PhUserGear,
-    PhHouse,
-  },
-  methods: {
-    isActive(route) {
-      return this.$route.path === route;
-    },
-  },
-};
+const route = useRoute();
+
+const isActive = (path:string) => {
+  return route.path === path;
+}
+
 </script>

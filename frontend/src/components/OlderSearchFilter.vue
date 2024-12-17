@@ -3,7 +3,7 @@
     <!-- 選擇地區部分 -->
     <div class="justify-center">
       <button class="bg-[#92c700] w-full text-H2 p-1 rounded-lg shadow-md"
-        @click="() => navigateToSelection('/regionselection')">
+        @click="() => navigateToSelection('/accessibility/region')">
         點我選「地區」
       </button>
     </div>
@@ -23,7 +23,7 @@
     <!-- 選擇服務部分 -->
     <div class="justify-center">
       <button class="bg-[#92c700] w-full text-H2 p-1 rounded-lg shadow-md mt-4"
-        @click="() => navigateToSelection('/serviceselection')">
+        @click="() => navigateToSelection('/accessibility/service')">
         點我選「服務」
       </button>
     </div>

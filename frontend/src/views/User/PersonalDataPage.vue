@@ -73,7 +73,7 @@ import {
 } from "@phosphor-icons/vue";
 import router from "@/router";
 import { useFavoriteStore } from "@/store/favorite";
-import HeaderBar from "@/components/headerBar.vue";
+import HeaderBar from "@/components/HeaderBar.vue";
 const userStore = useUserStore()
 const favoriteStore = useFavoriteStore()
 const user = computed(() => userStore.user)

@@ -20,8 +20,8 @@ import router from '@/router';
 import { useFamilyStore } from '@/store/family';
 import { inject, ref } from 'vue';
 import { useRoute } from 'vue-router';
-import QRCODE from '@/components/QRCODE.vue';
-import HeaderBar from '@/components/headerBar.vue';
+import QRCODE from '@/components/QrCode.vue';
+import HeaderBar from '@/components/HeaderBar.vue';
 
 const showMsg: Function = inject("showMsg")!
 const showQRCODE = ref<boolean>(false)

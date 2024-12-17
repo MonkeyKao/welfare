@@ -1,6 +1,6 @@
 
 //三大界面 
-import AiPage from "@/views/AiPage.vue";
+import MouInput from "@/components/MouInput.vue";
 import HomePage from "@/views/HomePage.vue";
 import UserPage from "@/views/UserPage.vue";
 
@@ -13,9 +13,9 @@ import ResetPasswordPage from "@/views/Login/ResetPasswordPage.vue";
 import VerifyPage from "@/views/Login/VerifyPage.vue";
 
 // 首頁小頁面
-import NotifyPage from "@/views/NotifyPage.vue";
-import LikePage from "@/views/LikePage.vue";
-import WelFarePage from "@/views/WelFarePage.vue";
+import WelFareInfPage from "@/views/Home/WelFareInfPage.vue";
+import NotifyPage from "@/views/Home/NotifyPage.vue";
+import LikePage from "@/views/Home/LikePage.vue";
 
 // 個人資料頁面
 import EditPersonalDataPage from "@/views/User/EditPersonalDataPage.vue";
@@ -23,17 +23,17 @@ import LinkAccountPage from "@/views/User/LinkAccountPage.vue";
 import PersonalDataPage from "@/views/User/PersonalDataPage.vue";
 import QAPage from "@/views/User/QAPage.vue";
 import SettingsPage from "@/views/User/SettingsPage.vue";
-import FamilyPage from "@/views/User/FamilyPage.vue";
-import FamilyInf from "@/views/familyInf.vue";
-import FamilySettingPage from "@/views/FamilySettingPage.vue";
 
+// 家庭頁面
+import FamilyInfPage from "@/views/Family/FamilyInfPage.vue";
+import FamilyHomePage from "@/views/Family/FamilyHomePage.vue";
+import FamilySettingPage from "@/views/Family/FamilySettingPage.vue";
 
 // 老人界面
-import ElderlySearchPage from "@/views/Older/ElderlySearchPage.vue";
-import RegionSelectionPage from "@/views/Older/RegionSelectionPage.vue";
-import ServiceSelectionPage from "@/views/Older/ServiceSelectionPage.vue";
-import SearchResultPage from "@/views/Older/SearchResultPage.vue";
 import OlderHomePage from "@/views/Older/OlderHomePage.vue";
+import OlderSearchHomePage from "@/views/Older/OlderSearchHomePage.vue";
+import OlderRegionSelectionPage from "@/views/Older/OlderRegionSelectionPage.vue";
+import OlderServiceSelectionPage from "@/views/Older/OlderServiceSelectionPage.vue";
 
 import {
   createRouter,
@@ -42,117 +42,108 @@ import {
   type RouteRecordRaw,
 } from "vue-router";
 
-
-
-
-const routes: Array<RouteRecordRaw> = [
+// 老人路由
+const OlderRoutes: Array<RouteRecordRaw> = [
   {
-    path: "/",
-    redirect: "/home", // 重定向到登入頁
-    meta: { needLogin: false },
+    path: "/accessibility/home",
+    name: "OlderHomePage",
+    component: OlderHomePage,
+    meta: { needLogin: false, showBottomBar: false },
   },
   {
-    path: "/welfare/:id",
-    name: "welfare",
-    component: WelFarePage,
-    meta: { needLogin: false },
+    path: "/accessibility/search",
+    name: "OlderSearchHomePage",
+    component: OlderSearchHomePage,
+    meta: { needLogin: false, showBottomBar: false },
   },
   {
-    path: "/account",
-    children: [
-      {
-        path: "login",
-        name: "LoginPage",
-        component: LoginPage,
-        meta: { needLogin: false },
-      },
-      {
-        path: "forgot-password",
-        name: "ForgetPasswordPage",
-        component: ForgetPasswordPage,
-        meta: { needLogin: false },
-      },
-      {
-        path: "reset-password",
-        name: "ResetPasswordPage",
-        component: ResetPasswordPage,
-        meta: { needLogin: false },
-      },
-      {
-        path: "register",
-        name: "RegisterPage",
-        component: RegisterPage,
-        meta: { needLogin: false },
-      },
-
-      {
-        path: "verify",
-        name: "VerifyPage",
-        component: VerifyPage,
-        meta: { needLogin: false },
-      },
-      {
-        path: "create-profile",
-        name: "CreateProfilePage",
-        component: CreateProfilePage,
-        meta: { needLogin: false },
-      },
-    ],
-    component: RouterView,
+    path: "/accessibility/region",
+    name: "OlderRegionSelectionPage",
+    component: OlderRegionSelectionPage,
+    meta: { needLogin: false, showBottomBar: false },
   },
+  {
+    path: "/accessibility/service",
+    name: "OlderServiceSelectionPage",
+    component: OlderServiceSelectionPage,
+    meta: { needLogin: false, showBottomBar: false },
+  },
+  {
+    path: "/accessibility/result",
+    name: "OlderSearchHomePage",
+    component: OlderSearchHomePage,
+    meta: { needLogin: false, showBottomBar: false },
+  },
+]
+
+const UserRoutes: Array<RouteRecordRaw> = [
   {
     path: "/user/settings",
     name: "Settings",
     component: SettingsPage,
-    meta: { needLogin: false },
+    meta: { needLogin: false, showBottomBar: false },
   },
   {
     path: "/user/edit-personal-data",
     name: "EditPersonalDataPage",
     component: EditPersonalDataPage,
-    meta: { needLogin: true },
+    meta: { needLogin: true, showBottomBar: false },
   },
   {
     path: "/user/qa",
     name: "QAPage",
     component: QAPage,
-    meta: { needLogin: false },
+    meta: { needLogin: false, showBottomBar: false },
   },
   {
     path: "/user/personal-data",
     name: "PersonalDataPage",
     component: PersonalDataPage,
-    meta: { needLogin: true },
+    meta: { needLogin: true, showBottomBar: false },
   },
   {
     path: "/user/family/:id",
     name: "FamilyInfPage",
-    component: FamilyInf,
-    meta: { needLogin: true }
+    component: FamilyInfPage,
+    meta: { needLogin: true, showBottomBar: false }
   },
   {
     path: "/user/family",
-    name: "FamilyPage",
-    component: FamilyPage,
-    meta: { needLogin: true },
+    name: "FamilyHomePage",
+    component: FamilyHomePage,
+    meta: { needLogin: true, showBottomBar: false },
   },
   {
     path: "/user/family/setting/:id",
     name: "FmailySettingPage",
     component: FamilySettingPage,
-    meta: { needLogin: true }
+    meta: { needLogin: true, showBottomBar: false }
   },
   {
     path: "/user/link-account",
     name: "LinkAccountPage",
     component: LinkAccountPage,
-    meta: { needLogin: false }, //記得改回true
+    meta: { needLogin: false, showBottomBar: false }, //記得改回true
   },
   // 最后定义父路径
   {
     path: "/user",
     name: "UserPage",
     component: UserPage,
+  },
+]
+
+const HomeRoutes: Array<RouteRecordRaw> = [
+  {
+    path: "/",
+    redirect: "/home",
+    meta: { needLogin: false },
+  },
+  {
+    path: "/welfare/:id",
+    name: "welfare",
+    component: WelFareInfPage,
+    meta: { needLogin: false, showBottomBar: false },
   },
   {
     path: "/home",
@@ -161,53 +152,76 @@ const routes: Array<RouteRecordRaw> = [
     meta: { needLogin: false },
   },
   {
-    path: "/older-home",
-    name: "OlderHomePage",
-    component: OlderHomePage,
-    meta: { needLogin: false },
-  }, //老人首頁暫時放這
-  {
-    path: "/ai",
-    name: "AiPage",
-    component: AiPage,
+    path: "/mou",
+    name: "MouInput",
+    component: MouInput,
     meta: { needLogin: false },
   },
   {
     path: "/favorites",
     name: "LikePage",
     component: LikePage,
-    meta: { needLogin: true },
+    meta: { needLogin: true, showBottomBar: false },
   },
   {
     path: "/notifications",
     name: "NotifyPage",
     component: NotifyPage,
-    meta: { needLogin: true },
+    meta: { needLogin: true, showBottomBar: false },
   },
+]
+
+const AccountRoutes: Array<RouteRecordRaw> = [
   {
-    path: "/elderlysearch",
-    name: "ElderlySearchPage",
-    component: ElderlySearchPage,
-    meta: { needLogin: false },
-  },
-  {
-    path: "/regionselection",
-    name: "RegionSelectionPage",
-    component: RegionSelectionPage,
-    meta: { needLogin: false },
-  },
-  {
-    path: "/serviceselection",
-    name: "ServiceSelectionPage",
-    component: ServiceSelectionPage,
-    meta: { needLogin: false },
-  },
-  {
-    path: "/searchresult",
-    name: "SearchResultPage",
-    component: SearchResultPage,
-    meta: { needLogin: false },
-  },
+    path: "/account",
+    children: [
+      {
+        path: "login",
+        name: "LoginPage",
+        component: LoginPage,
+        meta: { needLogin: false, showBottomBar: false },
+      },
+      {
+        path: "forgot-password",
+        name: "ForgetPasswordPage",
+        component: ForgetPasswordPage,
+        meta: { needLogin: false, showBottomBar: false },
+      },
+      {
+        path: "reset-password",
+        name: "ResetPasswordPage",
+        component: ResetPasswordPage,
+        meta: { needLogin: false, showBottomBar: false },
+      },
+      {
+        path: "register",
+        name: "RegisterPage",
+        component: RegisterPage,
+        meta: { needLogin: false, showBottomBar: false },
+      },
+
+      {
+        path: "verify",
+        name: "VerifyPage",
+        component: VerifyPage,
+        meta: { needLogin: false, showBottomBar: false },
+      },
+      {
+        path: "create-profile",
+        name: "CreateProfilePage",
+        component: CreateProfilePage,
+        meta: { needLogin: false, showBottomBar: false },
+      },
+    ],
+    component: RouterView,
+  }
+];
+
+const routes: Array<RouteRecordRaw> = [
+  ...OlderRoutes,
+  ...UserRoutes,
+  ...AccountRoutes,
+  ...HomeRoutes
 ];
 
 const router = createRouter({

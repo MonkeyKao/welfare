@@ -17,7 +17,7 @@
 
 </template>
 
-<script setup>
+<script setup lang="ts">
 import router from "@/router";
 import { PhArrowUUpLeft } from "@phosphor-icons/vue";
 </script>

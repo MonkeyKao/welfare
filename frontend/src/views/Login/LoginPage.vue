@@ -14,7 +14,8 @@
         <!-- 帳號輸入框 -->
         <div class="flex border-2 rounded-md shadow-md y-2 p-1 items-center px-3">
           <PhUser :size="32" color="#4d4d4d" class="flex-shrink-0" />
-          <input v-model="user.account" class="border-none resize outline-none p-1 w-full" type="text" placeholder="帳號" />
+          <input v-model="user.account" class="border-none resize outline-none p-1 w-full" type="text"
+            placeholder="帳號" />
         </div>
 
         <div class="">
@@ -23,28 +24,24 @@
           <div class="flex border-2 rounded-md shadow-md p-1 justify-between px-3">
             <div class="flex">
               <PhLockKey :size="32" color="#4d4d4d" class="flex-shrink-0" />
-              <input
-                v-model="user.password"
-                @focus="doingPw = true"
-                @blur="doingPw = false"
-                :type="showPassword ? 'text' : 'password'"
-                placeholder="密碼"
-                class="border-none resize outline-none p-1 w-full"
-              >
+              <input v-model="user.password" @focus="doingPw = true" @blur="doingPw = false"
+                :type="showPassword ? 'text' : 'password'" placeholder="密碼"
+                class="border-none resize outline-none p-1 w-full">
             </div>
-              <PhEyeClosed v-if="!showPassword" @click="togglePassword" :size="32" color="#4d4d4d" class="flex-shrink-0" />
-              <PhEye v-else @click="togglePassword" :size="32" class="flex-shrink-0" />
-            </div>          
+            <PhEyeClosed v-if="!showPassword" @click="togglePassword" :size="32" color="#4d4d4d"
+              class="flex-shrink-0" />
+            <PhEye v-else @click="togglePassword" :size="32" class="flex-shrink-0" />
+          </div>
         </div>
 
         <div class=" flex flex-col pt-5">
           <button class=" bg-[#90c700] text-white text-H3 py-2 rounded shadow-md">登入</button>
-          <router-link to="/home" class="flex text-H3 text-[#92c700] justify-center pt-2">訪客登入</router-link>          
+          <router-link to="/home" class="flex text-H3 text-[#92c700] justify-center pt-2">訪客登入</router-link>
         </div>
 
         <!-- 按鈕 -->
       </form>
-      
+
     </div>
 
     <!-- 底部連結區域 -->
@@ -69,7 +66,7 @@
         <router-link to="/account/register" class="flex text-lg text-[#92c700] justify-center pb-2">
           創建帳號
         </router-link>
-        
+
       </div>
     </div>
   </div>
@@ -79,6 +76,8 @@
 import request from "@/axios";
 import router from "@/router";
 import { useUserStore } from "@/store/userStroe";
+import { AlertColor, showMsgFunction } from "@/type/ShowMsg";
+import { getVaildMessage, isVaildError } from "@/utils/vaild";
 import {
   PhEye,
   PhEyeClosed,
@@ -87,9 +86,11 @@ import {
   PhLockKey,
   PhUser,
 } from "@phosphor-icons/vue";
+import { isAxiosError } from "axios";
 import validate from "validate.js";
-import { ref } from "vue";
+import { inject, ref } from "vue";
 
+const showMsg: showMsgFunction = inject("showMsg")!
 const userStroe = useUserStore();
 class form {
   account: string = "";
@@ -118,32 +119,21 @@ var constraints = {
   }
 };
 
-
-
 const loginHandler = async (user: form) => {
-  const vaildResult = await validate(user, constraints)
-  if (vaildResult) {
-    alert(vaildResult[0])
-    return
-  }
-
   try {
+    await validate.async(user, constraints)
     const result = await request.post("users/doLogin", JSON.stringify(user));
     localStorage.setItem(result.data.tokenName, result.data.tokenValue);
     await userStroe.fetchUser();
     router.push("/home");
-  } catch (err: any) {
-    alert(err.response.data.error);
-    return;
+  } catch (err: unknown) {
+    if (isAxiosError(err)) {
+      showMsg(err.response?.data.error,AlertColor.error)
+    } else if (isVaildError(err, constraints)) {
+      showMsg(getVaildMessage(err),AlertColor.waring)
+    }
   }
 };
-
-function loginWithFacebook() {
-  // 呼叫 Facebook 登入 API 的程式邏輯
-}
-function loginWithGoogle() {
-  // 呼叫 Google 登入 API 的程式邏輯
-}
 
 //圖片更動
 const doingPw = ref(false); // 用于指示是否处于密码输入状态

@@ -5,13 +5,13 @@
   </div>
 
   <div class=" fixed bottom-14 w-full z-20">
-    <Aiinput @click-send-msg="(msg) => reciveAccountMsg(msg)" />
+    <MouInput @click-send-msg="(msg) => reciveAccountMsg(msg)" />
   </div>
 
 </template>
 
 <script setup lang="ts">
-import Aiinput from '@/components/aiinput.vue';
+import MouInput from '@/components/MouInput.vue';
 import { useWelfareStore } from '@/store/welfareStroe';
 import { inject, onMounted, ref } from 'vue';
 const showMsg: Function = inject("showMsg")!

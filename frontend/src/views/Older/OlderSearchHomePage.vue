@@ -1,6 +1,6 @@
 <template>
   <div class="flex h-20 bg-[#90c700] items-center space-x-2">
-    <div @click="router.push('/older-home')" class="forgot-password-link">
+    <div @click="router.push('/accessibility/home')" class="forgot-password-link">
       <PhArrowUUpLeft :size="28" color="#000" class="ml-5" />
     </div>
     <label class="text-H2 font-bold">福利查詢</label>
@@ -8,7 +8,7 @@
 
   <div class="flex flex-col justify-center p-4">
 
-    <ElderlyFilter  />
+    <OlderSearchFilter  />
 
     <button 
       class="bg-[#92c700] text-H2 w-full p-1 rounded-lg shadow-md mt-4"
@@ -19,9 +19,8 @@
 </template>
 
 <script setup lang="ts">
-import { useRoute, useRouter } from 'vue-router';
-import HeaderBar from '@/components/headerBar.vue';
-import ElderlyFilter from '@/components/ElderlyFilter.vue';
+import { useRouter } from 'vue-router';
+import OlderSearchFilter from '@/components/OlderSearchFilter.vue';
 import { PhArrowUUpLeft } from "@phosphor-icons/vue";
 
 const router = useRouter();
@@ -41,7 +40,7 @@ const handleSearch = () => {
   };
 
   router.push({
-    path: '/searchresult',
+    path: '/accessibility/result',
     query: searchQuery
   });
 };

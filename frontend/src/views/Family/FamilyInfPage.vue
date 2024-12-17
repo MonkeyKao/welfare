@@ -15,7 +15,7 @@
 <script setup lang="ts">
 import { useRoute } from 'vue-router';
 import { inject, ref } from 'vue';
-import HeaderBar from '@/components/headerBar.vue';
+import HeaderBar from '@/components/HeaderBar.vue';
 import request from '@/axios';
 import router from '@/router';
 import { useFamilyStore } from '@/store/family';

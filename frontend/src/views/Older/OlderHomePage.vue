@@ -52,8 +52,8 @@ const welfareItems = ["醫療補助", "老人年金", "長照補助", "老人生
 const menuItems = [
   { path: "/favorites", label: "收藏", icon: PhHeart },
   { path: "/notifications", label: "通知", icon: PhBell },
-  { path: "/elderlysearch", label: "福利查詢", icon: PhMagnifyingGlass },
-  { path: "/ai", label: "機器查詢", icon: PhRobot },
+  { path: "/accessibility/search", label: "福利查詢", icon: PhMagnifyingGlass },
+  { path: "/mou", label: "機器查詢", icon: PhRobot },
   { path: "/user/personal-data", label: "個人資料", icon: PhUser },
   { path: "/user/family", label: "家庭", icon: PhUsersThree },
   { path: "/user/qa", label: "常見問題", icon: PhQuestion },

@@ -1,20 +1,19 @@
 import { createApp } from "vue";
 import App from "./App.vue";
 import router from "./router";
+import { createPinia } from "pinia";
+import "v-calendar/style.css";
 import "./style/index.css";
-import { createPinia } from 'pinia'
-import validate from "validate.js";
 
-import 'v-calendar/style.css';
+// 创建 Vue 实例
+const app = createApp(App);
 
-
-validate.options = {format: "flat",fullMessages: false};
-validate.validators.presence.options = {message: "不能為空"};
-const app = createApp(App)
+// 创建 Pinia 实例并注入
 const pinia = createPinia();
-app.use(router)
-app.use(pinia)
+app.use(pinia);
 
+// 注册路由
+app.use(router);
 
-
-app.mount('#app')
+// 挂载应用到 DOM
+app.mount("#app");

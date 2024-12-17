@@ -29,9 +29,8 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { PhArrowUUpLeft, PhHeartStraight,PhUserSquare } from '@phosphor-icons/vue';
-import router from '@/router';
-import HeaderBar from '@/components/headerBar.vue';
+import { PhHeartStraight,PhUserSquare } from '@phosphor-icons/vue';
+import HeaderBar from '@/components/HeaderBar.vue';
 
 const messages = ref([
   { text: '【文化部消息】震驚!!!114年文化幣每人可領取2000元', isFavorited: false },

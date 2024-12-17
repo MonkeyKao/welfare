@@ -107,8 +107,5 @@ const resetPasswordHandler = async (password: string, confirmPassword: string) =
     alert("兩次輸入的密碼不相同")
     return
   }
-
-  console.log("GO");
-
 }
 </script>

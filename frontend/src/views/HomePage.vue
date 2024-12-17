@@ -1,27 +1,28 @@
 <template>
   <div class="h-full flex flex-col w-full divide-y">
     <div class=" basis-1">
-      <TopNav @selectRegion="(regions) => selectedRegion = regions"
-        @selectService="(services) => selectedService = services" />
+      <TopNav @selectRegion="(regions: number[]) => selectedRegion = regions"
+        @selectService="(services: number[]) => selectedService = services" />
     </div>
 
     <div class="overflow-auto" @scroll="onScroll" ref="scrollContainer">
-      <HomeInsideText v-for="(item, index) in displayedData" :key="index" :data="item"
+      <HomeInsideCard v-for="(item, index) in displayedData" :key="index" :data="item"
         @clickFavorited="(data: Welfare) => clickFavoriteHandler(data)" />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import Welfare from '@/model/welfare';
 import { ref, computed, inject, watch, onMounted } from 'vue';
-import TopNav from '@/components/TopNav.vue';
-import HomeInsideText from '@/components/HomeInsideText.vue';
-import { useWelfareStore } from '@/store/welfareStroe';
-import type Welfare from '@/model/welfare';
+import TopNav from '@/components/Home/TopNav.vue';
+import HomeInsideCard from '@/components/Home/HomeInsideCard.vue';
 import { useFavoriteStore } from '@/store/favorite';
+import { useWelfareStore } from '@/store/welfareStroe';
+
 const showMsg: Function = inject("showMsg")!
 
-const favoriteStore = useFavoriteStore()
+const favoriteStore = useFavoriteStore();
 const favoriteData = computed(() => favoriteStore.favorites)
 
 const clickFavoriteHandler = async (welfare: Welfare) => {
@@ -34,15 +35,13 @@ const clickFavoriteHandler = async (welfare: Welfare) => {
     } catch (error) {
       showMsg(error)
     }
-    // 如果未收藏，则添加
-
   }
 }
 
 const welfareStore = useWelfareStore()
 const welfareData = computed(() => welfareStore.getWelfare(selectedRegion.value, selectedService.value))
-let selectedRegion = ref([])
-let selectedService = ref([])
+let selectedRegion = ref<number[]>([])
+let selectedService = ref<number[]>([])
 
 const scrollContainer = ref<HTMLElement | null>(null);
 const pageSize = 50; // 每次載入的資料數量

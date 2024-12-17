@@ -14,24 +14,20 @@
 
         <div class="flex border-2 rounded-md shadow-md y-2 p-1 px-3 items-center">
           <PhUser :size="32" color="#4d4d4d" class="flex-shrink-0" />
-          <input v-model="user.account" class=" border-none outline-none mx-2 min-w-0 text-base" type="text" placeholder="帳號" />
+          <input v-model="user.account" class=" border-none outline-none mx-2 min-w-0 text-base" type="text"
+            placeholder="帳號" />
         </div>
         <!-- 密碼輸入框 -->
         <div class="flex border-2 rounded-md shadow-md p-1 px-3 justify-between ">
-            <div class="flex">
-              <PhLockKey :size="32" color="#4d4d4d" class="flex-shrink-0" />
-              <input
-                v-model="user.password"
-                @focus="doingPw = true"
-                @blur="doingPw = false"
-                :type="showPassword ? 'text' : 'password'"
-                placeholder="密碼"
-                class="border-none resize outline-none p-1 w-full px-2"
-              >
-            </div>
-            <PhEyeClosed v-if="!showPassword" @click="togglePassword" :size="32" color="#4d4d4d" class="flex-shrink-0" />
-            <PhEye v-else @click="togglePassword" :size="32" class="flex-shrink-0" />
-          </div>     
+          <div class="flex">
+            <PhLockKey :size="32" color="#4d4d4d" class="flex-shrink-0" />
+            <input v-model="user.password" @focus="doingPw = true" @blur="doingPw = false"
+              :type="showPassword ? 'text' : 'password'" placeholder="密碼"
+              class="border-none resize outline-none p-1 w-full px-2">
+          </div>
+          <PhEyeClosed v-if="!showPassword" @click="togglePassword" :size="32" color="#4d4d4d" class="flex-shrink-0" />
+          <PhEye v-else @click="togglePassword" :size="32" class="flex-shrink-0" />
+        </div>
 
         <div class="flex border-2 rounded-md shadow-md y-2 p-1 px-3 items-center">
           <PhEnvelopeSimple :size="32" color="#4d4d4d" class="flex-shrink-0" />
@@ -39,7 +35,8 @@
         </div>
 
         <div class="flex flex-col">
-          <button :disabled="disable" class="bg-[#90c700] text-white text-H3 py-2 rounded shadow-md" type="submit">創建</button>
+          <button :disabled="disable" class="bg-[#90c700] text-white text-H3 py-2 rounded shadow-md"
+            type="submit">創建</button>
         </div>
       </form>
     </div>
@@ -64,18 +61,13 @@
 <script setup lang="ts">
 import request from "@/axios";
 import router from "@/router";
-import {
-  PhCheckSquare,
-  PhEnvelopeSimple,
-  PhEye,
-  PhEyeClosed,
-  PhLockKey,
-  PhSquare,
-  PhUser,
-} from "@phosphor-icons/vue";
+import { AlertColor, showMsgFunction } from "@/type/ShowMsg";
+import { getVaildMessage, isVaildError } from "@/utils/vaild";
+import { PhEnvelopeSimple, PhEye, PhEyeClosed, PhLockKey, PhUser} from "@phosphor-icons/vue";
+import { isAxiosError } from "axios";
 import validate from "validate.js";
 import { inject, ref } from "vue";
-const showMsg: Function = inject("showMsg")!
+const showMsg: showMsgFunction = inject("showMsg")!
 
 class form {
   account: string = "";
@@ -107,29 +99,28 @@ var constraints = {
     email: {
       message: "郵箱輸入有誤"
     }
-    
+
   }
 };
 
 const disable = ref<boolean>(false)
 
 const registerHandler = async (user: form) => {
-  disable.value = true
-  const vaildResult = await validate(user, constraints)
-  if (vaildResult) {
-    showMsg(vaildResult[0])
-    disable.value=false
-    return
-  }
-
   try {
+    disable.value = true
+    await validate.async(user, constraints)
     const json = JSON.stringify(user);
     localStorage.setItem("email", user.email);
     const result = await request.post("/users", json);
     router.push("/account/verify");
-  } catch (error: any) {
-    showMsg(error.response.data.error)
-    disable.value=false
+  } catch (err: unknown) {
+    if (isAxiosError(err)) {
+      showMsg(err.response?.data.error, AlertColor.error)
+    } else if (isVaildError(err, constraints)) {
+      showMsg(getVaildMessage(err), AlertColor.waring)
+    }
+  } finally {
+    disable.value = false
   }
 };
 

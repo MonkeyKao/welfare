@@ -8,15 +8,15 @@
 
   <div class="overflow-auto">
     <!-- 根據 API 回應資料動態生成 HomeInsideText 元件 -->
-    <HomeInsideText @clickFavorited="(data) => { }" v-for="(item, index) in welfareData" :key="index" :data="item" />
+    <HomeInsideCard @clickFavorited="() => { }" v-for="(item, index) in welfareData" :key="index" :data="item" />
   </div>
 </template>
 
 <script setup lang="ts">
 import { PhArrowUUpLeft } from '@phosphor-icons/vue';
-import { ref, computed, onMounted } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
-import HomeInsideText from '@/components/HomeInsideText.vue';
+import HomeInsideCard from '@/components/Home/HomeInsideCard.vue';
 import { useWelfareStore } from '@/store/welfareStroe';
 import router from '@/router';
 import type Welfare from '@/model/welfare';

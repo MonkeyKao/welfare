@@ -63,17 +63,6 @@
         </button>
         <router-link to="/home" class="flex text-H3 text-[#92c700] justify-center pt-2">先略過</router-link>          
       </div>
-
-      <!--
-      <div class="fixed bottom-4 right-4 z-10 flex items-center bg-white rounded-2xl shadow-md">
-        <RouterLink to="/home" class="flex  ">
-          <label class="text-H3 font-bold m-3">先略過</label>
-          <PhArrowCircleRight :size="24" class="m-3"/>
-        </RouterLink>
-      </div>      
-      -->
-
-
 </div>
 
 </template>
@@ -84,16 +73,13 @@ import User from "@/model/user";
 import router from "@/router";
 import { useUserStore } from "@/store/userStroe";
 import { getTextByLocation } from "@/utils/getTextByNumber";
-import { PhArrowCircleRight,PhSealCheck,PhSeal } from "@phosphor-icons/vue";
-import Datepicker from "@vuepic/vue-datepicker";
-import "@vuepic/vue-datepicker/dist/main.css";
+import { PhSealCheck,PhSeal } from "@phosphor-icons/vue";
 import { ref, watch  } from "vue";
 import { RouterLink } from "vue-router";
 
 import { DatePicker as VDatePicker } from 'v-calendar';
 import dayjs from "dayjs";
 
-const placeholder = "請選擇生日";
 const formatDate = "yyyy-MM-dd";
 
 const user = ref<User>({
@@ -105,7 +91,9 @@ const user = ref<User>({
   female: 1,
   location: 1,
   email: "",
+  avatar: ""
 });
+
 const userStore = useUserStore(); 
 const saveUserHanlder = async (user: User) => {
   try {
@@ -128,7 +116,6 @@ watch(() => user.value.female, (newfemale) => {
 
 const selectGender = (value: number) => {
   user.value.female = value; // 设置为选中的性别值
-  console.log(user.value.female);
 };
 </script>
 
