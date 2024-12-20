@@ -1,6 +1,14 @@
 <template>
   <div class="p-3 flex flex-col gap-2">
     <div class="flex justify-between">
+      <div class="flex items-center">
+        <PhCircle 
+          :size="16" 
+          :color="getCanGetColor(props.data.canGet)" 
+          weight="fill" 
+          class=" mr-3"
+        />
+      </div>
       <div class="w-full" @click="router.push('/welfare/' + props.data.id)" >
         <p class=" text-[#7F8689] text-sm">{{ data.city }} / {{ data.category ? getTextByService(data.category[0]) : "其他服務" }}
         </p>
@@ -10,13 +18,14 @@
       <div class="flex flex-row-reverse mr-3 items-center">
         <PhHeartStraight :size="30" :weight="isFavorite(data.id) ? 'fill' : 'regular'"
           @click="emit('clickFavorited', props.data);" />
-        <PhCircle 
-          :size="20" 
-          :color="getCanGetColor(props.data.canGet)" 
-          weight="fill" 
-          class=" mx-5"
-        />  
-               
+        <!--
+          <PhCircle 
+            :size="20" 
+            :color="getCanGetColor(props.data.canGet)" 
+            weight="fill" 
+            class=" mx-5"
+          />        
+        -->              
       </div>
 
     </div>

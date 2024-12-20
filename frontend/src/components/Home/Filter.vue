@@ -10,7 +10,7 @@
           <PhCaretDown :size="20" class="menu ml-1 transition-transform"
             :class="{ 'rotate-180': showRegionDropdown }" />
         </div>
-
+        
         <transition>
           <div v-if="showRegionDropdown"
             class="fixed flex flex-col w-1/2 overflow-auto max-h-96 z-10 bg-white rounded-md border border-gray-300 p-3">
