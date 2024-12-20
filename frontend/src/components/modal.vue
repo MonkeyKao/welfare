@@ -10,9 +10,9 @@
 
         <div class="rounded-lg bg-white p-6">
             <slot></slot>
-            <div class="modal-action">
-                <form class="flex justify-center mt-5" method="dialog">                  
-                    <button @click="emit('onClickConfirm')" class="btn btn-primary text-[#D06262]">{{ closeBtnTitle ? closeBtnTitle :
+            <div class="modal-action justify-center">
+                <form class="flex" method="dialog">                  
+                    <button @click="emit('onClickConfirm')" class=" text-[#D06262]">{{ closeBtnTitle ? closeBtnTitle :
                         '取消' }}</button>
                 </form>
             </div>

@@ -34,6 +34,7 @@ export const useFamilyStore = defineStore('family', {
             } catch (err: any) {
                 throw (err.response.data)
             }
-        }
+        },
+        
     }
 })

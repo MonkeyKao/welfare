@@ -10,8 +10,14 @@ export default {
         'H4':'14px', //內文主要文字 ( 列表、彈窗、錯訊 )
         'H5':'12px', //盡量不使用
       },
+      colors: {
+        customGreen: '#73AA00',  // 添加您的自定义颜色
+      },
     },
   },
-  plugins: [],
+  
+  plugins: [
+    require('daisyui'),
+  ],
 }
 

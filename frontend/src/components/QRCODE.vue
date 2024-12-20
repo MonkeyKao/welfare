@@ -4,6 +4,7 @@
       <span class="text-H3">剩餘有效時間:{{ formattedTime }}</span>
       <span class="text-H3">代碼:{{ code }}</span>
       <img :src="qrCodeUrl" alt="QR Code" />
+      
     </div>
   </div>
 </template>
