@@ -3,9 +3,9 @@
     <ul class="flex justify-around items-center">
       <li>
         <router-link to="/mou" class="flex flex-col items-center text-center">
-          <img v-if="isActive('/ai')" src="/amuoclick.png" class="h-7" />
+          <img v-if="isActive('/mou')" src="/amuoclick.png" class="h-7" />
           <img v-else src="/amuo.png" class="h-7" />
-          <span v-if="isActive('/ai')" class="text-gray-800 text-H4">阿哞</span>
+          <span v-if="isActive('/mou')" class="text-gray-800 text-H4">阿哞</span>
         </router-link>
       </li>
       <li>

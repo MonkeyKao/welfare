@@ -1,13 +1,11 @@
 <template>
-  <div ref="colContainer" class="container flex gap-4 flex-col mx-auto p-4">
-    <!-- <button class="mt-4 bg-lime-500 text-white p-2 rounded">阿哞篩選</button> -->
-    <!-- insert col -->
+  <div ref="colContainer" class="container mb-20  flex gap-4 flex-col mx-auto p-4 ">
+    <!-- 这里是内容区域 -->
   </div>
 
-  <div class=" fixed bottom-14 w-full z-20">
+  <div class="fixed bottom-12 w-full z-20">
     <MouInput @click-send-msg="(msg) => reciveAccountMsg(msg)" />
   </div>
-
 </template>
 
 <script setup lang="ts">
