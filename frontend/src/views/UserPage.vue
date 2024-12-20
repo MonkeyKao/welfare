@@ -2,10 +2,10 @@
   <div class="flex flex-col w-full divide-y-2 ">
     <div class="flex flex-col items-center gap-2 mt-3 mb-5 flex-shrink-0">
       <Avatar />
-      <label class="text-H1 font-bold">{{user?.name ? user.name : "未登錄"}}</label>
+      <label class="text-H1 ">{{user?.name ? user.name : "未登錄"}}</label>
     </div>
 
-    <div class="p-10 flex flex-col space-y-8">
+    <div class="p-5 flex flex-col space-y-8">
       <div v-for="(item, index) in menuItems" :key="index" class="flex items-center" @click="router.push(item.path)">
         <component :is="item.icon" :size="36" color="#4d4d4d" />
         <label class="text-H2 flex ml-3">{{ item.label }}</label>
