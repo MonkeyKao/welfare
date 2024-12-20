@@ -8,7 +8,7 @@ export default defineConfig({
   ],
   resolve: {
     alias: {
-      "@" : "/src",
+      "@": "/src",
     }
   },
   server: {
@@ -19,7 +19,13 @@ export default defineConfig({
         target: 'http://localhost:8081',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, ""),
+      },
+      "/ai": {
+        target: 'http://localhost:8080',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/ai/, "/api"),
       }
-    }
+    },
+
   },
 });

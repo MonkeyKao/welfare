@@ -1,6 +1,6 @@
 
 //三大界面 
-import MouInput from "@/components/MouInput.vue";
+import MouPage from "@/views/MouPage.vue";
 import HomePage from "@/views/HomePage.vue";
 import UserPage from "@/views/UserPage.vue";
 
@@ -153,8 +153,8 @@ const HomeRoutes: Array<RouteRecordRaw> = [
   },
   {
     path: "/mou",
-    name: "MouInput",
-    component: MouInput,
+    name: "MouPage",
+    component: MouPage,
     meta: { needLogin: false },
   },
   {

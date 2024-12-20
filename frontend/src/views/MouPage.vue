@@ -11,20 +11,34 @@
 </template>
 
 <script setup lang="ts">
+import { mouRequest } from '@/axios';
 import MouInput from '@/components/MouInput.vue';
 import { useWelfareStore } from '@/store/welfareStroe';
 import { inject, onMounted, ref } from 'vue';
 const showMsg: Function = inject("showMsg")!
 
+const loading = ref<boolean>(false)
 const welfareStroe = useWelfareStore()
 
-const reciveAccountMsg = (msg: string) => {
+const reciveAccountMsg = async (msg: string) => {
   insertAccountMsg(msg)
-  setTimeout(() => {
-    const result = "我聽不懂你在說啥"
-    insertResultInfCard([{ title: "我聽不懂你在說啥\n點擊返回主界面", url: "home" }])
-  }, 1000)
+  loading.value = true
+  const result = await sendMessageToModel(msg)
+  insertResultInfCard([{ title: result, url: "home" }])
 
+}
+
+
+let chatID: string = "";
+const getChatId = async () => {
+  const result = await mouRequest.get("application/6236a802-a99f-11ef-86e8-0242ac110002/chat/open")
+  chatID = result.data.data
+
+}
+
+const sendMessageToModel = async (message: string): Promise<string> => {
+  const result = await mouRequest.post("/application/chat_message/" + chatID, { "message": message, "re_chat": false, "stream": false })
+  return result.data.data.content
 }
 
 const colContainer = ref<HTMLDivElement>(document.createElement('div'))
@@ -291,6 +305,7 @@ const createAvatar = (image: string) => {
 
 onMounted(() => {
   insertServiceCard(ewlfareitems.value)
+  getChatId();
 })
 
 const ewlfareitems = ref([

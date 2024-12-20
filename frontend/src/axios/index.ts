@@ -8,6 +8,15 @@ const request = axios.create({
     }
 });
 
+export const mouRequest = axios.create({
+  baseURL: '/ai/',
+  timeout: 10000,
+  headers: {
+      token: localStorage.getItem("token"),
+      Authorization: "application-4998c0b130baea65c1a6d212bbaf399d"
+  }
+});
+
 // 添加请求拦截器
 request.interceptors.request.use(
     config => {

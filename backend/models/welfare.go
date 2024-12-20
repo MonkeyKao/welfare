@@ -16,7 +16,7 @@ type Welfare struct {
 	Detail          string   `json:"detail"`
 	DetailCondition []string `json:"detailCondition"`
 	Forward         []string `json:"forward"`
-	CanGet			int		 `json:"canGet"`
+	CanGet          int      `json:"canGet"`
 	Url             string   `json:"url"`
 }
 
@@ -32,7 +32,6 @@ func GetWelfareByID(id uint) (Welfare, bool) {
 			return welfare, true
 		}
 	}
-
 	return Welfare{}, false
 }
 
