@@ -5,9 +5,9 @@
     <div class="flex gap-3 flex-row">
 
       <div class="flex flex-col">
-        <div @click="toggleRegionDropdown" class="flex">
+        <div @click="toggleRegionDropdown" class="flex items-center">
           <p class="text-l">{{ selectedRegion.length===0?"地區":"地區("+selectedRegion.length+")" }}</p>
-          <PhCaretDown :size="20" class="menu ml-1 transition-transform"
+          <PhCaretDown :size="32" class=" menu ml-1 transition-transform"
             :class="{ 'rotate-180': showRegionDropdown }" />
         </div>
         
@@ -25,7 +25,7 @@
 
       <div class="flex items-center" @click="toggleServiceDropdown">
         <p class="text-l">{{ selectedService.length===0?"服務":"服務("+selectedService.length+")" }}</p>
-        <PhCaretDown :size="20" class="menu ml-1 transition-transform" :class="{ 'rotate-180': showServiceDropdown }" />
+        <PhCaretDown :size="32" class="menu ml-1 transition-transform" :class="{ 'rotate-180': showServiceDropdown }" />
       </div>
 
 

@@ -12,7 +12,7 @@
       <HomeInsideCard v-for="(item, index) in displayedData" :key="index" :data="item"
         @clickFavorited="(data: Welfare) => clickFavoriteHandler(data)" />
       <div v-if="loading" class="loading-indicator">加载中...</div>
-      <div v-else-if="!hasMore" class="no-more-indicator">没有更多数据了</div>
+      <div v-else-if="!hasMore" class="no-more-indicator">没有更多資料了</div>
     </div>
   </div>
 </template>
