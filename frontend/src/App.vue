@@ -4,17 +4,16 @@ import { ComponentPublicInstance, computed, onMounted, provide, ref, watch } fro
 import { RouterView, useRoute } from "vue-router"; // 引入 RouterView 用來動態渲染路由對應的頁面
 import TipMsg from "./components/TipMsg.vue";
 import { useUserStore } from "./store/userStroe";
-import { useWelfareStore } from "./store/welfareStroe";
+
 import { useFavoriteStore } from "./store/favorite";
 import { useFamilyStore } from "./store/family";
 
 const route = useRoute(); // 獲取當前路由
 const userStore = useUserStore();
-const welfareStore = useWelfareStore();
+
 const favoriteStore = useFavoriteStore();
 const familyStore = useFamilyStore();
 userStore.fetchUser();
-welfareStore.fetchWelfare();
 favoriteStore.fetchFavorite();
 familyStore.fetchFamily();
 

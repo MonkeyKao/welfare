@@ -11,12 +11,10 @@
 <script setup lang="ts">
 import { mouRequest } from '@/axios';
 import MouInput from '@/components/MouInput.vue';
-import { useWelfareStore } from '@/store/welfareStroe';
 import { inject, onMounted, ref } from 'vue';
 const showMsg: Function = inject("showMsg")!
 
 const loading = ref<boolean>(false)
-const welfareStroe = useWelfareStore()
 
 const reciveAccountMsg = async (msg: string) => {
   insertAccountMsg(msg)
@@ -199,14 +197,13 @@ const clickPlaceHandler = (name: string) => {
 
 // 最終資料處理方法
 const ResultInfHandler = (input: Array<string | number>) => {
-  welfareStroe.getWelfare([1, 2, 3, 4, 5], [1, 2, 3, 4, 5])
-  const result = welfareStroe.getWelfare([Number(input[0])], [Number(input[3])])
-  if (result.length > 0) {
-    insertResultInfCard(result)
-  } else {
-    insertResultInfCard([{ title: "未找到相關福利\n點擊返回主界面", url: "home" }])
-  }
-
+  // welfareStroe.getWelfare([1, 2, 3, 4, 5], [1, 2, 3, 4, 5])
+  // const result = welfareStroe.getWelfare([Number(input[0])], [Number(input[3])])
+  // if (result.length > 0) {
+  //   insertResultInfCard(result)
+  // } else {
+  //   insertResultInfCard([{ title: "未找到相關福利\n點擊返回主界面", url: "home" }])
+  // }
 }
 
 // 插入最終篩選資料

@@ -2,7 +2,6 @@ package api
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 	"os"
 	"strconv"
@@ -14,37 +13,47 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// 處理JSON數據
 func GetWelfareHandler(c *gin.Context) {
 	type WelfareResponse struct {
 		Id       uint   `json:"id"`
 		Title    string `json:"title"`
-		City     string `json:"city"`
+		City     int    `json:"city"`
 		Category []int  `json:"category"`
 		CanGet   int    `json:"canGet"`
 	}
 
 	var response []WelfareResponse
+	page, _ := strconv.Atoi(c.DefaultQuery("page", "1"))
+	pageSize, _ := strconv.Atoi(c.DefaultQuery("pageSize", "30"))
 
 	// 获取查询参数
-	city := c.Query("city")
+	cityStrings := c.QueryArray("city[]") // 支持 city[] 格式
 	title := c.Query("title")
-	categoryStr := c.QueryArray("category")
+	categoryStrings := c.QueryArray("category[]")
 
-	// 转换 category 参数为整数切片
+	// 将字符串数组转换为整数数组
+	var cityFilter []int
 	var categoryFilter []int
-	for _, c := range categoryStr {
-		categoryFilter = append(categoryFilter, atoi(c))
+	for _, cs := range cityStrings {
+		if id, err := strconv.Atoi(cs); err == nil {
+			cityFilter = append(cityFilter, id)
+		}
+	}
+	for _, cs := range categoryStrings {
+		if id, err := strconv.Atoi(cs); err == nil {
+			categoryFilter = append(categoryFilter, id)
+		}
 	}
 
 	welfares := models.GetWelfares()
-	// 结果过滤
+	// 过滤数据
+	filtered := []WelfareResponse{}
 	for _, welfare := range welfares {
-		// 检查筛选条件
-		if (city == "" || strings.EqualFold(welfare.City, city)) &&
+		// 筛选逻辑：城市需要匹配任意一个 cityFilter 中的值
+		if (len(cityFilter) == 0 || intInSlice(welfare.City, cityFilter)) &&
 			(title == "" || strings.Contains(strings.ToLower(welfare.Title), strings.ToLower(title))) &&
 			(len(categoryFilter) == 0 || hasCategory(welfare.Category, categoryFilter)) {
-			response = append(response, WelfareResponse{
+			filtered = append(filtered, WelfareResponse{
 				Id:       welfare.Id,
 				Title:    welfare.Title,
 				City:     welfare.City,
@@ -54,7 +63,27 @@ func GetWelfareHandler(c *gin.Context) {
 		}
 	}
 
+	// 分页处理
+	start := (page - 1) * pageSize
+	end := start + pageSize
+	if start > len(filtered) {
+		response = []WelfareResponse{}
+	} else if end > len(filtered) {
+		response = filtered[start:]
+	} else {
+		response = filtered[start:end]
+	}
+
 	c.IndentedJSON(http.StatusOK, response)
+}
+
+func intInSlice(value int, list []int) bool {
+	for _, v := range list {
+		if v == value {
+			return true
+		}
+	}
+	return false
 }
 
 func hasCategory(welfareCategories, filterCategories []int) bool {
@@ -68,13 +97,6 @@ func hasCategory(welfareCategories, filterCategories []int) bool {
 		}
 	}
 	return false
-}
-
-// 安全地将字符串转换为整数
-func atoi(s string) int {
-	var result int
-	fmt.Sscanf(s, "%d", &result)
-	return result
 }
 
 func GetWelfareByID(c *gin.Context) {

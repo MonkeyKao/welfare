@@ -10,7 +10,7 @@ import (
 type Welfare struct {
 	Id              uint     `json:"id"`
 	Category        []int    `json:"category"`
-	City            string   `json:"city"`
+	City            int      `json:"city"`
 	Date            string   `json:"date"`
 	Title           string   `json:"title"`
 	Detail          string   `json:"detail"`

@@ -8,7 +8,7 @@
 
     <div class="flex flex-col p-4">
         <span class=" text-H2 text-center font-bold">{{ welfare.title }}</span>
-        <span class=" text-H3 font-bold">{{ welfare.city }}</span>
+        <span class=" text-H3 font-bold">{{ getTextByLocation(welfare.city) }}</span>
         <span class="text-H3">發佈日期 : {{ welfare.date ? welfare.date : "無法獲取日期" }}</span>
         <div class="flex flex-col my-2 space-y-2">
             <span class=" font-bold">申請條件</span>
@@ -65,6 +65,7 @@ import Welfare from '@/model/welfare';
 import { onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { PhArrowUUpLeft, PhCircle, PhInfo } from "@phosphor-icons/vue";
+import { getTextByLocation } from '@/utils/getTextByNumber';
 
 const route = useRoute()
 const welfare = ref<Welfare>(new Welfare())

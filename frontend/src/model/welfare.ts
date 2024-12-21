@@ -1,7 +1,7 @@
 export default class Welfare {
     id: number;
     category: number[];
-    city: string;
+    city: number;
     date: string;
     priority: number;
     title: string;
@@ -14,7 +14,7 @@ export default class Welfare {
     constructor(
         id: number = 0,
         category: number[] = [],
-        city: string = "",
+        city: number = 0,
         date: string = "",
         priority: number = 0,
         title: string = "",

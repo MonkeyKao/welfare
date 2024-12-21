@@ -4,7 +4,8 @@
 
       <div class="flex items-center flex-grow bg-gray-50 rounded-lg p-1 border border-gray-300">
         <PhMagnifyingGlass size="24" color="#9ca3af" class="icon-search" />
-        <input type="text" placeholder="Ex.租屋補助" class="p-1 w-full text-base bg-transparent border-none outline-none" />
+        <input v-model="searchText" type="text" placeholder="Ex.租屋補助"
+          class="p-1 w-full text-base bg-transparent border-none outline-none" />
       </div>
 
       <div class="flex space-x-3">
@@ -19,7 +20,8 @@
 
 
 
-    <Filter @select-region="(region) => emit('selectRegion',region)" @select-service="(service) => emit('selectService',service)" />
+    <Filter @select-region="(region) => emit('selectRegion', region)"
+      @select-service="(service) => emit('selectService', service)" />
 
   </div>
 </template>
@@ -27,5 +29,10 @@
 <script setup lang="ts">
 import { PhHeartStraight, PhBell, PhMagnifyingGlass } from '@phosphor-icons/vue';
 import Filter from './Filter.vue';
-const emit = defineEmits(['selectRegion','selectService'])
+import { ref, watch } from 'vue';
+const emit = defineEmits(['selectRegion', 'selectService','selectTitle'])
+const searchText = ref<string>("")
+watch(searchText, (newValue) => {
+  emit("selectTitle",newValue)
+})
 </script>
