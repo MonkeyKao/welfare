@@ -2,17 +2,18 @@
   <div class="h-full flex flex-col w-full divide-y">
     <!-- 顶部导航，用于筛选条件 -->
     <div class="basis-1">
-      <TopNav @selectRegion="(regions: number[]) => searchCondition.city = regions"
+      <TopNav @select-status="(status) => searchCondition.status = status"
+        @selectRegion="(regions: number[]) => searchCondition.city = regions"
         @selectService="(services: number[]) => searchCondition.category = services"
         @selectTitle="(title: string) => searchCondition.title = title" />
     </div>
 
     <!-- 数据展示区 -->
-    <div class="overflow-auto" @scroll="onScroll" ref="scrollContainer">
+    <div class="overflow-auto" @scroll.passive="onScroll" ref="scrollContainer">
       <HomeInsideCard v-for="(item, index) in displayedData" :key="index" :data="item"
         @clickFavorited="(data: Welfare) => clickFavoriteHandler(data)" />
       <div v-if="loading" class="loading-indicator">加载中...</div>
-      <div v-else-if="!hasMore" class="no-more-indicator">没有更多資料了</div>
+      <div v-else-if="!hasMore" class=" text-center">没有更多資料了</div>
     </div>
   </div>
 </template>
@@ -37,6 +38,7 @@ type Condition = {
   city?: Array<number>
   category?: Array<number>
   title?: string
+  status?: number
 }
 
 const searchCondition = ref<Condition>({})

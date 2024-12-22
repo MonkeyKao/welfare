@@ -5,8 +5,8 @@ import (
 	"net/http"
 	"os"
 	"strconv"
-	"strings"
 	"walfare/models"
+	"walfare/services"
 
 	//"fmt"
 
@@ -14,15 +14,7 @@ import (
 )
 
 func GetWelfareHandler(c *gin.Context) {
-	type WelfareResponse struct {
-		Id       uint   `json:"id"`
-		Title    string `json:"title"`
-		City     int    `json:"city"`
-		Category []int  `json:"category"`
-		CanGet   int    `json:"canGet"`
-	}
 
-	var response []WelfareResponse
 	page, _ := strconv.Atoi(c.DefaultQuery("page", "1"))
 	pageSize, _ := strconv.Atoi(c.DefaultQuery("pageSize", "30"))
 
@@ -30,10 +22,12 @@ func GetWelfareHandler(c *gin.Context) {
 	cityStrings := c.QueryArray("city[]") // 支持 city[] 格式
 	title := c.Query("title")
 	categoryStrings := c.QueryArray("category[]")
+	statusStrings := c.QueryArray("status[]")
 
 	// 将字符串数组转换为整数数组
 	var cityFilter []int
 	var categoryFilter []int
+	var statusFilter []int
 	for _, cs := range cityStrings {
 		if id, err := strconv.Atoi(cs); err == nil {
 			cityFilter = append(cityFilter, id)
@@ -44,59 +38,26 @@ func GetWelfareHandler(c *gin.Context) {
 			categoryFilter = append(categoryFilter, id)
 		}
 	}
-
-	welfares := models.GetWelfares()
-	// 过滤数据
-	filtered := []WelfareResponse{}
-	for _, welfare := range welfares {
-		// 筛选逻辑：城市需要匹配任意一个 cityFilter 中的值
-		if (len(cityFilter) == 0 || intInSlice(welfare.City, cityFilter)) &&
-			(title == "" || strings.Contains(strings.ToLower(welfare.Title), strings.ToLower(title))) &&
-			(len(categoryFilter) == 0 || hasCategory(welfare.Category, categoryFilter)) {
-			filtered = append(filtered, WelfareResponse{
-				Id:       welfare.Id,
-				Title:    welfare.Title,
-				City:     welfare.City,
-				Category: welfare.Category,
-				CanGet:   0,
-			})
+	for _, cs := range statusStrings {
+		if id, err := strconv.Atoi(cs); err == nil {
+			statusFilter = append(statusFilter, id)
 		}
 	}
+
+	welfares := services.Filiter(cityFilter, categoryFilter, statusFilter, title)
 
 	// 分页处理
 	start := (page - 1) * pageSize
 	end := start + pageSize
-	if start > len(filtered) {
-		response = []WelfareResponse{}
-	} else if end > len(filtered) {
-		response = filtered[start:]
+	if start > len(welfares) {
+		welfares = []services.WelfareResponse{}
+	} else if end > len(welfares) {
+		welfares = welfares[start:]
 	} else {
-		response = filtered[start:end]
+		welfares = welfares[start:end]
 	}
 
-	c.IndentedJSON(http.StatusOK, response)
-}
-
-func intInSlice(value int, list []int) bool {
-	for _, v := range list {
-		if v == value {
-			return true
-		}
-	}
-	return false
-}
-
-func hasCategory(welfareCategories, filterCategories []int) bool {
-	categoryMap := make(map[int]bool)
-	for _, c := range filterCategories {
-		categoryMap[c] = true
-	}
-	for _, wc := range welfareCategories {
-		if categoryMap[wc] {
-			return true
-		}
-	}
-	return false
+	c.IndentedJSON(http.StatusOK, welfares)
 }
 
 func GetWelfareByID(c *gin.Context) {

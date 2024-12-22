@@ -20,7 +20,7 @@
 
 
 
-    <Filter @select-region="(region) => emit('selectRegion', region)"
+    <Filter @select-status="(status) => emit('selectStatus',status)" @select-region="(region) => emit('selectRegion', region)"
       @select-service="(service) => emit('selectService', service)" />
 
   </div>
@@ -30,7 +30,7 @@
 import { PhHeartStraight, PhBell, PhMagnifyingGlass } from '@phosphor-icons/vue';
 import Filter from './Filter.vue';
 import { ref, watch } from 'vue';
-const emit = defineEmits(['selectRegion', 'selectService','selectTitle'])
+const emit = defineEmits(['selectRegion', 'selectService','selectTitle','selectStatus'])
 const searchText = ref<string>("")
 watch(searchText, (newValue) => {
   emit("selectTitle",newValue)

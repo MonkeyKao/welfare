@@ -15,6 +15,7 @@ type Welfare struct {
 	Title           string   `json:"title"`
 	Detail          string   `json:"detail"`
 	DetailCondition []string `json:"detailCondition"`
+	Status          []int    `json:"status"`
 	Forward         []string `json:"forward"`
 	CanGet          int      `json:"canGet"`
 	Url             string   `json:"url"`
