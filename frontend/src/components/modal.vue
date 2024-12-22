@@ -53,8 +53,18 @@ const openModal = () => {
     }
 };
 
+const closeModal = () => {
+  const modalDom = document.getElementById(ModalId) as HTMLDialogElement;
+  if (modalDom) {
+    modalDom.close();
+  } else {
+    console.error(`Modal with id ${ModalId} not found`);
+  }
+}
+
 defineExpose({
     openModal,
+    closeModal
 })
 
 </script>

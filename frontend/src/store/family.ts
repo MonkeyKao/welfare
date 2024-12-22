@@ -35,6 +35,14 @@ export const useFamilyStore = defineStore('family', {
                 throw (err.response.data)
             }
         },
+        async leaveFamily(id:number) {
+            try {
+                await request.delete("/family/leave/"+id)
+                this.families = this.families.filter((family) => family.familyId !== id)
+            } catch(err:any) {
+                throw(err.response.data)
+            }
+        }
         
     }
 })

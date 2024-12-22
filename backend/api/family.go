@@ -27,7 +27,7 @@ func CreateFamilyMemberHandler(c *gin.Context) {
 	familyMember := models.FamilyMember{
 		UserID:   userID,
 		FamilyID: uint(familyID),
-		Role:     "成員",
+		Role:     1,
 	}
 
 	if err := familyMember.CreateFamilyMember(); err != nil {
@@ -35,7 +35,7 @@ func CreateFamilyMemberHandler(c *gin.Context) {
 		return
 	}
 
-	c.IndentedJSON(http.StatusOK, "")
+	c.IndentedJSON(http.StatusNoContent, "")
 }
 
 func CreateFamilyHandler(c *gin.Context) {
@@ -54,7 +54,7 @@ func CreateFamilyHandler(c *gin.Context) {
 	familyMember := models.FamilyMember{
 		UserID:   userID,
 		FamilyID: family.ID,
-		Role:     "擁有著",
+		Role:     3,
 	}
 
 	familyMember.CreateFamilyMember()
@@ -82,7 +82,7 @@ func JoinFmailyHandler(c *gin.Context) {
 		return
 	}
 
-	c.IndentedJSON(http.StatusOK, gin.H{})
+	c.IndentedJSON(http.StatusNoContent, gin.H{})
 }
 
 func DeleteFamilyHandler(c *gin.Context) {
@@ -97,5 +97,22 @@ func DeleteFamilyHandler(c *gin.Context) {
 		return
 	}
 
-	c.IndentedJSON(http.StatusOK, gin.H{})
+	c.IndentedJSON(http.StatusNoContent, gin.H{})
+}
+
+func LeaveFmailyHandler(c *gin.Context) {
+	userID := c.GetUint("UserID")
+	familyID, _ := strconv.ParseUint(c.Param("id"), 10, 64)
+
+	familyMember := &models.FamilyMember{
+		FamilyID: uint(familyID),
+		UserID:   userID,
+	}
+
+	if err := familyMember.DeleteFamilyMember(); err != nil {
+		c.IndentedJSON(http.StatusBadRequest, err.Error())
+		return
+	}
+
+	c.IndentedJSON(http.StatusNoContent, gin.H{})
 }

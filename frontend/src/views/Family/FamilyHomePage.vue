@@ -8,7 +8,7 @@
         <span class="text-H2 flex-2/3 ">{{ family.familyName }}</span>
       </div>
 
-      <button class="flex-1/3" @click="router.push('/user/family/' + family.familyId + family.familyName)">
+      <button class="flex-1/3" @click="router.push('/user/family/' + family.familyId)">
         <PhCaretRight :size="28" color="#92c700" />
       </button>
 
@@ -57,7 +57,7 @@
   <div class="fixed bottom-5 right-5 flex flex-col items-end space-y-3">
     <!-- 子按鈕容器 -->
     <div v-if="menuOpen" class="flex flex-col items-center space-y-3 -mt-20">
-      <Modal>
+      <Modal ref="modalTemp">
         <template v-slot:open-slot>
           <div class="flex items-center flex-row ">
             <h3 class=" bg-white p-1 rounded mx-2">創建家庭</h3>
@@ -67,14 +67,13 @@
             </div>
           </div>
         </template>
-        <form @submit.prevent="familyStroe.createFamily(familyName)" class=" flex flex-col space-y-5 justify-center">
+        <form @submit.prevent="createFamilyHandler(familyName)" class=" flex flex-col space-y-5 justify-center">
           <span class=" text-H2 text-center">創建家庭</span>
           <div class=" flex flex-col space-y-2">
             <span class=" text-H3">名稱</span>
             <input class="border-2 px-2 outline-none" type="text" v-model="familyName">
           </div>
           <button class="custom-button text-H3 " type="submit">創建</button>
-          
         </form>
       </Modal>
 
@@ -97,19 +96,23 @@
     </button>
   </div>
 </template>
+
 <script setup lang="ts">
 import { PhPlus, PhFolderSimplePlus, PhFolderPlus, PhX, PhCaretRight } from "@phosphor-icons/vue";
 import { inject, onMounted, ref } from "vue";
 import request from "@/axios";
 import Modal from "@/components/modal.vue";
-import HeaderBar from "@/components/headerBar.vue";
+import HeaderBar from "@/components/HeaderBar.vue";
 import router from "@/router";
 import { useFamilyStore } from "@/store/family";
+import { AlertColor, showMsgFunction } from "@/type/ShowMsg";
 const familyName = ref<string>("");
 const familyCode = ref<string>("");
-const showMsg: Function = inject("showMsg")!
+const showMsg: showMsgFunction = inject("showMsg")!
 const familyStroe = useFamilyStore()
 const addF = ref(false);
+const modalTemp = ref();
+
 onMounted(() => {
   (window as any).receiveQRCodeResult = async (result: string) => {
     await joinFmaily(result)
@@ -127,16 +130,23 @@ const openCamera = () => {
 const joinFmaily = async (code: string) => {
   try {
     await familyStroe.joinFamily(code);
-    showMsg("添加成功")
+    showMsg("添加成功", AlertColor.success)
+    modalTemp.value.closeModal()
   } catch (err: any) {
-    showMsg(err)
+    showMsg(err,AlertColor.error)
   }
 
 }
 
 const createFamilyHandler = async (name: string) => {
-  await request.post("/family/" + name)
-  showMsg("創建成功")
+  try {
+    await familyStroe.createFamily(name)
+    modalTemp.value.closeModal()
+    showMsg("創建成功")
+  }catch(err:any) {
+    showMsg(err,AlertColor.error)
+  }
+  
 }
 
 // 控制菜單開關

@@ -44,7 +44,7 @@ func JoinFmaily(UserId uint, code string) error {
 		familyMember := models.FamilyMember{
 			UserID:   UserId,
 			FamilyID: FamilyId,
-			Role:     "測試",
+			Role:     1,
 		}
 
 		if err := familyMember.CreateFamilyMember(); err != nil {

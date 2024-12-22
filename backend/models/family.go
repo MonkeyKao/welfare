@@ -61,8 +61,8 @@ func GetAllFamilyByUserID(userID uint) (string, error) {
 		groupedResults[result.FamilyID]["users"] = append(
 			groupedResults[result.FamilyID]["users"].([]map[string]string),
 			map[string]string{
-				"userName": result.UserName,
-				"role":     result.Role,
+				"user_name": result.UserName,
+				"role":      result.Role,
 			},
 		)
 	}

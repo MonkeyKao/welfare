@@ -1,6 +1,7 @@
 <template>
   <div class="relative overflow-hidden p-3 flex flex-col gap-2" @touchstart="handleTouchStart"
     @touchmove="handleTouchMove" @touchend="handleTouchEnd">
+
     <!-- 左滑的主要內容 -->
     <div :style="{ transform: `translateX(${translateX}px)` }" class="transition-transform duration-300 ">
       <div class="flex justify-between">
@@ -16,6 +17,8 @@
         <div class="flex items-center">
           <PhCircle :size="20" :color="getCanGetColor(props.data.canGet)" weight="fill" class="mr-3 " />
         </div>
+
+        
       </div>
     </div>
 
