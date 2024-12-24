@@ -13,7 +13,7 @@
 
         <transition>
           <div v-if="showRegionDropdown"
-            class="fixed flex flex-col w-1/2 overflow-auto max-h-96 z-30 bg-white rounded-md border border-gray-300 p-3">
+            class="fixed flex flex-col w-1/2 overflow-auto max-h-96 z-10 bg-white rounded-md border border-gray-300 p-3">
             <span v-for="region in 19" class=" select-none text-xl font-bold p-2"
               :class="{ active: getRegionActive(region) }" :key="region" @click="selectRegion(region)">
               {{ getTextByLocation(region) }}
@@ -32,7 +32,7 @@
 
       <Transition>
         <div v-if="showServiceDropdown"
-          class="fixed flex flex-col gap-3 z-30 overflow-auto max-h-96 w-1/2 bor bg-white rounded-md border border-gray-300 p-3">
+          class="fixed flex flex-col gap-3 z-10 overflow-auto max-h-96 w-1/2 bor bg-white rounded-md border border-gray-300 p-3">
           <span v-for="service in 10" class=" select-none text-xl font-bold p-2" :key="service"
             :class="{ active: getServiceActive(service) }" @click="selectService(service)">
             {{ getTextByService(service) }}
@@ -52,7 +52,7 @@
 
     <!-- 下拉選單遮罩用 -->
     <div v-if="showRegionDropdown || showServiceDropdown"
-      class=" h-screen w-screen bg-gray-500 fixed top-0 left-0 z-20 opacity-25 " @click="toggleDropdown"></div>
+      class=" h-screen w-screen bg-slate-300 fixed top-0 left-0 z-5 opacity-0 " @click="toggleDropdown"></div>
   </div>
 
 </template>
