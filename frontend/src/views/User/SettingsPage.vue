@@ -1,7 +1,7 @@
 <template>
   <HeaderBar>設定</HeaderBar>
 
-  <div class="px-8 flex flex-col  mt-4 space-y-8">
+  <div class="mt-[80px] px-4 flex flex-col space-y-8">
     <div v-for="(item, index) in menuItems" :key="index" class="flex items-center" @click="router.push(item.path)">
       <component :is="item.icon" :size="28" color="#4d4d4d" />
       <label class="text-H2 flex ml-3">{{ item.label }}</label>

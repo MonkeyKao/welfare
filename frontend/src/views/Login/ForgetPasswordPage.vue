@@ -6,7 +6,7 @@
 
     <div class="flex-grow">
 
-      <form @submit.prevent class="flex flex-col space-y-10 px-10 mt-3">
+      <form @submit.prevent class="flex flex-col space-y-10 px-6 mt-3">
 
         <div class="flex items-center w-full mt-7 relative">
           <router-link to="/account/login" class="flex-shrink-0">

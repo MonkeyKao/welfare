@@ -1,7 +1,7 @@
 <template>
   <HeaderBar>家庭</HeaderBar>
 
-  <div class="p-4 flex flex-col gap-4">
+  <div class="mt-[70px] p-4 flex flex-col gap-4">
     <div v-for="family in familyStroe.families" @click="router.push('/user/family/' + family.familyId)"
       class="w-full p-3 flex justify-between shadow-md rounded-md">
       <div>

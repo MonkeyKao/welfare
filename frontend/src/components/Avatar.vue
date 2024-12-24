@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col items-center mt-5 text-center">
-    <div class="w-24 h-24 flex justify-center items-center">
+    <div class="w-20 h-20 flex justify-center items-center">
       <!-- 使用 Pinia 存储的头像或默认头像 -->
       <img :src="computedSrc" class="w-full h-full object-cover rounded-full" alt="頭像" />
     </div>

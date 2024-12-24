@@ -3,11 +3,11 @@
     <div>
       <div>
         <HeaderBar>個人資訊</HeaderBar>
-        <div class="flex flex-col justify-center items-center space-y-2">
+        <div class="mt-[70px] flex flex-col justify-center items-center space-y-2">
           <Avatar />          
         </div>
       </div>
-      <div class="flex flex-col space-y-5 m-5 px-3">
+      <div class="flex flex-col space-y-5 my-5 mx-3 px-3">
         <div class="flex space-x-2">
           <label class="flex text-H2 font-bold">姓名</label>
           <label class="flex text-H2 font-bold">:</label>

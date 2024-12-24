@@ -4,14 +4,14 @@
     <headerBar>編輯個人資訊</headerBar>
 
     <!-- 头像部分 -->
-    <div class="flex flex-col bg-white justify-center items-center">
+    <div class="mt-[70px] flex flex-col bg-white justify-center items-center">
       <!-- 用头像触发文件选择 -->
       <div @click="openImagePicker" class="cursor-pointer">
         <Avatar :src="previewUrl" />
       </div>
     </div>
 
-    <div class="flex flex-col items-center px-3 overflow-auto m-2">
+    <div class="flex flex-col items-center px-3 overflow-auto my-2">
       <form @submit.prevent="updataDataHandler(user)" class="flex flex-col w-full h-full p-6 gap-3">
         <div class=" space-y-2">
           <label class="flex text-H2 font-bold">帳號</label>

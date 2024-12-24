@@ -2,11 +2,12 @@
 <template>
   <HeaderBar>常見問題</HeaderBar>
 
-  <div class="flex flex-col mt-4">
+  <div class="mt-[70px] flex flex-col mb-5">
     <div
       v-for="item in QAs"
       :key="item.Id"
       class="mx-8 gap-5 p-4 px-4 mt-3 cursor-pointer border border-gray-300 rounded-lg shadow-md "
+      
       @click="toggle(item.Id)"
     >
       <div class="flex justify-between space-x-1">
@@ -24,12 +25,11 @@
           <PhCaretDown v-if="getIsActive(item.Id)" :size="25" color="#92c700" />
         </span>
       </div>
-
-      <div>
-        <transition name="fade">
+      <div class="">
+        <transition name="fade" class=" ">
           <div
             v-if="getIsActive(item.Id)"
-            class="flex items-start mx-5 pt-5 "
+            class="animate__animated animate__fadeIn  flex items-start mx-5 pt-5 "
           >
             <span class="font-bold">A</span>
             <span class="mx-2">:</span>
@@ -50,6 +50,8 @@ import QA from "@/model/qa";
 import { PhCaretDown, PhCaretRight } from "@phosphor-icons/vue";
 import { ref } from "vue";
 import HeaderBar from "@/components/HeaderBar.vue";
+import 'animate.css';
+
 
 const QAs = ref<QA[]>([]); // 明確指定 QAs 為 QA 型別的陣列
 const openItems = ref<number[]>([]);

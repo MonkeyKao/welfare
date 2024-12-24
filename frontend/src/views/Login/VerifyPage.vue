@@ -5,17 +5,19 @@
   </div>
 
 
-  <form @submit.prevent="sendVerificationCode(verificationCode)" class="flex flex-col space-y-10 px-10 mt-3">
+  <form @submit.prevent="sendVerificationCode(verificationCode)" class="flex flex-col space-y-10 px-6 mt-3">
 
     <div class="flex items-center w-full mt-7 relative">
       <router-link to="/account/register" class="">
-        <PhArrowUUpLeft :size="36" color="#4d4d4d" weight="bold" />
+        <PhArrowUUpLeft :size="36"  weight="bold" />
       </router-link>
       <label class="absolute left-1/2 transform -translate-x-1/2 text-H1 font-bold">寄驗證碼</label>
     </div>
 
-
-    <label class="text-xl font-bold">驗證碼已寄至 {{ maskEmail(email) }}</label>
+    <div class="flex flex-col space-y-2">
+      <label class="text-xl ">驗證碼已寄至 </label>
+      <label class="text-H3">{{ maskEmail(email) }}</label>      
+    </div>
 
     <div class="flex border-2  rounded-md shadow-md p-1 px-3 justify-between">
 

@@ -2,12 +2,12 @@
   <!-- 固定定位的 header，確保圖片維持在最上方 -->
   <div class="flex flex-col h-screen w-full ">
     <div class="flex-shrink-0">
-      <img src="../../images/forgetpassword.jpg" />
+      <img src="../../../public/forgetpassword.jpg" />
     </div>
 
 
 
-    <form @submit.prevent="resetPasswordHandler(password, confirmPassword)" class="flex flex-col space-y-10 px-10 mt-3">
+    <form @submit.prevent="resetPasswordHandler(password, confirmPassword)" class="flex flex-col space-y-10 px-6 mt-3">
 
       <div class="flex items-center w-full mt-7 relative">
         <router-link to="/forgot-password" class="flex-shrink-0">
