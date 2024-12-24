@@ -1,7 +1,7 @@
 <template>
     <!-- 側邊欄 -->
     <div :class="{ 'translate-x-0': showSidebar, 'translate-x-full': !showSidebar }"
-        class="fixed top-0 right-0 space-y-4 w-64 h-full bg-white border-l border-gray-300 shadow-md p-4 transition-transform ease-in-out duration-300 z-10">
+        class="fixed top-0 right-0 space-y-4 w-64 h-full bg-white border-l border-gray-300 shadow-md p-4 transition-transform ease-in-out duration-300 z-30">
         <h3 class="font-bold text-xl text-center">篩選條件</h3>
         <div class="mt-4 space-y-5">
             <p class="text-lg font-bold">年齡</p>
@@ -59,7 +59,7 @@
     </div>
 
     <!-- 遮罩層 -->
-    <div v-if="showSidebar" @click="toggleSidebar" class="fixed top-0 left-0 w-full h-full bg-black opacity-50 z-5">
+    <div v-if="showSidebar" @click="toggleSidebar" class="fixed top-0 left-0 w-full h-full bg-black opacity-50 z-20">
     </div>
 
 
