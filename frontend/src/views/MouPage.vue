@@ -2,7 +2,7 @@
   <div ref="colContainer" class="container mb-20  flex gap-4 flex-col mx-auto p-4 ">
     <!-- 这里是内容区域 -->
   </div>
-
+  
   <div class="fixed bottom-12 w-full z-20">
     <MouInput @click-send-msg="(msg) => reciveAccountMsg(msg)" />
   </div>
@@ -12,23 +12,23 @@
 import { mouRequest } from '@/axios';
 import MouInput from '@/components/MouInput.vue';
 import { AlertColor } from '@/type/ShowMsg';
-import { inject, onMounted, ref, watch } from 'vue';
+import { inject, onMounted, ref, watch, nextTick } from 'vue';
 const showMsg: Function = inject("showMsg")!
 
 const loading = ref<boolean>(false)
 
 const reciveAccountMsg = async (msg: string) => {
   insertAccountMsg(msg)
-  loading.value = true
+  // insertResultTextCard("加載中...")
+  insertHtmlContent("<span>加載中<span class='loading loading-spinner text-success'></span></span>")
   try {
     const result = await sendMessageToModel(msg)
-    insertResultInfCard([{ title: result, url: "home" }])
+    colContainer.value.removeChild(colContainer.value.lastChild as Node)
+    insertResultTextCard(result)
   } catch (error) {
-    showMsg("發生錯誤，請稍後再試",AlertColor.error)
-  } finally {
-    loading.value = false
+    insertResultTextCard("發生錯誤，請重新輸入")
+    
   }
-
 }
 
 let chatID: string = "";
@@ -36,16 +36,6 @@ const getChatId = async () => {
   const result = await mouRequest.get("application/6236a802-a99f-11ef-86e8-0242ac110002/chat/open")
   chatID = result.data.data
 }
-
-watch(() => loading.value, (newVal) => {
-  if (newVal == false) {
-    // 取消載入中提升
-    colContainer.value.removeChild(colContainer.value.lastChild as Node)
-  } else {
-    // 載入中提升
-    insertResultInfCard([{ title: "加載中...", url: "home" }])
-  }
-})
 
 const sendMessageToModel = async (message: string): Promise<string> => {
   const result = await mouRequest.post("/application/chat_message/" + chatID, { "message": message, "re_chat": false, "stream": false })
@@ -93,7 +83,7 @@ const insertServiceCard = (items: Array<{ "id": number, "name": string, "image":
   colDiv.appendChild(imgdiv);
 
   const itemDiv = document.createElement('div');
-  itemDiv.className = 'overflow-x-auto flex space-x-4 ml-4';
+  itemDiv.className = 'overflow-x-auto snap-x flex space-x-4 ml-4';
 
   items.forEach(item => //for迴圈陣列
     itemDiv.appendChild(createServiceCard(item.image, item.name)),
@@ -221,6 +211,58 @@ const ResultInfHandler = (input: Array<string | number>) => {
   // }
 }
 
+const insertResultTextCard = (text:string) => {
+  const colDiv = document.createElement("div");
+  colDiv.className = 'flex items-end';
+
+  const imgdiv = document.createElement("div");
+  imgdiv.className = "relative";
+  imgdiv.appendChild(createAvatar("avatar.jpg"));
+  colDiv.appendChild(imgdiv);
+
+  const itemDiv = document.createElement('div');
+  itemDiv.className = 'px-3 space-y-3';
+  itemDiv.appendChild(createResultTextCard(text))
+  colDiv.appendChild(itemDiv)
+
+  colContainer.value.appendChild(colDiv);
+  setTimeout(() => {
+    colDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 300); // 延遲確保插入完成後再滾動
+}
+
+const createResultTextCard = (text:string) => {
+  const itemDiv = document.createElement('div');
+  itemDiv.className = 'border-b shadow-sm flex items-center justify-center';
+
+  const nameDiv = document.createElement('div');
+  nameDiv.className = "text-H3 ";
+  nameDiv.innerText = text;
+
+  itemDiv.appendChild(nameDiv);  // 將 nameDiv 添加到 itemDiv
+  return itemDiv
+}
+
+const insertHtmlContent = (htmlContent: string) => {
+  const colDiv = document.createElement("div");
+  colDiv.className = 'flex items-end';
+
+  const imgdiv = document.createElement("div");
+  imgdiv.className = "relative";
+  imgdiv.appendChild(createAvatar("avatar.jpg"));
+  colDiv.appendChild(imgdiv);
+
+  const itemDiv = document.createElement('div');
+  itemDiv.className = 'px-3 space-y-3';
+  itemDiv.innerHTML = htmlContent;
+  colDiv.appendChild(itemDiv);
+
+  colContainer.value.appendChild(colDiv);
+  setTimeout(() => {
+    colDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 300); // 延遲確保插入完成後再滾動
+}
+
 // 插入最終篩選資料
 const insertResultInfCard = (items: Array<{ title: string, url: string }>) => {
   const colDiv = document.createElement("div");
@@ -272,7 +314,7 @@ const createResultInfCard = (title: string, url: string) => {
 //創建服務單個卡片
 const createServiceCard = (image: string, name: string) => {
   const itemDiv = document.createElement('div');
-  itemDiv.className = 'flex-none w-40 h-56 text-H3 bold flex flex-col items-center justify-center rounded';
+  itemDiv.className = 'flex-none snap-start w-40 h-56 text-H3 bold flex flex-col items-center justify-center rounded';
 
   // 创建 img 元素并设置属性
   const imgElement = document.createElement('img');
