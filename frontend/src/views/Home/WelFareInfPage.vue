@@ -7,7 +7,7 @@
     </div>
 
     <div class="flex flex-col p-4">
-        <span class=" text-H2 text-center font-bold">{{ welfare.title }}</span>
+        <span class=" text-H2 font-bold">{{ welfare.title }}</span>
         <!--  
         <span class=" text-H3 font-bold">{{ getTextByLocation(welfare.city) }}</span>         
         -->

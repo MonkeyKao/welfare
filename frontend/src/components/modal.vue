@@ -1,9 +1,9 @@
 <template>
 
-    <button v-if="props.showOpenBtn" type="button" class="w-full" @click="openModal">
+    <div v-if="props.showOpenBtn" type="button" class="w-full" @click="openModal">
         <slot name="open-slot">{{ props.openBtnTitle
             }}</slot>
-    </button>
+    </div>
 
 
     <dialog :id="ModalId" class=" z-50 bg-transparent ">
