@@ -26,8 +26,9 @@ func GenrateFmailyQRCode(familyId uint) (string, []byte) {
 			break
 		}
 	}
-
-	png, _ := qrcode.Encode(code, qrcode.Medium, 256)
+	q, _ := qrcode.New(code, qrcode.Medium)
+	q.DisableBorder = true
+	png, _ := q.PNG(200)
 
 	go func(code string) {
 		time.Sleep(time.Minute * 5)
