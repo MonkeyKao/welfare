@@ -11,7 +11,8 @@
 <script setup lang="ts">
 import { mouRequest } from '@/axios';
 import MouInput from '@/components/MouInput.vue';
-import { inject, onMounted, ref } from 'vue';
+import { AlertColor } from '@/type/ShowMsg';
+import { inject, onMounted, ref, watch } from 'vue';
 const showMsg: Function = inject("showMsg")!
 
 const loading = ref<boolean>(false)
@@ -19,18 +20,32 @@ const loading = ref<boolean>(false)
 const reciveAccountMsg = async (msg: string) => {
   insertAccountMsg(msg)
   loading.value = true
-  const result = await sendMessageToModel(msg)
-  insertResultInfCard([{ title: result, url: "home" }])
+  try {
+    const result = await sendMessageToModel(msg)
+    insertResultInfCard([{ title: result, url: "home" }])
+  } catch (error) {
+    showMsg("發生錯誤，請稍後再試",AlertColor.error)
+  } finally {
+    loading.value = false
+  }
 
 }
-
 
 let chatID: string = "";
 const getChatId = async () => {
   const result = await mouRequest.get("application/6236a802-a99f-11ef-86e8-0242ac110002/chat/open")
   chatID = result.data.data
-
 }
+
+watch(() => loading.value, (newVal) => {
+  if (newVal == false) {
+    // 取消載入中提升
+    colContainer.value.removeChild(colContainer.value.lastChild as Node)
+  } else {
+    // 載入中提升
+    insertResultInfCard([{ title: "加載中...", url: "home" }])
+  }
+})
 
 const sendMessageToModel = async (message: string): Promise<string> => {
   const result = await mouRequest.post("/application/chat_message/" + chatID, { "message": message, "re_chat": false, "stream": false })
