@@ -1,6 +1,6 @@
 <template>
 
-    <button v-if="props.showOpenBtn" type="button" class="" @click="openModal">
+    <button v-if="props.showOpenBtn" type="button" class="w-full" @click="openModal">
         <slot name="open-slot">{{ props.openBtnTitle
             }}</slot>
     </button>
@@ -11,8 +11,8 @@
         <div class="rounded-lg bg-white p-6">
             <slot></slot>
             <div class="modal-action justify-center">
-                <form class="flex" method="dialog">                  
-                    <button @click="emit('onClickConfirm')" class=" text-[#D06262]">{{ closeBtnTitle ? closeBtnTitle :
+                <form class="flex" method="dialog">
+                    <button @click="closeModal();emit('onClickConfirm')" class=" text-[#D06262]">{{ closeBtnTitle ? closeBtnTitle :
                         '取消' }}</button>
                 </form>
             </div>
@@ -54,12 +54,12 @@ const openModal = () => {
 };
 
 const closeModal = () => {
-  const modalDom = document.getElementById(ModalId) as HTMLDialogElement;
-  if (modalDom) {
-    modalDom.close();
-  } else {
-    console.error(`Modal with id ${ModalId} not found`);
-  }
+    const modalDom = document.getElementById(ModalId) as HTMLDialogElement;
+    if (modalDom) {
+        modalDom.close();
+    } else {
+        console.error(`Modal with id ${ModalId} not found`);
+    }
 }
 
 defineExpose({

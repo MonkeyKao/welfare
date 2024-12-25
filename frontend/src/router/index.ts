@@ -25,7 +25,6 @@ import QAPage from "@/views/User/QAPage.vue";
 import SettingsPage from "@/views/User/SettingsPage.vue";
 
 // 家庭頁面
-import FamilyInfPage from "@/views/Family/FamilyInfPage.vue";
 import FamilyHomePage from "@/views/Family/FamilyHomePage.vue";
 import FamilySettingPage from "@/views/Family/FamilySettingPage.vue";
 
@@ -100,12 +99,6 @@ const UserRoutes: Array<RouteRecordRaw> = [
     name: "PersonalDataPage",
     component: PersonalDataPage,
     meta: { needLogin: true, showBottomBar: false },
-  },
-  {
-    path: "/user/family/:id",
-    name: "FamilyInfPage",
-    component: FamilyInfPage,
-    meta: { needLogin: true, showBottomBar: false }
   },
   {
     path: "/user/family",

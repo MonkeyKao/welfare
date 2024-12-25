@@ -1,10 +1,12 @@
 <template>
   <div>
-    <div class="flex flex-col">
-      <span class="text-H3">剩餘有效時間:{{ formattedTime }}</span>
-      <span class="text-H3">代碼:{{ code }}</span>
-      <img :src="qrCodeUrl" alt="QR Code" />
-      
+    <div class="flex flex-col items-center">
+      <div class="p-5 flex flex-col items-center">
+        <span class="text-H3">剩餘有效時間:{{ formattedTime }}</span>
+        <span class="text-H3">代碼:{{ code }}</span>
+      </div>
+
+      <img :src="qrCodeUrl" alt="QR Code" class="qr-code" />
     </div>
   </div>
 </template>
@@ -33,9 +35,9 @@ const formattedTime = computed(() => {
   return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
 });
 
-const fetchQRCode = async (id:number) => {
+const fetchQRCode = async (id: number) => {
   try {
-    const response = await request.get('/family/bind/'+id);
+    const response = await request.get('/family/bind/' + id);
     const data = response.data;
 
     // 更新 QR code 和 code
@@ -59,3 +61,6 @@ const fetchQRCode = async (id:number) => {
 
 
 </script>
+
+<style scoped>
+</style>

@@ -2,13 +2,13 @@
   <HeaderBar>家庭</HeaderBar>
 
   <div class="mt-[70px] p-4 flex flex-col gap-4">
-    <div v-for="family in familyStroe.families" @click="router.push('/user/family/' + family.familyId)"
+    <div v-for="family in familyStroe.families" @click="router.push('/user/family/setting/' + family.familyId)"
       class="w-full p-3 flex justify-between shadow-md rounded-md">
       <div>
         <span class="text-H2 flex-2/3 ">{{ family.familyName }}</span>
       </div>
 
-      <button class="flex-1/3" @click="router.push('/user/family/' + family.familyId)">
+      <button class="flex-1/3" @click="router.push('/user/family/setting/' + family.familyId)">
         <PhCaretRight :size="28" color="#92c700" />
       </button>
 
