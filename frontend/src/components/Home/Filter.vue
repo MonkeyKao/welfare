@@ -40,6 +40,23 @@
         </div>
       </Transition>
 
+      <div class="flex items-center" @click="toggleFamilyDropdown">
+        <p class="text-l">{{ selectedFamily.length === 0 ? "家庭" : "家庭(" + selectedFamily.length + ")" }}</p>
+        <PhCaretDown :size="32" class="menu ml-1 transition-transform" :class="{ 'rotate-180': showFamilyDropdown }" />
+      </div>
+
+
+      <Transition>
+        <div v-if="showFamilyDropdown"
+          class="fixed flex flex-col gap-3 z-10 overflow-auto max-h-96 w-1/2 bor bg-white rounded-md border border-gray-300 p-3">
+          <span v-for="family in userData.Families" class=" select-none text-xl font-bold p-2" :key="family.familyId"
+            :class="{ active: getFamilyActive(family.familyId) }" @click="selectFamily(family.familyId)">
+            {{ family.FamilyName }}
+            
+          </span>
+        </div>
+      </Transition>
+
 
     </div>
 
@@ -48,41 +65,43 @@
       <span>篩選</span>
     </div>
 
-    <SideBar @select-status="(status) => emit('selectStatus',status)" ref="SideBarTemp"></SideBar>
+    <SideBar @select-status="(status) => emit('selectStatus', status)" ref="SideBarTemp"></SideBar>
 
     <!-- 下拉選單遮罩用 -->
-    <div v-if="showRegionDropdown || showServiceDropdown"
+    <div v-if="showRegionDropdown || showServiceDropdown || showFamilyDropdown"
       class=" h-screen w-screen bg-slate-300 fixed top-0 left-0 z-5 opacity-0 " @click="toggleDropdown"></div>
   </div>
-
 </template>
 
 <script setup lang="ts">
 import { getTextByLocation, getTextByService } from '@/utils/getTextByNumber';
 import { PhCaretDown, PhHourglass, PhCheck } from '@phosphor-icons/vue';
 import SideBar from './SideBar.vue';
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
+import { useUserStore } from '@/store/userStroe';
 let showRegionDropdown = ref<boolean>(false);
 let showServiceDropdown = ref<boolean>(false);
+let showFamilyDropdown = ref<boolean>(false);
+
+const userStore = useUserStore();
+const userData = computed(() => userStore.user)
 
 const SideBarTemp = ref();
 
 const selectedRegion = ref<Array<number>>([])
 const selectedService = ref<Array<number>>([])
+const selectedFamily = ref<Array<number>>([])
 
-const emit = defineEmits(['selectRegion', 'selectService','selectStatus'])
+const emit = defineEmits(['selectRegion', 'selectService', 'selectStatus', 'selectFamily'])
 
 const toggleRegionDropdown = () => {
   showRegionDropdown.value = !showRegionDropdown.value; // 切換狀態
-  if (showRegionDropdown.value) {
-    showServiceDropdown.value = false; // 關閉服務下拉選單
-  }
 }
 const toggleServiceDropdown = () => {
   showServiceDropdown.value = !showServiceDropdown.value; // 切換狀態
-  if (showServiceDropdown.value) {
-    showRegionDropdown.value = false; // 關閉地區下拉選單
-  }
+}
+const toggleFamilyDropdown = () => {
+  showFamilyDropdown.value = !showFamilyDropdown.value; // 切換狀態
 }
 const selectRegion = (region: number) => {
   const index: number = selectedRegion.value.indexOf(region)
@@ -113,9 +132,24 @@ const getServiceActive = (region: number): boolean => {
   return selectedService.value.indexOf(region) !== -1
 }
 
+const selectFamily = (familyID: number) => {
+  const index: number = selectedFamily.value.indexOf(familyID)
+  if (index === -1) {
+    selectedFamily.value.push(familyID)
+  } else {
+    selectedFamily.value.splice(index, 1);
+  }
+  emit('selectFamily', selectedFamily.value)
+}
+
+const getFamilyActive = (familyId: number): boolean => {
+  return selectedFamily.value.indexOf(familyId) !== -1
+}
+
 const toggleDropdown = () => {
   showRegionDropdown.value = false
   showServiceDropdown.value = false
+  showFamilyDropdown.value = false
 }
 </script>
 

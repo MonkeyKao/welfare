@@ -28,9 +28,10 @@ import { useFavoriteStore } from '@/store/favorite';
 import { AlertColor, showMsgFunction } from '@/type/ShowMsg';
 import { isAxiosError } from 'axios';
 import request from '@/axios';
+import { useUserStore } from '@/store/userStroe';
 
 const showMsg: showMsgFunction = inject("showMsg")!
-
+const userStore = useUserStore();
 const favoriteStore = useFavoriteStore();
 const favoriteData = computed(() => favoriteStore.favorites)
 
@@ -122,6 +123,8 @@ watch(searchCondition, async () => {
 // 初始加载数据
 onMounted(() => {
   getWelfare();
+  console.log(userStore.user);
+  
 });
 </script>
 

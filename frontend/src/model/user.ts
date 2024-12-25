@@ -1,3 +1,5 @@
+import Family from "./family";
+
 export default class User {
     ID: number;
     account: string;
@@ -8,6 +10,7 @@ export default class User {
     location: number;
     email: string;
     avatar: string;
+    Families: Family[];
 
     constructor(
         ID: number = 0,
@@ -18,7 +21,8 @@ export default class User {
         female: number = 0,
         location: number = 0,
         email: string = "",
-        avatar: string = ""
+        avatar: string = "",
+        Families: Family[] = []
     ) {
         this.ID = ID;
         this.account = account;
@@ -28,6 +32,7 @@ export default class User {
         this.female = female;
         this.location = location;
         this.email = email;
-        this.avatar = avatar
+        this.avatar = avatar;
+        this.Families = Families;
     }
 }
