@@ -61,7 +61,7 @@ const closeModal = () => {
         console.error(`Modal with id ${ModalId} not found`);
     }
 }
-
+// 定義
 defineExpose({
     openModal,
     closeModal

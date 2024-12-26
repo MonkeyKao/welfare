@@ -67,7 +67,7 @@
 </template>
 
 <script setup lang="ts">
-import { useUserStore } from '@/store/userStroe';
+import { useUserStore } from '@/store/userStore';
 import { PhCheck } from '@phosphor-icons/vue';
 import { onMounted, ref } from 'vue';
 

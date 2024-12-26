@@ -21,7 +21,7 @@
 import { computed, onMounted, ref } from 'vue';
 import { PhHeartStraight, PhUserSquare } from '@phosphor-icons/vue';
 import router from '@/router';
-import { useFavoriteStore } from '@/store/favorite';
+import { useFavoriteStore } from '@/store/favoriteStore';
 import HeaderBar from '@/components/headerBar.vue';
 const favoriteStore = useFavoriteStore()
 const favoriteData = computed(() => favoriteStore.favorites)

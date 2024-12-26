@@ -78,7 +78,7 @@ import { getTextByLocation, getTextByService } from '@/utils/getTextByNumber';
 import { PhCaretDown, PhHourglass, PhCheck } from '@phosphor-icons/vue';
 import SideBar from './SideBar.vue';
 import { computed, ref } from 'vue';
-import { useUserStore } from '@/store/userStroe';
+import { useUserStore } from '@/store/userStore';
 let showRegionDropdown = ref<boolean>(false);
 let showServiceDropdown = ref<boolean>(false);
 let showFamilyDropdown = ref<boolean>(false);

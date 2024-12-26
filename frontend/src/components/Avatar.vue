@@ -8,7 +8,7 @@
 </template>
 
 <script setup lang="ts">
-import { useUserStore } from "@/store/userStroe";
+import { useUserStore } from "@/store/userStore";
 import { computed } from "vue";
 
 const userStore = useUserStore();

@@ -63,7 +63,7 @@
 <script setup lang="ts">
 import Avatar from "@/components/Avatar.vue";
 import User from "@/model/user";
-import { useUserStore } from "@/store/userStroe";
+import { useUserStore } from "@/store/userStore";
 import { getTextByGender, getTextByLocation } from "@/utils/getTextByNumber";
 import { PhArrowUUpLeft } from "@phosphor-icons/vue";
 import { computed, onMounted, ref } from "vue";
@@ -72,7 +72,7 @@ import {
   PhPencilLine,
 } from "@phosphor-icons/vue";
 import router from "@/router";
-import { useFavoriteStore } from "@/store/favorite";
+import { useFavoriteStore } from "@/store/favoriteStore";
 import HeaderBar from "@/components/HeaderBar.vue";
 const userStore = useUserStore()
 const favoriteStore = useFavoriteStore()

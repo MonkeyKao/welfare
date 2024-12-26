@@ -71,7 +71,7 @@
 import Avatar from "@/components/Avatar.vue";
 import User from "@/model/user";
 import router from "@/router";
-import { useUserStore } from "@/store/userStroe";
+import { useUserStore } from "@/store/userStore";
 import { getTextByLocation } from "@/utils/getTextByNumber";
 import { PhSealCheck,PhSeal } from "@phosphor-icons/vue";
 import { ref, watch  } from "vue";

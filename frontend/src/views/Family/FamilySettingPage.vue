@@ -42,7 +42,7 @@
         <div class="border-2 mt-5 border-gray-100 "></div>
 
         <div class=" flex flex-col-reverse items-start mx-5">
-            <span v-if="family.users.find((item) => item.role == 3).user_name === userStore.user.name"
+            <span v-if="family.users.find((item) => item.role == 3)?.user_name === userStore.user.name"
                 @click="deleteFamily(Number(route.params.id))" class="  w-full text-H3 py-3 text-center text-[#D06262]">
                 刪除家庭
             </span>
@@ -60,14 +60,14 @@
 
 <script setup lang="ts">
 import router from '@/router';
-import { useFamilyStore } from '@/store/family';
+import { useFamilyStore } from '@/store/familyStore';
 import { inject, onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import QRCODE from '@/components/QRCODE.vue';
 import { PhArrowUUpLeft, PhCaretRight, PhX } from "@phosphor-icons/vue";
 import { AlertColor, showMsgFunction } from '@/type/ShowMsg';
 import Family from '@/model/family';
-import { useUserStore } from '@/store/userStroe';
+import { useUserStore } from '@/store/userStore';
 import HeaderBar from '@/components/HeaderBar.vue';
 import Modal from '@/components/modal.vue';
 const showMsg: showMsgFunction = inject("showMsg")!

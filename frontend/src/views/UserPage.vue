@@ -27,7 +27,7 @@
 import Avatar from "@/components/Avatar.vue";
 import User from "@/model/user";
 import router from "@/router";
-import { useUserStore } from "@/store/userStroe";
+import { useUserStore } from "@/store/userStore";
 import {
   PhGear,
   PhQuestion,

@@ -55,7 +55,7 @@
 import { getTextByLocation, getTextByService } from "@/utils/getTextByNumber";
 import { PhHeartStraight, PhCircle, PhShareFat } from "@phosphor-icons/vue";
 import { computed, ref } from "vue";
-import { useFavoriteStore } from "@/store/favorite";
+import { useFavoriteStore } from "@/store/favoriteStore";
 import router from "@/router";
 
 const props = defineProps(["data"]);

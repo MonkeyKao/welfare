@@ -81,7 +81,7 @@ import Avatar from "@/components/Avatar.vue";
 import { PhSealCheck, PhSeal } from "@phosphor-icons/vue";
 import { computed, onMounted, ref } from "vue";
 import { getTextByLocation } from "@/utils/getTextByNumber";
-import { useUserStore } from "@/store/userStroe";
+import { useUserStore } from "@/store/userStore";
 
 import { DatePicker as VDatePicker } from 'v-calendar';
 import headerBar from "@/components/HeaderBar.vue";

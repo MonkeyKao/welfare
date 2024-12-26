@@ -100,11 +100,10 @@
 <script setup lang="ts">
 import { PhPlus, PhFolderSimplePlus, PhFolderPlus, PhX, PhCaretRight } from "@phosphor-icons/vue";
 import { inject, onMounted, ref } from "vue";
-import request from "@/axios";
-import Modal from "@/components/modal.vue";
+import Modal from "@/components/Modal.vue";
 import HeaderBar from "@/components/HeaderBar.vue";
 import router from "@/router";
-import { useFamilyStore } from "@/store/family";
+import { useFamilyStore } from "@/store/familyStore";
 import { AlertColor, showMsgFunction } from "@/type/ShowMsg";
 const familyName = ref<string>("");
 const familyCode = ref<string>("");

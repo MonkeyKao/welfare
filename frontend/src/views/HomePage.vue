@@ -24,11 +24,11 @@ import Welfare from '@/model/welfare';
 import { ref, computed, inject, watch, onMounted } from 'vue';
 import TopNav from '@/components/Home/TopNav.vue';
 import HomeInsideCard from '@/components/Home/HomeInsideCard.vue';
-import { useFavoriteStore } from '@/store/favorite';
+import { useFavoriteStore } from '@/store/favoriteStore';
 import { AlertColor, showMsgFunction } from '@/type/ShowMsg';
 import { isAxiosError } from 'axios';
 import request from '@/axios';
-import { useUserStore } from '@/store/userStroe';
+import { useUserStore } from '@/store/userStore';
 
 const showMsg: showMsgFunction = inject("showMsg")!
 const userStore = useUserStore();

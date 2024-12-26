@@ -32,5 +32,6 @@ import { PhArrowUUpLeft } from "@phosphor-icons/vue";
 
   .forgot-password-link {
     cursor: pointer; /* 點擊手勢 */
+    /* 123 */
   }
 </style>
