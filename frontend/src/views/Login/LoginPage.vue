@@ -77,6 +77,7 @@ import request from "@/axios";
 import router from "@/router";
 import { useUserStore } from "@/store/userStore";
 import { useFamilyStore } from "@/store/familyStore";
+import { useFavoriteStore } from "@/store/favoriteStore";
 import { AlertColor, showMsgFunction } from "@/type/ShowMsg";
 import { getVaildMessage, isVaildError } from "@/utils/vaild";
 import {
@@ -94,6 +95,7 @@ import { inject, ref } from "vue";
 const showMsg: showMsgFunction = inject("showMsg")!
 const userStroe = useUserStore();
 const familyStore = useFamilyStore();
+const favoriteStroe = useFavoriteStore();
 class form {
   account: string = "";
   password: string = "";
@@ -126,8 +128,10 @@ const loginHandler = async (user: form) => {
     await validate.async(user, constraints)
     const result = await request.post("users/doLogin", JSON.stringify(user));
     localStorage.setItem(result.data.tokenName, result.data.tokenValue);
+    
     await userStroe.fetchUser();
     await familyStore.fetchFamily();
+    await favoriteStroe.fetchFavorite();
     router.push("/home");
   } catch (err: unknown) {
     if (isAxiosError(err)) {
