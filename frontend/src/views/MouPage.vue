@@ -30,7 +30,7 @@ const reciveAccountMsg = async (msg: string) => {
 
     setTimeout(() => {
       colContainer.value.removeChild(colContainer.value.lastChild as Node)
-      insertResultTextCard("我是阿哞,一個專注于全臺灣福利諮詢服務的專業人工智慧。我致力於為想申請福利的人們提供專業的個性化的諮詢服務。我的工作內容主要透過智慧適配性分析，快速幫您篩選出您可以申請最符合您需求的福利")
+      insertResultTextCard("我是阿哞，一個專注於全臺灣福利諮詢服務的專業人工智慧。我致力於為想申請福利的人們提供專業的個性化的諮詢服務。我的工作內容主要透過智慧適配性分析，快速幫您篩選出您可以申請最符合您需求的福利")
     }, 1000)
   } catch (error) {
     insertResultTextCard("發生錯誤，請重新輸入")
@@ -229,15 +229,15 @@ const ResultInfHandler = async (input: Array<string | number>) => {
 
 const insertResultTextCard = (text: string) => {
   const colDiv = document.createElement("div");
-  colDiv.className = 'flex items-end';
+  colDiv.className = 'flex items-end ';
 
   const imgdiv = document.createElement("div");
-  imgdiv.className = "relative";
+  imgdiv.className = "relative ";
   imgdiv.appendChild(createAvatar("avatar.jpg"));
   colDiv.appendChild(imgdiv);
 
   const itemDiv = document.createElement('div');
-  itemDiv.className = 'px-3 space-y-3';
+  itemDiv.className = 'px-5 space-y-5 leading-loose';
   itemDiv.appendChild(createResultTextCard(text))
   colDiv.appendChild(itemDiv)
 
@@ -306,7 +306,7 @@ const insertResultInfCard = (items: Array<{ title: string, id: number }>) => {
 
 const createResultInfCard = (title: string, url: string) => {
   const itemDiv = document.createElement('div');
-  itemDiv.className = 'border-b shadow-sm flex items-center justify-center';
+  itemDiv.className = 'border-b shadow-sm flex items-center justify-start ';
   itemDiv.addEventListener('click', () => {
     router.push({ path: `/welfare/${url}` })
   });
@@ -358,7 +358,7 @@ const createAvatar = (image: string) => {
   const AvatarDiv = document.createElement('div');
   AvatarDiv.className = 'flex-none w-10 h-10 bg-blue-500 text-white flex flex-col items-center justify-center rounded';
   AvatarDiv.innerHTML = `
-        <img src="${image}" class="w-10 h-10 object-cover rounded-t-md" />
+        <img src="mouHead.jpg" class="w-10 h-10 object-cover rounded-t-md" />
       `;
   return AvatarDiv;
 }
@@ -369,8 +369,8 @@ onMounted(() => {
 })
 
 const ewlfareitems = ref([
-  { id: 1, name: '家庭與育兒福利', image: 'login.jpg' },
-  { id: 2, name: '教育福利', image: 'password.jpg' },
+  { id: 1, name: '家庭與育兒福利', image: 'baby.jpg' },
+  { id: 2, name: '教育福利', image: 'school.jpg' },
   { id: 3, name: '健康與醫療福利', image: 'login.jpg' },
   { id: 4, name: '老人與退休福利', image: 'password.jpg' },
   { id: 5, name: '低收入戶與弱勢族群', image: 'login.jpg' },
