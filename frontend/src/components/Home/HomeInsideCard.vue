@@ -15,9 +15,9 @@
           <p class="text-base font-semibold basis-3/4">{{ props.data.title }}</p>
           <!-- 圖片列表 -->
           <div class="avatar-group -space-x-2 rtl:space-x-reverse">
-            <div v-for="(item, index) in people" :key="index" class="avatar">
+            <div v-for="index in Math.floor(Math.random() * 4)" :key="index" class="avatar">
               <div class="w-4">
-                <img :src="item.image" alt="Avatar" />
+                <img :src="images[Math.floor(Math.random() * 6)]" alt="Avatar" />
               </div>
             </div>
           </div>
@@ -64,6 +64,8 @@ const emit = defineEmits(["clickFavorited"]);
 const favoriteStore = useFavoriteStore();
 const favoriteData = computed(() => favoriteStore.favorites);
 
+const images = ["/avatar01.png","/avatar02.png","/avatar03.png","/avatar04.png","/avatar05.png","/avatar06.png"];
+
 const isSwiped = ref(false); // 控制隱藏按鈕顯示
 const startX = ref(0); // 初始觸控點
 const translateX = ref(0); // 內容的偏移量
@@ -81,12 +83,9 @@ const handleSecondButtonClick = () => { // 點擊分享
   console.log("分享被點擊了！");
 };
 
-const people = [
-  { image:"../../../public/logo.png",name:" 大哥"},
-  { image:"../../../public/password.jpg",name:" 猴子"},
-  { image:"../../../public/forgetpassword.jpg",name:" 子芸"},
-  { image:"../../../public/login.jpg",name:" 茹茵"},
-];
+const getImageSrc = (index: number) => {
+  return images[index % images.length];
+};
 
 // 判斷紅綠燈
 const getCanGetColor = (canGet: number): string => {
