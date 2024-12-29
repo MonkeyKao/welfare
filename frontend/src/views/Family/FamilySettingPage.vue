@@ -9,9 +9,12 @@
         </div>
 
         <div class="flex space-x-3 overflow-x-auto mt-4 mx-3">
-            <div v-for="user of family.users" class="flex-shrink-0 items-center justify-center">
-                <img src="../../../public/logo.png" alt="家庭圖片" class="w-16">
-                <span class="text-center block text-H4">{{ user.user_name }}</span>
+            <div v-for="(item, index) in people" :key="index" class="avatar flex flex-col items-center">
+                <div class="w-12 h-12 rounded-lg overflow-hidden">
+                    <img :src="item.image" alt="Avatar" />
+
+                </div>
+                <span>{{ item.name }}</span>
             </div>
         </div>
         <div class="border-2 mt-5 border-gray-100 "></div>
@@ -30,8 +33,8 @@
 
             </div>
 
-            <div class="w-full text-H3 py-3" @click="showQRCODE=true">
-                <Modal  close-btn-title="關閉" @on-click-confirm="showQRCODE=false" open-btn-title="產生QRCODE">
+            <div class="w-full text-H3 py-3" @click="showQRCODE = true">
+                <Modal close-btn-title="關閉" @on-click-confirm="showQRCODE = false" open-btn-title="產生QRCODE">
                     <span class="text-H2 font-bold text-center">掃描QRCode加入家庭</span>
                     <QRCODE v-if="showQRCODE"></QRCODE>
                 </Modal>
@@ -76,6 +79,12 @@ const route = useRoute()
 const familyStore = useFamilyStore();
 const family = ref<Family>()
 const userStore = useUserStore()
+
+const people = [
+    { image: "../../../public/mao.jpg", name: "劉采沅" },
+    { image: "../../../public/liao.jpg", name: "廖柏安" },
+    { image: "../../../public/yun.jpg", name: "林子芸" },
+];
 
 const toggleQrcode = () => {
     showQRCODE.value = !showQRCODE.value

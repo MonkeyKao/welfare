@@ -4,7 +4,7 @@
 
       <div class="flex items-center flex-grow bg-gray-50 rounded-lg p-1 border border-gray-300">
         <PhMagnifyingGlass size="24" color="#9ca3af" class="icon-search" />
-        <input v-model="searchText" type="text" placeholder="Ex.租屋補助"
+        <input v-model="searchText" type="text" placeholder="Ex.租屋補助、老人年金"
           class="p-1 w-full text-base bg-transparent border-none outline-none" />
       </div>
 

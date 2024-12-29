@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
- 
 <network-security-config>
- 
+    <!-- 開啟所有流量的清除文本 (HTTP) -->
     <domain-config cleartextTrafficPermitted="true">
         <domain includeSubdomains="true">192.168.0.239</domain>
         <domain includeSubdomains="true">172.20.10.2</domain>
-        <domain includeSubdomains="true">172.16.72.83:5000</domain>
-        <domain includeSubdomains="true">http://127.0.0.1:5000</domain>
-        
+        <domain includeSubdomains="true">172.16.72.83</domain>
+        <domain includeSubdomains="true">127.0.0.1</domain>
+        <domain includeSubdomains="true">192.168.0.158</domain><!--毛-->
     </domain-config>
- 
 </network-security-config>

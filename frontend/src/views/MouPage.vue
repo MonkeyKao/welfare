@@ -217,7 +217,7 @@ const insertResultTextCard = (text:string) => {
 
   const imgdiv = document.createElement("div");
   imgdiv.className = "relative";
-  imgdiv.appendChild(createAvatar("avatar.jpg"));
+  imgdiv.appendChild(createAvatar("logo.png"));
   colDiv.appendChild(imgdiv);
 
   const itemDiv = document.createElement('div');
@@ -249,7 +249,7 @@ const insertHtmlContent = (htmlContent: string) => {
 
   const imgdiv = document.createElement("div");
   imgdiv.className = "relative";
-  imgdiv.appendChild(createAvatar("avatar.jpg"));
+  imgdiv.appendChild(createAvatar("logo.png"));
   colDiv.appendChild(imgdiv);
 
   const itemDiv = document.createElement('div');
@@ -270,7 +270,7 @@ const insertResultInfCard = (items: Array<{ title: string, url: string }>) => {
 
   const imgdiv = document.createElement("div");
   imgdiv.className = "relative";
-  imgdiv.appendChild(createAvatar("avatar.jpg"));
+  imgdiv.appendChild(createAvatar("logo.png"));
   colDiv.appendChild(imgdiv);
 
   const itemDiv = document.createElement('div');
@@ -350,7 +350,7 @@ const createAvatar = (image: string) => {
   const AvatarDiv = document.createElement('div');
   AvatarDiv.className = 'flex-none w-10 h-10 bg-blue-500 text-white flex flex-col items-center justify-center rounded';
   AvatarDiv.innerHTML = `
-        <img src="${image}" class="w-10 h-10 object-cover rounded-t-md" />
+        <img src="mouHead.jpg" class="w-10 h-10 object-cover bg-white rounded-t-md" />
       `;
   return AvatarDiv;
 }
@@ -361,8 +361,8 @@ onMounted(() => {
 })
 
 const ewlfareitems = ref([
-  { id: 1, name: '家庭與育兒福利', image: 'login.jpg' },
-  { id: 2, name: '教育福利', image: 'password.jpg' },
+  { id: 1, name: '家庭與育兒福利', image: 'baby.jpg' },
+  { id: 2, name: '教育福利', image: 'school.jpg' },
   { id: 3, name: '健康與醫療福利', image: 'login.jpg' },
   { id: 4, name: '老人與退休福利', image: 'password.jpg' },
   { id: 5, name: '低收入戶與弱勢族群', image: 'login.jpg' },
