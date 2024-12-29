@@ -2,15 +2,17 @@
   <div ref="colContainer" class="container mb-20  flex gap-4 flex-col mx-auto p-4 ">
     <!-- 这里是内容区域 -->
   </div>
-  
+
   <div class="fixed bottom-12 w-full z-20">
     <MouInput @click-send-msg="(msg) => reciveAccountMsg(msg)" />
   </div>
 </template>
 
 <script setup lang="ts">
-import { mouRequest } from '@/axios';
+import request, { mouRequest } from '@/axios';
 import MouInput from '@/components/MouInput.vue';
+import Welfare from '@/model/welfare';
+import router from '@/router';
 import { AlertColor } from '@/type/ShowMsg';
 import { inject, onMounted, ref, watch, nextTick } from 'vue';
 const showMsg: Function = inject("showMsg")!
@@ -22,12 +24,17 @@ const reciveAccountMsg = async (msg: string) => {
   // insertResultTextCard("加載中...")
   insertHtmlContent("<span>加載中<span class='loading loading-spinner text-success'></span></span>")
   try {
-    const result = await sendMessageToModel(msg)
-    colContainer.value.removeChild(colContainer.value.lastChild as Node)
-    insertResultTextCard(result)
+    // const result = await sendMessageToModel(msg)
+    // colContainer.value.removeChild(colContainer.value.lastChild as Node)
+    // insertResultTextCard(result)
+
+    setTimeout(() => {
+      colContainer.value.removeChild(colContainer.value.lastChild as Node)
+      insertResultTextCard("我是阿哞,一個專注于全臺灣福利諮詢服務的專業人工智慧。我致力於為想申請福利的人們提供專業的個性化的諮詢服務。我的工作內容主要透過智慧適配性分析，快速幫您篩選出您可以申請最符合您需求的福利")
+    }, 1000)
   } catch (error) {
     insertResultTextCard("發生錯誤，請重新輸入")
-    
+
   }
 }
 
@@ -201,17 +208,26 @@ const clickPlaceHandler = (name: string) => {
 }
 
 // 最終資料處理方法
-const ResultInfHandler = (input: Array<string | number>) => {
-  // welfareStroe.getWelfare([1, 2, 3, 4, 5], [1, 2, 3, 4, 5])
-  // const result = welfareStroe.getWelfare([Number(input[0])], [Number(input[3])])
-  // if (result.length > 0) {
-  //   insertResultInfCard(result)
-  // } else {
-  //   insertResultInfCard([{ title: "未找到相關福利\n點擊返回主界面", url: "home" }])
-  // }
+const ResultInfHandler = async (input: Array<string | number>) => {
+  try {
+    const result = await request.get("/welfare", {
+      params: {
+        category: Number(input[0]),
+        city: Number(input[3])
+      }
+    })
+    const welfare: Welfare[] = result.data
+    if (welfare.length > 0) {
+      insertResultInfCard(welfare)
+    } else {
+      insertResultTextCard("未找到相關福利")
+    }
+  } catch (error) {
+    insertResultTextCard("發生錯誤，請重新輸入")
+  }
 }
 
-const insertResultTextCard = (text:string) => {
+const insertResultTextCard = (text: string) => {
   const colDiv = document.createElement("div");
   colDiv.className = 'flex items-end';
 
@@ -231,7 +247,7 @@ const insertResultTextCard = (text:string) => {
   }, 300); // 延遲確保插入完成後再滾動
 }
 
-const createResultTextCard = (text:string) => {
+const createResultTextCard = (text: string) => {
   const itemDiv = document.createElement('div');
   itemDiv.className = 'border-b shadow-sm flex items-center justify-center';
 
@@ -264,7 +280,7 @@ const insertHtmlContent = (htmlContent: string) => {
 }
 
 // 插入最終篩選資料
-const insertResultInfCard = (items: Array<{ title: string, url: string }>) => {
+const insertResultInfCard = (items: Array<{ title: string, id: number }>) => {
   const colDiv = document.createElement("div");
   colDiv.className = 'flex items-end';
 
@@ -277,7 +293,7 @@ const insertResultInfCard = (items: Array<{ title: string, url: string }>) => {
   itemDiv.className = 'px-3 space-y-3';
 
   items.forEach(item => //for迴圈陣列
-    itemDiv.appendChild(createResultInfCard(item.title, item.url)),
+    itemDiv.appendChild(createResultInfCard(item.title, item.id.toString())),
     colDiv.appendChild(itemDiv)
   );
 
@@ -292,15 +308,7 @@ const createResultInfCard = (title: string, url: string) => {
   const itemDiv = document.createElement('div');
   itemDiv.className = 'border-b shadow-sm flex items-center justify-center';
   itemDiv.addEventListener('click', () => {
-    try {
-      // 檢查URL是否合法
-      const validUrl = new URL(url);
-      window.open(validUrl.toString(), '_blank');
-    } catch (error) {
-      showMsg("該頁面路徑有誤，請自行搜尋")
-    }
-
-    //  window.open(url, '_blank');
+    router.push({ path: `/welfare/${url}` })
   });
 
   const nameDiv = document.createElement('div');
