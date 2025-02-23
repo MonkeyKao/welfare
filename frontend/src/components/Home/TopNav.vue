@@ -12,9 +12,9 @@
         <router-link to="/favorites" class="icon-link" title="收藏">
           <PhHeartStraight size="28" color="#424E2A" class="icon" />
         </router-link>
-        <router-link to="/notifications" class="icon-link" title="通知">
+        <!-- <router-link to="/notifications" class="icon-link" title="通知">
           <PhBell size="28" color="#424E2A" class="icon" />
-        </router-link>
+        </router-link> -->
       </div>
     </div>
 

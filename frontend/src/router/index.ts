@@ -40,6 +40,7 @@ import {
   RouterView,
   type RouteRecordRaw,
 } from "vue-router";
+import WelFareShareInf from "@/views/Home/WelFareShareInf.vue";
 
 // 老人路由
 const OlderRoutes: Array<RouteRecordRaw> = [
@@ -131,6 +132,11 @@ const HomeRoutes: Array<RouteRecordRaw> = [
     path: "/",
     redirect: "/home",
     meta: { needLogin: false },
+  },
+  {
+    path: "/share/:id",
+    meta: { needLogin: false, showBottomBar: false },
+    component: WelFareShareInf
   },
   {
     path: "/welfare/:id",

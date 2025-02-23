@@ -18,6 +18,10 @@ const showMsg: Function = inject("showMsg")!
 const loading = ref<boolean>(false)
 
 const reciveAccountMsg = async (msg: string) => {
+  if(msg == "") {
+    showMsg("請輸入問題", AlertColor.error)
+    return
+  }
   insertAccountMsg(msg)
   // insertResultTextCard("加載中...")
   insertHtmlContent("<span>加載中<span class='loading loading-spinner text-success'></span></span>")
@@ -26,6 +30,7 @@ const reciveAccountMsg = async (msg: string) => {
     colContainer.value.removeChild(colContainer.value.lastChild as Node)
     insertResultTextCard(result)
   } catch (error) {
+    colContainer.value.removeChild(colContainer.value.lastChild as Node)
     insertResultTextCard("發生錯誤，請重新輸入")
     
   }
